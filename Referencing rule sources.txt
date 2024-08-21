@@ -1,0 +1,97 @@
+引用规则列表如下:
+
+1、Anti-ad for adguard
+https://anti-ad.net/adguard.txt
+
+2、Anti-ad-Easylist
+https://anti-ad.net/easylist.txt
+
+3、EasyList
+https://easylist-downloads.adblockplus.org/easylist.txt
+
+4、EasyList china
+https://easylist-downloads.adblockplus.org/easylistchina.txt
+
+5、EasyList Privacy
+https://easylist-downloads.adblockplus.org/easyprivacy.txt
+
+6、AdGuardSDNSFilter
+https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+
+7、CJX's Annoyance List
+https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjx-annoyance.txt
+
+8、uniartisan's Adblock List Plus
+https://raw.githubusercontent.com/uniartisan/adblock_list/master/adblock_plus.txt
+
+9、uniartisan's Privacy List
+https://raw.githubusercontent.com/uniartisan/adblock_list/master/adblock_privacy.txt
+
+10、AdRules AdBlock List Plus
+https://raw.githubusercontent.com/Cats-Team/AdRules/main/adblock_plus.txt
+
+11、AdRules DNS List
+https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt
+
+12、AdBlock DNS
+https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
+
+13、AdBlock Filter
+https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockfilters.txt
+
+14、GOODBYEADS
+https://raw.githubusercontent.com/8680/GOODBYEADS/master/rules.txt
+
+15、GOODBYEADS-DNS
+https://raw.githubusercontent.com/8680/GOODBYEADS/master/dns.txt
+
+16、AWAvenue-Ads-Rule
+https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt
+
+17、Bibaiji's ad-rules
+https://raw.githubusercontent.com/Bibaiji/ad-rules/main/rule/ad-rules.txt
+
+18、uBlock filters
+https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt
+
+19、uBlock privacy
+https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt
+
+20、uBlock mobile filter
+https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters-mobile.txt
+
+21、Adgurd Base filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt
+
+22、Adgurd Tracking Protection filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_3_Spyware/filter.txt
+
+23、Adgurd URL Tracking filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_17_TrackParam/filter.txt
+
+24、Adgurd Social media filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_4_Social/filter.txt
+
+25、Adgurd Annoyances filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_14_Annoyances/filter.txt
+
+26、Filter unblocking search ads and self-promotions
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_10_Useful/filter.txt
+
+27、Adgurd Chinese filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_224_Chinese/filter.txt
+
+28、Adgurd Japanese filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt
+
+29、Adgurd Mobile ads filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_11_Mobile/filter.txt
+
+30、Adgurd DNS filter
+https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_15_DnsFilter/filter.txt
+
+31、HyperADRules
+https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/rules.txt
+
+32、HyperADRules-DNS
+https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt
