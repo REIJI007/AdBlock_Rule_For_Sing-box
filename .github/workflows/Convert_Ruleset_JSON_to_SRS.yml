@@ -79,7 +79,7 @@ jobs:
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
                 Write-Host "Attempting conversion (Attempt $attempt)..."
-            & $exePath rule-set compile adblock_reject_domain.json --output adblock_reject_domain.srs  # 尝试编译规则集
+            & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json  # 尝试编译规则集
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "Conversion successful!"  # 如果成功，输出成功信息
                   break
