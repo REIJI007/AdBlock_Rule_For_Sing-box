@@ -21,8 +21,8 @@ jobs:
       - name: Check and download sing-box v1.9.4 if needed
         shell: powershell
         run: |
-          $exePath = "sing-box.exe"  # 定义 sing-box.exe 的路径（相对路径）
-          $downloadMarker = ".sing-box_downloaded"  # 定义下载标记文件的路径
+          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+          $downloadMarker = "./.sing-box_downloaded"  # 定义下载标记文件的路径
           
           # 检查 sing-box.exe 和 .sing-box_downloaded 标记文件是否存在
           if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
@@ -42,7 +42,7 @@ jobs:
                 $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1  # 查找解压后的 exe 文件
                 if ($exeFile) {
                   Rename-Item -Path $exeFile.FullName -NewName $exePath -Force  # 重命名 exe 文件
-                  New-Item -Path . -Name $downloadMarker -ItemType "file" -Force  # 创建下载标记文件
+                  New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force  # 创建下载标记文件
                   Write-Host "Extraction and renaming complete!"
                   break
                 } else {
@@ -65,26 +65,21 @@ jobs:
       - name: Convert ruleset
         shell: powershell
         run: |
-          $exePath = "sing-box.exe"  # 定义 sing-box.exe 的路径（相对路径）
-          $jsonPath = "adblock_reject_domain.json"  # 定义 JSON 文件路径
-          $srsPath = "adblock_reject_domain.srs"  # 定义 SRS 文件路径
+          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
           
           # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
             Write-Host "Sing-box version:"
             & $exePath -v  # 输出 sing-box 版本
             Write-Host "Sing-box help:"
-            & $exePath rule-set compile --help  # 输出 sing-box 帮助信息
+            & $exePath convert-ruleset --help  # 输出 sing-box 帮助信息
 
             $maxAttempts = 5  # 定义最大重试次数
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
                 Write-Host "Attempting conversion (Attempt $attempt)..."
-                
-                # 尝试编译规则集
-                & $exePath rule-set compile --output $srsPath $jsonPath
-                
+                & $exePath rule-set compile adblock_reject_domain.json --output adblock_reject_domain.srs  # 尝试编译规则集
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "Conversion successful!"  # 如果成功，输出成功信息
                   break
