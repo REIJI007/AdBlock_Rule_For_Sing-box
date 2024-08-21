@@ -88,9 +88,8 @@ $jsonContent = @{
         }
     )
 }
-
 # 转换为带紧凑缩进的JSON格式
-$jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 -Compress
+$jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 | ForEach-Object { $_.Trim() }
 
 # 定义输出文件路径
 $outputPath = "$PSScriptRoot/adblock_reject_domain.json"
