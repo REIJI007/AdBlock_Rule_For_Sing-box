@@ -1,0 +1,76 @@
+name: Release_ADblock_file
+
+on: 
+  schedule:
+    - cron: '*/20 * * * *' # 每20分钟运行一次
+  workflow_dispatch: # 允许手动触发工作流
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 步骤1：检出代码
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # 步骤2：获取当前时间
+      - name: Get current time
+        id: current-time
+        run: echo "time=$(date +'%y%m%d%H%M')" >> $GITHUB_ENV # 将时间保存为环境变量
+
+      # 步骤3：强制添加、提交并推送更改
+      - name: Force add and commit changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -f adblock_reject_domain.json adblock_reject_domain.srs adblock_reject_domain.txt
+          git commit -m "Forced update of adblock files"
+          git push origin main --force
+        env: 
+          TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
+
+      # 步骤4：创建新的发布
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.TOKEN }} # 使用 TOKEN 进行身份验证
+        with:
+          tag_name: release-${{ env.time }} # 使用时间戳作为标签名
+          release_name: Release ${{ env.time }} # 使用时间戳作为发布名称
+          body: "Periodic release of adblock files." # 发布说明
+          draft: false # 创建正式发布，而非草稿
+
+      # 步骤5：上传 adblock_reject_domain.json
+      - name: Upload adblock_reject_domain.json
+        uses: actions/upload-release-asset@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./adblock_reject_domain.json
+          asset_name: adblock_reject_domain.json
+          asset_content_type: application/json
+
+      # 步骤6：上传 adblock_reject_domain.srs
+      - name: Upload adblock_reject_domain.srs
+        uses: actions/upload-release-asset@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./adblock_reject_domain.srs
+          asset_name: adblock_reject_domain.srs
+          asset_content_type: application/octet-stream
+
+      # 步骤7：上传 adblock_reject_domain.txt
+      - name: Upload adblock_reject_domain.txt
+        uses: actions/upload-release-asset@v1
+        env: 
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./adblock_reject_domain.txt
+          asset_name: adblock_reject_domain.txt
+          asset_content_type: text/plain
