@@ -39,7 +39,7 @@ jobs:
                 # 解压和重命名 sing-box.exe
                 Expand-Archive -Path $zipFile -DestinationPath . -Force  # 解压 ZIP 文件
                 Remove-Item -Path $zipFile  # 删除 ZIP 文件
-                $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1  # 查找解压后的 exe 文件
+                $exeFile = Get-ChildItem -Recurse -Filter "*sing-box.exe*" | Select-Object -First 1  # 查找解压后的 exe 文件
                 if ($exeFile) {
                   Rename-Item -Path $exeFile.FullName -NewName $exePath -Force  # 重命名 exe 文件
                   New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force  # 创建下载标记文件
