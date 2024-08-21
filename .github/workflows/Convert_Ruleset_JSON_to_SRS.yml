@@ -29,6 +29,7 @@ jobs:
             Write-Host "sing-box.exe or .sing-box_downloaded not found, downloading..."
             $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"  # 定义下载 URL
             $zipFile = "sing-box.zip"  # 定义下载的 ZIP 文件名
+            $outputDir = "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\sing-box"  # 定义解压后的输出目录
             $maxAttempts = 5  # 定义最大重试次数
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
@@ -36,16 +37,21 @@ jobs:
                 Write-Host "Downloading sing-box v1.9.4 (Attempt $attempt)..."
                 Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300  # 下载 ZIP 文件
                 
-                # 解压和重命名 sing-box.exe
-                Expand-Archive -Path $zipFile -DestinationPath "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Force  # 解压 ZIP 文件
+                # 解压 ZIP 文件并确保 sing-box.exe 在目标目录
+                Expand-Archive -Path $zipFile -DestinationPath $outputDir -Force  # 解压 ZIP 文件
                 Remove-Item -Path $zipFile  # 删除 ZIP 文件
+
+                # 将 sing-box.exe 移动到目标位置
+                Move-Item -Path "$outputDir\sing-box.exe" -Destination $exePath -Force
                 
-                Rename-Item -Path (Join-Path "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\sing-box-1.9.4-windows-amd64" "sing-box.exe") -NewName $exePath -Force  # 重命名 exe 文件
+                # 删除解压后的临时目录
+                Remove-Item -Path $outputDir -Recurse -Force
+
                 New-Item -Path "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Name ".sing-box_downloaded" -ItemType "file" -Force  # 创建下载标记文件
-                Write-Host "Extraction and renaming complete!"
+                Write-Host "Extraction and file move complete!"
                 break
               } catch {
-                Write-Host "Download, extraction, or renaming failed. Error: $_"  # 捕获异常并输出错误信息
+                Write-Host "Download, extraction, or move failed. Error: $_"  # 捕获异常并输出错误信息
                 if ($attempt -eq $maxAttempts) {
                   Write-Host "Max attempts reached. Process failed."  # 如果达到最大重试次数，退出流程
                   exit 1
