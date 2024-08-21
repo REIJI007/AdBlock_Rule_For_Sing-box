@@ -1,4 +1,4 @@
-name: Run_Adblock_Reject_Domain_Json  # 工作流名称
+name: Run_Adblock_Reject_Domain_JSON  # 工作流名称
 
 on:
   schedule:
