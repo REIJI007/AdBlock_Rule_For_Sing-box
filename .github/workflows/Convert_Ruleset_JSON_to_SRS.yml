@@ -21,7 +21,7 @@ jobs:
       - name: Check and download sing-box v1.9.4 if needed
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+          $exePath = "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\sing-box.exe"  # 定义 sing-box.exe 的完整路径
           $downloadMarker = "./.sing-box_downloaded"  # 定义下载标记文件的路径
           
           # 检查 sing-box.exe 和 .sing-box_downloaded 标记文件是否存在
@@ -65,7 +65,7 @@ jobs:
       - name: Convert ruleset
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+          $exePath = "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\sing-box.exe"  # 定义 sing-box.exe 的完整路径
           
           # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
