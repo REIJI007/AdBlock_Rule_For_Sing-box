@@ -17,43 +17,61 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # 步骤2：下载并解压 sing-box
-      - name: Download and Extract sing-box v1.9.4
+      # 步骤2：下载并解压sing-box
+      - name: Download and extract sing-box v1.9.4
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
-          
-          if (-not (Test-Path $exePath)) {
-            Write-Host "sing-box.exe not found, downloading..."
+          $exePath = "sing-box.exe"  # 定义 sing-box.exe 的相对路径
+          $downloadMarker = ".sing-box_downloaded"  # 下载标记文件路径
+
+          # 检查 sing-box.exe 和标记文件是否存在
+          if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
+            Write-Host "sing-box.exe or .sing-box_downloaded not found, downloading..."
             $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"
             $zipFile = "sing-box.zip"
             
-            Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300  # 下载 ZIP 文件
-            Expand-Archive -Path $zipFile -DestinationPath . -Force  # 解压 ZIP 文件
-            Remove-Item -Path $zipFile  # 删除 ZIP 文件
-            Write-Host "Download and extraction complete!"
+            # 下载并解压
+            Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300
+            Expand-Archive -Path $zipFile -DestinationPath . -Force
+            Remove-Item -Path $zipFile
+            
+            # 获取解压后的 exe 文件
+            $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1
+            if ($exeFile) {
+              Rename-Item -Path $exeFile.FullName -NewName $exePath -Force
+              New-Item -Path . -Name $downloadMarker -ItemType "file" -Force
+              Write-Host "Extraction and renaming complete!"
+            } else {
+              throw "Executable file not found in the extracted contents"
+            }
           } else {
-            Write-Host "sing-box.exe already exists."
+            Write-Host "sing-box.exe and .sing-box_downloaded already exist."
           }
 
       # 步骤3：转换规则集
       - name: Convert ruleset
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的相对路径
           
+          # 打印当前目录以调试路径问题
+          Write-Host "Current Directory Contents:"
+          Get-ChildItem -Path . -Recurse
+          
+          # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
             Write-Host "Sing-box version:"
-            & $exePath -v  # 输出 sing-box 版本
+            & $exePath -v
+            Write-Host "Sing-box help:"
+            & $exePath convert-ruleset --help
 
             Write-Host "Attempting conversion..."
-            & $exePath rule-set compile adblock_reject_domain.json --output adblock_reject_domain.srs  # 编译 JSON 文件
+            & $exePath rule-set compile adblock_reject_domain.json --output adblock_reject_domain.srs  # 尝试编译规则集
             
             if ($LASTEXITCODE -eq 0) {
               Write-Host "Conversion successful!"
             } else {
-              Write-Host "Conversion failed with exit code $LASTEXITCODE"
-              exit 1
+              throw "Conversion failed with exit code $LASTEXITCODE"
             }
           } else {
             Write-Host "sing-box.exe not found, skipping conversion step."
@@ -64,18 +82,15 @@ jobs:
       - name: Push changes
         shell: powershell
         env:
-          TOKEN: ${{ secrets.TOKEN }}  # 从 GitHub Secrets 中获取 TOKEN
+          TOKEN: ${{ secrets.TOKEN }}
         run: |
-          git config user.email "action@github.com"  # 配置 Git 用户邮箱
-          git config user.name "GitHub Action"  # 配置 Git 用户名
-          
-          git add adblock_reject_domain.srs sing-box.exe  # 添加转换后的文件和 sing-box.exe 到 Git
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git pull https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --rebase
+          git add adblock_reject_domain.srs sing-box.exe .sing-box_downloaded
           
           if (git status --porcelain) {
-            git commit -m "Update adblock_reject_domain.srs and add sing-box.exe"  # 如果有更改，进行提交
-            
-            Write-Host "Pushing changes..."
-            git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force  # 强制推送更改
+            git commit -m "Update adblock_reject_domain.srs and add sing-box.exe"
+            git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force
           } else {
             Write-Host "No changes to commit."
-          }
