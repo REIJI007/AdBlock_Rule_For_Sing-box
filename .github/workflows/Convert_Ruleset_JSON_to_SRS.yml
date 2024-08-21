@@ -22,7 +22,7 @@ jobs:
         shell: powershell
         run: |
           $exePath = "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\sing-box.exe"  # 定义 sing-box.exe 的完整路径
-          $downloadMarker = "./.sing-box_downloaded"  # 定义下载标记文件的路径
+          $downloadMarker = "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\.sing-box_downloaded"  # 定义下载标记文件的路径
           
           # 检查 sing-box.exe 和 .sing-box_downloaded 标记文件是否存在
           if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
@@ -37,12 +37,17 @@ jobs:
                 Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300  # 下载 ZIP 文件
                 
                 # 解压和重命名 sing-box.exe
-                Expand-Archive -Path $zipFile -DestinationPath . -Force  # 解压 ZIP 文件
+                Expand-Archive -Path $zipFile -DestinationPath "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Force  # 解压 ZIP 文件
                 Remove-Item -Path $zipFile  # 删除 ZIP 文件
-                $exeFile = Get-ChildItem -Recurse -Filter "*sing-box.exe*" | Select-Object -First 1  # 查找解压后的 exe 文件
+                
+                # 查看解压后的文件列表
+                Write-Host "Files after extraction:"
+                Get-ChildItem "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Recurse
+                
+                $exeFile = Get-ChildItem "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1  # 查找解压后的 exe 文件
                 if ($exeFile) {
                   Rename-Item -Path $exeFile.FullName -NewName $exePath -Force  # 重命名 exe 文件
-                  New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force  # 创建下载标记文件
+                  New-Item -Path "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Name ".sing-box_downloaded" -ItemType "file" -Force  # 创建下载标记文件
                   Write-Host "Extraction and renaming complete!"
                   break
                 } else {
@@ -67,19 +72,25 @@ jobs:
         run: |
           $exePath = "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box\sing-box.exe"  # 定义 sing-box.exe 的完整路径
           
+          # 查看当前目录中的文件列表以确保 sing-box.exe 存在
+          Write-Host "Current directory contents:"
+          Get-ChildItem "D:\a\AdBlock_Rule_For_Sing-box\AdBlock_Rule_For_Sing-box" -Recurse
+
           # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
             Write-Host "Sing-box version:"
             & $exePath -v  # 输出 sing-box 版本
             Write-Host "Sing-box help:"
-            & $exePath convert-ruleset --help  # 输出 sing-box 帮助信息
+            & $exePath rule-set compile --help  # 输出 sing-box 帮助信息
 
             $maxAttempts = 5  # 定义最大重试次数
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
                 Write-Host "Attempting conversion (Attempt $attempt)..."
-                & $exePath rule-set compile adblock_reject_domain.json --output adblock_reject_domain.srs  # 尝试编译规则集
+                
+            & $exePath rule-set compile adblock_reject_domain.json --output adblock_reject_domain.srs  # 尝试编译规则集
+                
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "Conversion successful!"  # 如果成功，输出成功信息
                   break
@@ -143,8 +154,3 @@ jobs:
                   exit 1
                 }
                 Start-Sleep -Seconds 30  # 等待30秒后重试
-              }
-            }
-          } else {
-            Write-Host "No changes to commit."  # 如果没有更改，输出无更改信息
-          }
