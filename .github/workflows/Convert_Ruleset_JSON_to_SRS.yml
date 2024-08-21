@@ -17,55 +17,104 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # 步骤2：下载并解压 sing-box
+      # 步骤2：下载和解压 sing-box
       - name: Download and extract sing-box v1.9.4
         shell: powershell
         run: |
-          $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"
-          $zipFile = "sing-box.zip"
-          $exePath = "sing-box.exe"
+          $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"  # 定义下载 URL
+          $zipFile = "sing-box.zip"  # 定义下载的 ZIP 文件名
           
-          # 下载 ZIP 文件
-          Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300
-          
-          # 解压并重命名 sing-box.exe
-          Expand-Archive -Path $zipFile -DestinationPath . -Force
-          Remove-Item -Path $zipFile  # 删除 ZIP 文件
-          $extractedExe = Get-ChildItem -Recurse -Filter "sing-box*.exe" | Select-Object -First 1
-          Rename-Item -Path $extractedExe.FullName -NewName $exePath -Force
+          Write-Host "Downloading sing-box v1.9.4..."
+          Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300  # 下载 ZIP 文件
 
-      # 步骤3：使用 sing-box 转化规则集
+          Write-Host "Extracting sing-box..."
+          Expand-Archive -Path $zipFile -DestinationPath . -Force  # 解压 ZIP 文件
+          Remove-Item -Path $zipFile  # 删除 ZIP 文件
+
+      # 步骤3：转换规则集（使用解压后的 sing-box.exe）
       - name: Convert ruleset
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"
-          
+          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+
+          # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
-            Write-Host "Attempting to compile adblock_reject_domain.json..."
-            & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json
-            if ($LASTEXITCODE -eq 0) {
-              Write-Host "Compilation successful!"
-            } else {
-              throw "Compilation failed with exit code $LASTEXITCODE"
+            Write-Host "Sing-box version:"
+            & $exePath -v  # 输出 sing-box 版本
+            Write-Host "Sing-box help:"
+            & $exePath rule-set compile --help  # 输出 sing-box 帮助信息
+
+            $maxAttempts = 5  # 定义最大重试次数
+            
+            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+              try {
+                Write-Host "Attempting conversion (Attempt $attempt)..."
+                & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json  # 尝试编译规则集
+                if ($LASTEXITCODE -eq 0) {
+                  Write-Host "Conversion successful!"  # 如果成功，输出成功信息
+                  break
+                } else {
+                  throw "Conversion failed with exit code $LASTEXITCODE"  # 如果失败，抛出异常
+                }
+              } catch {
+                Write-Host "Attempt $attempt failed. Error: $_"  # 捕获异常并输出错误信息
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "Max attempts reached. Exiting."  # 如果达到最大重试次数，退出流程
+                  exit 1
+                }
+                Start-Sleep -Seconds 5  # 等待5秒后重试
+              }
             }
           } else {
-            throw "sing-box.exe not found, skipping conversion step."
+            Write-Host "sing-box.exe not found, skipping conversion step."  # 如果未找到 sing-box.exe，跳过转换步骤
+            exit 1
           }
 
-      # 步骤4：提交并推送更改
+      # 步骤4：提交并推送更改（包括转换后的文件）
       - name: Push changes
         shell: powershell
         env:
-          TOKEN: ${{ secrets.TOKEN }}
+          TOKEN: ${{ secrets.TOKEN }}  # 从 GitHub Secrets 中获取 TOKEN
         run: |
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
+          $maxAttempts = 5  # 定义最大重试次数
           
-          git add adblock_reject_domain.srs sing-box.exe
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            try {
+              git config user.email "action@github.com"  # 配置 Git 用户邮箱
+              git config user.name "GitHub Action"  # 配置 Git 用户名
+              
+              git pull https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --rebase  # 尝试拉取最新更改
+              break
+            } catch {
+              Write-Host "git pull attempt $attempt failed. Error: $_"
+              if ($attempt -eq $maxAttempts) {
+                Write-Host "Failed to pull changes after $maxAttempts attempts. Exiting."
+                exit 1
+              }
+              Start-Sleep -Seconds 30  # 等待30秒后重试
+            }
+          }
+          
+          git add adblock_reject_domain.srs  # 添加转换后的文件到 Git
           
           if (git status --porcelain) {
-            git commit -m "Update adblock_reject_domain.srs and add sing-box.exe"
-            git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force
+            git commit -m "Update adblock_reject_domain.srs"  # 如果有更改，进行提交
+            
+            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+              try {
+                Write-Host "Attempting to push changes (Attempt $attempt of $maxAttempts)..."
+                git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force  # 强制推送更改
+                Write-Host "Changes successfully pushed."  # 如果成功，输出成功信息
+                break
+              } catch {
+                Write-Host "Push attempt $attempt failed. Error: $_"  # 捕获异常并输出错误信息
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "Failed to push changes after $maxAttempts attempts. Exiting."  # 如果达到最大重试次数，退出流程
+                  exit 1
+                }
+                Start-Sleep -Seconds 30  # 等待30秒后重试
+              }
+            }
           } else {
-            Write-Host "No changes to commit."
+            Write-Host "No changes to commit."  # 如果没有更改，输出无更改信息
           }
