@@ -47,7 +47,7 @@ jobs:
           
           # 添加生成的 .srs 文件和 sing-box
           git add adblock_reject_domain.srs
-          git add sing-box.exe
+          git add git add sing-box-1.9.4-windows-amd64/sing-box.exe
           
           # 提交并推送更改
           git commit -m "Update adblock_reject_domain.srs and add sing-box"
