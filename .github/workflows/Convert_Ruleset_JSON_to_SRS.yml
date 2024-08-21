@@ -47,6 +47,11 @@ jobs:
                   Rename-Item -Path $exeFile.FullName -NewName $exePath -Force  # 确保路径正确
                   Write-Host "Sing-box extracted and ready at: $($exePath)"
                   New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force  # 创建下载标记文件
+                  
+                  # 强制刷新文件系统缓存
+                  Write-Host "Refreshing filesystem cache..."
+                  dir | Out-Null
+                  
                   break
                 } else {
                   throw "Executable file not found in the extracted contents"  # 抛出异常如果未找到 exe 文件
@@ -68,10 +73,13 @@ jobs:
       - name: Compile ruleset
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+          $exePath = "./sing-box.exe"  # 重新定义 sing-box.exe 的路径
           
           # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
+            Write-Host "Listing directory contents to confirm sing-box.exe exists..."
+            dir
+            
             Write-Host "Sing-box version:"
             & $exePath version  # 输出 sing-box 版本
 
