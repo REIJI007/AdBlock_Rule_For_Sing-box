@@ -17,12 +17,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # 步骤2：下载并解压 sing-box 到根目录
+      # 步骤2：下载并解压 sing-box 到临时目录
       - name: Download and extract sing-box
         run: |
           $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"
           $zipFile = "sing-box.zip"
-          $extractPath = "${{ github.workspace }}"  # 解压到工作目录
+          $extractPath = "${{ github.workspace }}\sing-box-temp"  # 临时目录
+
+          # 创建临时目录
+          New-Item -ItemType Directory -Path $extractPath -Force
 
           # 下载并解压 sing-box
           Invoke-WebRequest -Uri $url -OutFile $zipFile
@@ -32,12 +35,17 @@ jobs:
       # 步骤3：使用 sing-box 转换规则集
       - name: Convert ruleset using sing-box
         run: |
-          $exePath = "${{ github.workspace }}\sing-box-1.9.4-windows-amd64\sing-box.exe"
+          $exePath = "${{ github.workspace }}\sing-box-temp\sing-box-1.9.4-windows-amd64\sing-box.exe"
           
           & $exePath rule-set compile --output "${{ github.workspace }}\adblock_reject_domain.srs" "${{ github.workspace }}\adblock_reject_domain.json"
 
-      # 步骤4：提交并推送更改（包括 sing-box）
-      - name: Push changes including sing-box
+      # 步骤4：将 sing-box.exe 移动到根目录
+      - name: Move sing-box.exe to root directory
+        run: |
+          Move-Item -Path "${{ github.workspace }}\sing-box-temp\sing-box-1.9.4-windows-amd64\sing-box.exe" -Destination "${{ github.workspace }}\sing-box.exe"
+
+      # 步骤5：提交并推送更改（包括 sing-box.exe 和 .srs 文件）
+      - name: Push changes including sing-box.exe and .srs file
         shell: bash
         env:
           TOKEN: ${{ secrets.TOKEN }}
@@ -45,10 +53,10 @@ jobs:
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           
-          # 添加生成的 .srs 文件和 sing-box
+          # 添加生成的 .srs 文件和 sing-box.exe
           git add adblock_reject_domain.srs
-          git add git add sing-box-1.9.4-windows-amd64/sing-box.exe
+          git add sing-box.exe
           
           # 提交并推送更改
-          git commit -m "Update adblock_reject_domain.srs and add sing-box"
+          git commit -m "Update adblock_reject_domain.srs and add sing-box.exe"
           git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force
