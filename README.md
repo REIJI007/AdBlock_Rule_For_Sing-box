@@ -31,7 +31,7 @@
 <br>
 <br>
 
-*2、SRS格式的外部远程拦截域名规则集 adblock_reject.mrs* 
+*2、SRS格式的外部远程拦截域名规则集 adblock_reject_domain.srs* 
 <br>
 *https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.srs*
 <br>
