@@ -53,7 +53,11 @@ $sortedDomains = $uniqueRules | Sort-Object
 # 将规则格式化为JSON格式
 $jsonContent = @{
     version = 2
-    rules = $sortedDomains
+    rules = @(
+        @{
+            domain = $sortedDomains
+        }
+    )
 }
 
 # 转换为带紧凑缩进的JSON格式
