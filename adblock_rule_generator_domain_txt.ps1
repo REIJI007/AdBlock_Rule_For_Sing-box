@@ -35,7 +35,9 @@ $urlList = @(
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_11_Mobile/filter.txt",
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_15_DnsFilter/filter.txt",
     "https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/rules.txt",
-    "https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt"
+    "https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt",
+    "https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/rule.txt",
+    "https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/mv.txt"
 )
 
 # 日志文件路径
