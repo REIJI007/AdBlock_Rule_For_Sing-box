@@ -25,7 +25,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add -f adblock_reject_domain.json adblock_reject_domain.srs adblock_reject_domain.txt
-          git commit -m "Forced update of adblock files"
+          git commit --allow-empty -m "Forced update of adblock files" # 创建空提交，即使没有文件更改
           git push origin main --force
         env: 
           TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
