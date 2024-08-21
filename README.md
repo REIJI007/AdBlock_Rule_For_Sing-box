@@ -87,7 +87,7 @@
   *使用方式一：下载releases中的adblock_reject_domain.txt文件，修改Sing-box的json配置中的"route"字段下"rules"的"domain"部分*
 
 
-   *使用方式二：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释（同步本仓库的云端部署的远程规则集配置)*
+   *使用方式二：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
 <hr>
 
 
@@ -127,7 +127,7 @@
 ```
 <hr>
 
-*使用方式三：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合，注意去掉注释（同步本仓库的云端部署的远程规则集配置)*
+*使用方式三：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合，注意去掉注释,"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
 
 ```conf
 //引用本地规则集
