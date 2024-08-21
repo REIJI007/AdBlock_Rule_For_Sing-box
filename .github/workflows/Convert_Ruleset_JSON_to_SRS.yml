@@ -22,7 +22,7 @@ jobs:
         run: |
           $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"
           $zipFile = "sing-box.zip"
-          $extractPath = "${{ github.workspace }}"  # 将文件解压到根目录
+          $extractPath = "${{ github.workspace }}"  # 解压到工作目录
 
           # 下载并解压 sing-box
           Invoke-WebRequest -Uri $url -OutFile $zipFile
@@ -34,16 +34,21 @@ jobs:
         run: |
           $exePath = "${{ github.workspace }}\sing-box-1.9.4-windows-amd64\sing-box.exe"
           
-          & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json
+          & $exePath rule-set compile --output "${{ github.workspace }}\adblock_reject_domain.srs" "${{ github.workspace }}\adblock_reject_domain.json"
 
-      # 步骤4：提交并推送更改
-      - name: Push changes
+      # 步骤4：提交并推送更改（包括 sing-box）
+      - name: Push changes including sing-box
         shell: bash
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
+          
+          # 添加生成的 .srs 文件和 sing-box
           git add adblock_reject_domain.srs
-          git commit -m "Update adblock_reject_domain.srs"
+          git add sing-box-1.9.4-windows-amd64/*
+          
+          # 提交并推送更改
+          git commit -m "Update adblock_reject_domain.srs and add sing-box"
           git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force
