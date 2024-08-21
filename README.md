@@ -136,17 +136,17 @@
     "rules": 
     [
       {
-        "rule_set": "adblock",                  // 应用名为"adblock"的规则集
-        "outbound": "adblock"                   // 命中规则集的流量将导流到名为 "adblock" 出站策略进行拦截
+        "rule_set": "adblock",               // 应用名为"adblock"的规则集
+        "outbound": "adblock"               // 命中规则集的流量将导流到名为 "adblock" 出站策略进行拦截
       }
     ],
     "rule_set": 
     [
       {
         "type": "local",                        
-        "tag": "adblock",                        // 命中规则集条目就导流到名为 "adblock" 的出站策略进行拦截
-        "format": "source",                      // 或 "binary"，取决于规则文件格式
-        "path": "C:\Users\YourUsername\Documents\file.json"                               // 规则集存放路径
+        "tag": "adblock",                    // 命中规则集条目就导流到名为 "adblock" 的出站策略进行拦截
+        "format": "source",                  // 或 "binary"，取决于规则文件格式
+        "path": "C:\Users\YourUsername\Documents\file.json"                           // 规则集存放路径
       }
     ]
   },
@@ -154,7 +154,7 @@
   [
     {
       "type": "block",
-      "tag": "adblock"                          // 配合本地 "rule_set" 路由策略进行域名拦截
+      "tag": "adblock"                      // 配合本地 "rule_set" 路由策略进行域名拦截
     }
   ]
 }
