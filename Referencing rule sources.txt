@@ -95,3 +95,9 @@ https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/rules.txt
 
 32、HyperADRules-DNS
 https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt
+
+33、xinggsf rules
+https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/rule.txt
+
+34、xinggsf mv rules
+https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/mv.txt
