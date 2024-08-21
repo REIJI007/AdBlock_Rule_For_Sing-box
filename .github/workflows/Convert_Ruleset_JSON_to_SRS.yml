@@ -21,7 +21,7 @@ jobs:
       - name: Check and download sing-box v1.9.4 if needed
         shell: powershell
         run: |
-          $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
+          $exePath = "./sing-box.exe"  # 定义 mihomo.exe 的路径
           $downloadMarker = "./.sing-box_downloaded"  # 定义下载标记文件的路径
           
           # 检查 sing-box.exe 和 .sing-box_downloaded 标记文件是否存在
@@ -61,8 +61,8 @@ jobs:
             Write-Host "sing-box.exe and .sing-box_downloaded already exist."  # 如果文件已存在，跳过下载
           }
 
-      # 步骤3：编译规则集（依赖于 sing-box.exe）
-      - name: Compile ruleset
+      # 步骤3：转换规则集（依赖于 sing-box.exe）
+      - name: Convert ruleset
         shell: powershell
         run: |
           $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
@@ -70,19 +70,25 @@ jobs:
           # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
             Write-Host "Sing-box version:"
-            & $exePath version  # 输出 sing-box 版本
+            & $exePath -v  # 输出 sing-box 版本
+            Write-Host "Sing-box help:"
+            & $exePath convert-ruleset --help  # 输出 sing-box 帮助信息
 
             $maxAttempts = 5  # 定义最大重试次数
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
-                Write-Host "Attempting to compile ruleset (Attempt $attempt)..."
+                Write-Host "Attempting conversion (Attempt $attempt)..."
+                
+                
                 & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json  # 尝试编译规则集
+                
+           
                 if ($LASTEXITCODE -eq 0) {
-                  Write-Host "Compilation successful!"  # 如果成功，输出成功信息
+                  Write-Host "Conversion successful!"  # 如果成功，输出成功信息
                   break
                 } else {
-                  throw "Compilation failed with exit code $LASTEXITCODE"  # 如果失败，抛出异常
+                  throw "Conversion failed with exit code $LASTEXITCODE"  # 如果失败，抛出异常
                 }
               } catch {
                 Write-Host "Attempt $attempt failed. Error: $_"  # 捕获异常并输出错误信息
@@ -94,7 +100,7 @@ jobs:
               }
             }
           } else {
-            Write-Host "sing-box.exe not found, skipping compilation step."  # 如果未找到 sing-box.exe，跳过编译步骤
+            Write-Host "sing-box.exe not found, skipping conversion step."  # 如果未找到 sing-box.exe，跳过转换步骤
             exit 1
           }
 
