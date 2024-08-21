@@ -29,18 +29,12 @@ jobs:
           Expand-Archive -Path $zipFile -DestinationPath $extractPath -Force
           Remove-Item -Path $zipFile
 
-      # 步骤3：转换规则集
-      - name: Convert ruleset
+      # 步骤3：使用 sing-box 转换规则集
+      - name: Convert ruleset using sing-box
         run: |
           $exePath = "${{ github.workspace }}\sing-box-1.9.4-windows-amd64\sing-box.exe"
-          $jsonFile = "${{ github.workspace }}\adblock_reject_domain.json"
-          $outputFile = "${{ github.workspace }}\adblock_reject_domain.srs"
-
-          if (Test-Path $exePath) {
-            & $exePath rule-set compile --output $outputFile $jsonFile
-          } else {
-            throw "sing-box.exe not found in the root directory"
-          }
+          
+          & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json
 
       # 步骤4：提交并推送更改
       - name: Push changes
