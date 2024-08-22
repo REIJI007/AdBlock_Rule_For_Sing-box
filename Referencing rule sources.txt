@@ -96,8 +96,14 @@ https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/rules.txt
 32、HyperADRules-DNS
 https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt
 
-33、xinggsf rules
+33、TheBestAdrules
+https://raw.githubusercontent.com/guandasheng/adguardhome/main/rule/all.txt
+
+34、xinggsf rules
 https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/rule.txt
 
-34、xinggsf mv rules
+35、xinggsf mv rules
 https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/mv.txt
+
+36、superbigsteam rules
+https://raw.githubusercontent.com/superbigsteam/adguardhomeguiz/main/rule/all.txt
