@@ -79,7 +79,7 @@ jobs:
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
                 Write-Host "Attempting conversion (Attempt $attempt)..."
-            & $exePath rule-set compile --output adblock_reject_domain.srs adblock_reject_domain.json  # 尝试编译规则集
+                & $exePath rule-set compile --output adblock_reject_domainsuffix.srs adblock_reject_domainsuffix.json  # 尝试编译规则集
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "Conversion successful!"  # 如果成功，输出成功信息
                   break
@@ -125,10 +125,10 @@ jobs:
             }
           }
           
-          git add adblock_reject_domain.srs sing-box.exe .sing-box_downloaded  # 添加转换后的文件和 sing-box.exe 以及标记文件到 Git
+          git add adblock_reject_domainsuffix.srs sing-box.exe .sing-box_downloaded  # 添加转换后的文件和 sing-box.exe 以及标记文件到 Git
           
           if (git status --porcelain) {
-            git commit -m "Update adblock_reject_domain.srs and add sing-box.exe"  # 如果有更改，进行提交
+            git commit -m "Update adblock_reject_domainsuffix.srs and add sing-box.exe"  # 如果有更改，进行提交
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
@@ -147,4 +147,3 @@ jobs:
             }
           } else {
             Write-Host "No changes to commit."  # 如果没有更改，输出无更改信息
-          }
