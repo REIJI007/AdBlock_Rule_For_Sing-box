@@ -45,65 +45,68 @@ https://raw.githubusercontent.com/8680/GOODBYEADS/master/rules.txt
 15、GOODBYEADS-DNS
 https://raw.githubusercontent.com/8680/GOODBYEADS/master/dns.txt
 
-16、AWAvenue-Ads-Rule
+16、GOODBYEADS-allow
+https://raw.githubusercontent.com/8680/GOODBYEADS/master/allow.txt
+
+17、AWAvenue-Ads-Rule
 https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt
 
-17、Bibaiji's ad-rules
+18、Bibaiji's ad-rules
 https://raw.githubusercontent.com/Bibaiji/ad-rules/main/rule/ad-rules.txt
 
-18、uBlock filters
+19、uBlock filters
 https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt
 
-19、uBlock privacy
+20、uBlock privacy
 https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/privacy.txt
 
-20、uBlock mobile filter
+21、uBlock mobile filter
 https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters-mobile.txt
 
-21、Adgurd Base filter
+22、Adgurd Base filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt
 
-22、Adgurd Tracking Protection filter
+23、Adgurd Tracking Protection filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_3_Spyware/filter.txt
 
-23、Adgurd URL Tracking filter
+24、Adgurd URL Tracking filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_17_TrackParam/filter.txt
 
-24、Adgurd Social media filter
+25、Adgurd Social media filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_4_Social/filter.txt
 
-25、Adgurd Annoyances filter
+26、Adgurd Annoyances filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_14_Annoyances/filter.txt
 
-26、Filter unblocking search ads and self-promotions
+27、Filter unblocking search ads and self-promotions
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_10_Useful/filter.txt
 
-27、Adgurd Chinese filter
+28、Adgurd Chinese filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_224_Chinese/filter.txt
 
-28、Adgurd Japanese filter
+29、Adgurd Japanese filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_7_Japanese/filter.txt
 
-29、Adgurd Mobile ads filter
+30、Adgurd Mobile ads filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_11_Mobile/filter.txt
 
-30、Adgurd DNS filter
+31、Adgurd DNS filter
 https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_15_DnsFilter/filter.txt
 
-31、HyperADRules
+32、HyperADRules
 https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/rules.txt
 
-32、HyperADRules-DNS
+33、HyperADRules-DNS
 https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt
 
-33、TheBestAdrules
+34、TheBestAdrules
 https://raw.githubusercontent.com/guandasheng/adguardhome/main/rule/all.txt
 
-34、xinggsf rules
+35、xinggsf rules
 https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/rule.txt
 
-35、xinggsf mv rules
+36、xinggsf mv rules
 https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/mv.txt
 
-36、superbigsteam rules
+37、superbigsteam rules
 https://raw.githubusercontent.com/superbigsteam/adguardhomeguiz/main/rule/all.txt
