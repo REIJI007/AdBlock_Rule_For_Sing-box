@@ -6,16 +6,16 @@ on:
     - cron: '*/20 * * * *'  # 每20分钟触发一次
 
 jobs:
-  trigger_adblock_reject_domain_txt:
+  trigger_adblock_reject_domainsuffix_txt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_Adblock_Reject_Domain_TXT
+      - name: Trigger and verify Run_Adblock_Reject_DomainSuffix_TXT.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_Adblock_Reject_Domain_TXT.yml"
+          workflow_id="Run_Adblock_Reject_DomainSuffix_TXT.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -48,7 +48,7 @@ jobs:
           sleep 90
 
   trigger_adblock_reject_domain_suffix_json:
-    needs: trigger_adblock_reject_domain_txt
+    needs: trigger_adblock_reject_domainsuffix_txt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
