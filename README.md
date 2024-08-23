@@ -23,24 +23,24 @@
 
 **适用于Sing-box的外部远程规则集**
 <br>
-*1、JSON格式的外部远程拦截域名规则集 adblock_reject_domain.json* 
+*1、JSON格式的外部远程拦截域名规则集 adblock_reject.json* 
 <br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.json*
+*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json*
 <br>
-*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domain.json*
-<br>
-<br>
-
-*2、SRS格式的外部远程拦截域名规则集 adblock_reject_domain.srs* 
-<br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.srs*
-<br>
-*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domain.srs*
+*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject.json*
 <br>
 <br>
 
+*2、SRS格式的外部远程拦截域名规则集 adblock_reject.srs* 
+<br>
+*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs*
+<br>
+*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject.srs*
+<br>
+<br>
 
-**二、理论上任何代理拦截域名且符合广告过滤器过滤语法的列表订阅URL都可加入此powershell脚本处理，请自行酌情添加过滤器订阅URL至adblock_rule_generator_domain_json.ps1脚本中进行处理，你可将该脚本代码复制到本地文本编辑器制作成.ps1后缀的文件运行在powershell上，注意修改生成的文本文件路径，最后在Sing-box的json配置中加入被拦截域名，且Sing-box配置字段写成类似于如下例子**
+
+**二、理论上任何代理拦截域名且符合广告过滤器过滤语法的列表订阅URL都可加入此powershell脚本处理，请自行酌情添加过滤器订阅URL至adblock_rule_generator_json.ps1脚本中进行处理，你可将该脚本代码复制到本地文本编辑器制作成.ps1后缀的文件运行在powershell上，注意修改生成的文本文件路径，最后在Sing-box的json配置中加入被拦截域名，且Sing-box配置字段写成类似于如下例子**
 <br>
 <br>
 *简而言之就是可以让你DIY出希望得到的拦截域名列表，缺点是此做法只适合本地定制使用，当然你也可以像本仓库一样部署到GitHub上面，见仁见智*
@@ -58,9 +58,9 @@
         "type": "field",
         "domain": 
         [
-          "domain:ads.example.com",
-          "domain:tracking.example.com",
-          "domain:analytics.example.com"    //这里直接添加被拦截的域名，带上引号与逗号，最后一条域名后面不用加逗号
+          "domain_suffix:ads.example.com",
+          "domain_suffix:tracking.example.com",
+          "domain_suffix:analytics.example.com"    //这里直接添加被拦截的域名后缀，带上引号与逗号，最后一条域名后面不用加逗号
         ],
         "outbound": "adblock"        //命中规则就导流到名为adblock的出站策略进行拦截
       }
@@ -84,7 +84,7 @@
 
 **四、关于本仓库使用方式：**
 
-  *使用方式一：下载releases中的adblock_reject_domain.txt文件，复制域名修改Sing-box的json配置中的"route"字段下"rules"的"domain"部分*
+  *使用方式一：下载releases中的adblock_reject.txt文件，复制域名修改Sing-box的json配置中的"route"字段下"rules"的"domain"部分*
 
 
    *使用方式二：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
@@ -109,7 +109,7 @@
         "type": "remote",                        
         "tag": "adblock",                        // 命中规则集条目就导流到名为 "adblock" 的出站策略进行拦截
         "format": "source",                      // 或 "binary"，取决于规则文件格式
-        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.json",
+        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
         "update_interval": 120                  
       }
     ]
@@ -171,7 +171,7 @@
 
 
 
-**六、本仓库引用的广告过滤规则来源请查看Referencing rule sources.txt，后续考虑添加更多上游规则列表进行处理整合（目前36个来源）。至于是否误杀域名完全取决于这些处于上游的广告过滤器的域名拦截行为，若不满意的话可按照第二条在本地使用adblock_rule_generator_domain_json.ps1脚本进行DIY本地定制化拦截域名列表，亦或可以像本仓库一样DIY定制后部署到github上面，或者fork本仓库自行DIY**
+**六、本仓库引用的广告过滤规则来源请查看Referencing rule sources.txt，后续考虑添加更多上游规则列表进行处理整合（目前36个来源）。至于是否误杀域名完全取决于这些处于上游的广告过滤器的域名拦截行为，若不满意的话可按照第二条在本地使用adblock_rule_generator_json.ps1脚本进行DIY本地定制化拦截域名列表，亦或可以像本仓库一样DIY定制后部署到github上面，或者fork本仓库自行DIY**
 
 
 **七、特别鸣谢**
