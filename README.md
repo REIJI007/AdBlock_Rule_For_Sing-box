@@ -23,7 +23,7 @@
 
 **适用于Sing-box的外部远程规则集**
 <br>
-*1、JSON格式的外部远程拦截域名规则集 adblock_reject_domain.json* 
+*1、JSON格式的外部远程拦截域名规则集 adblock_reject_domainsuffix.json* 
 <br>
 *https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domainsuffix.json*
 <br>
