@@ -6,16 +6,16 @@ on:
     - cron: '*/20 * * * *'  # 每20分钟触发一次
 
 jobs:
-  trigger_adblock_reject_domain_txt:
+  trigger_adblock_reject_txt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_Adblock_Reject_Domain_TXT.yml
+      - name: Trigger and verify Run_Adblock_Reject_TXT.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_Adblock_Reject_Domain_TXT.yml"
+          workflow_id="Run_Adblock_Reject_TXT.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -47,17 +47,17 @@ jobs:
           echo "Waiting for 90 seconds before starting the next workflow..."
           sleep 90
 
-  trigger_adblock_reject_domain_json:
-    needs: trigger_adblock_reject_domain_txt
+  trigger_adblock_reject_json:
+    needs: trigger_adblock_reject_txt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_Adblock_Reject_Domain_JSON.yml
+      - name: Trigger and verify Run_Adblock_Reject_JSON.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_Adblock_Reject_Domain_JSON.yml"
+          workflow_id="Run_Adblock_Reject_JSON.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -90,7 +90,7 @@ jobs:
           sleep 90
 
   trigger_convert_ruleset_json_to_srs:
-    needs: trigger_adblock_reject_domain_json
+    needs: trigger_adblock_reject_json
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
