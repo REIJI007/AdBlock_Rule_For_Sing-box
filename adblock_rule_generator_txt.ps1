@@ -19,6 +19,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockfilters.txt",
     "https://raw.githubusercontent.com/8680/GOODBYEADS/master/rules.txt",
     "https://raw.githubusercontent.com/8680/GOODBYEADS/master/dns.txt",
+    "https://raw.githubusercontent.com/8680/GOODBYEADS/master/allow.txt",
     "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt",
     "https://raw.githubusercontent.com/Bibaiji/ad-rules/main/rule/ad-rules.txt",
     "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/filters.txt",
