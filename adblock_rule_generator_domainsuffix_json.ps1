@@ -97,7 +97,7 @@ $jsonContent = @{
 $jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 | ForEach-Object { $_.Trim() }
 
 # 定义输出文件路径
-$outputPath = "$PSScriptRoot/adblock_reject_domain.json"
+$outputPath = "$PSScriptRoot/adblock_reject_domainsuffix.json"
 $jsonFormatted | Set-Content -Path $outputPath -Encoding utf8
 
 # 输出生成的有效规则总数
