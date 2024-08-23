@@ -17,7 +17,7 @@
 
 
 **一、从多个广告过滤器中提取拦截域名条目，删除重复项，并将它们转换为兼容Sing-box的json格式和mrs二进制格式，其中列表的每行都是被拦截域名，一行仅一条规则。该列表可以用作Sing-box的rule_set.以阻止广告域名， powershell脚本每20分钟自动执行并将生成的文件发布在release中.三个文件的下载地址分别如下，其中adblock_reject_domain.txt是单纯的带引号和逗号的被拦截域名列表
-，adblock_reject_domain.json是json格式的域名拦截rule_set规则集，adblock_reject_domain.srs则是由sing-box核心将adblock_reject_domain.json编译转化得来的规则集**
+，adblock_reject_domainsuffix.json是json格式的域名拦截rule_set规则集，adblock_reject_domainsuffix.srs则是由sing-box核心将adblock_reject_domainsuffix.json编译转化得来的规则集**
 <br>
 <br>
 
@@ -25,17 +25,17 @@
 <br>
 *1、JSON格式的外部远程拦截域名规则集 adblock_reject_domain.json* 
 <br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.json*
+*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domainsuffix.json*
 <br>
-*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domain.json*
+*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domainsuffix.json*
 <br>
 <br>
 
 *2、SRS格式的外部远程拦截域名规则集 adblock_reject_domain.srs* 
 <br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.srs*
+*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domainsuffix.srs*
 <br>
-*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domain.srs*
+*https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domainsuffix.srs*
 <br>
 <br>
 
@@ -58,9 +58,9 @@
         "type": "field",
         "domain": 
         [
-          "ads.example.com",
-          "tracking.example.com",
-          "analytics.example.com"    //这里直接添加被拦截的域名，带上引号与逗号，最后一条域名后面不用加逗号
+          "domain:ads.example.com",
+          "domain:tracking.example.com",
+          "domain:analytics.example.com"    //这里直接添加被拦截的域名，带上引号与逗号，最后一条域名后面不用加逗号
         ],
         "outbound": "adblock"        //命中规则就导流到名为adblock的出站策略进行拦截
       }
@@ -109,7 +109,7 @@
         "type": "remote",                        
         "tag": "adblock",                        // 命中规则集条目就导流到名为 "adblock" 的出站策略进行拦截
         "format": "source",                      // 或 "binary"，取决于规则文件格式
-        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.json",
+        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domainsuffix.json",
         "update_interval": 120                  
       }
     ]
