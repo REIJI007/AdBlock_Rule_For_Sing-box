@@ -6,16 +6,16 @@ on:
     - cron: '*/20 * * * *'  # 每20分钟触发一次
 
 jobs:
-  trigger_adblock_reject_domainsuffix_txt:
+  trigger_adblock_reject_domain_txt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_Adblock_Reject_DomainSuffix_TXT.yml
+      - name: Trigger and verify Run_Adblock_Reject_Domain_TXT.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_Adblock_Reject_DomainSuffix_TXT.yml"
+          workflow_id="Run_Adblock_Reject_Domain_TXT.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -47,17 +47,17 @@ jobs:
           echo "Waiting for 90 seconds before starting the next workflow..."
           sleep 90
 
-  trigger_adblock_reject_domain_suffix_json:
-    needs: trigger_adblock_reject_domainsuffix_txt
+  trigger_adblock_reject_domain_json:
+    needs: trigger_adblock_reject_domain_txt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_Adblock_Reject_DomainSuffix_JSON
+      - name: Trigger and verify Run_Adblock_Reject_Domain_JSON.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_Adblock_Reject_DomainSuffix_JSON.yml"
+          workflow_id="Run_Adblock_Reject_Domain_JSON.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -90,12 +90,12 @@ jobs:
           sleep 90
 
   trigger_convert_ruleset_json_to_srs:
-    needs: trigger_adblock_reject_domain_suffix_json
+    needs: trigger_adblock_reject_domain_json
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Convert_Ruleset_JSON_to_SRS
+      - name: Trigger and verify Convert_Ruleset_JSON_to_SRS.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
@@ -137,7 +137,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Release_ADblock_file
+      - name: Trigger and verify Release_ADblock_file.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
@@ -146,7 +146,7 @@ jobs:
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Clash/actions/workflows/$workflow_id/dispatches" \
+            "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/workflows/$workflow_id/dispatches" \
             -d "{\"ref\":\"$ref\"}")
           echo "Triggered workflow $workflow_id: $response"
 
@@ -154,7 +154,7 @@ jobs:
           while : ; do
             status=$(curl -s -H "Authorization: token $TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Clash/actions/runs?status=completed&branch=$ref" \
+              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?status=completed&branch=$ref" \
               | jq -r '.workflow_runs[0].conclusion')
 
             if [[ "$status" == "success" ]]; then
