@@ -114,7 +114,7 @@
     [
       {
         "type": "remote",                        
-        "tag": "adblock",                        // 命中规则集条目就导流到名为 "adblock" 的出站策略进行拦截
+        "tag": "adblock",                        
         "format": "source",                      // 或 "binary"，取决于规则文件格式
         "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
         "update_interval": 120                  
