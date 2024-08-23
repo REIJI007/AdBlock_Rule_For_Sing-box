@@ -64,13 +64,13 @@ jobs:
           asset_name: adblock_reject_domainsuffix.srs
           asset_content_type: application/octet-stream
 
-      # 步骤7：上传 adblock_reject_domain.txt
-      - name: Upload adblock_reject_domain.txt
+      # 步骤7：上传 adblock_reject_domainsuffix.txt
+      - name: Upload adblock_reject_domainsuffix.txt
         uses: actions/upload-release-asset@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./adblock_reject_domain.txt
-          asset_name: adblock_reject_domain.txt
+          asset_path: ./adblock_reject_domainsuffix.txt
+          asset_name: adblock_reject_domainsuffix.txt
           asset_content_type: text/plain
