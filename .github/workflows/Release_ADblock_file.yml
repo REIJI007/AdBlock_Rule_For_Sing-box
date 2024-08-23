@@ -42,26 +42,26 @@ jobs:
           body: "Periodic release of adblock files." # 发布说明
           draft: false # 创建正式发布，而非草稿
 
-      # 步骤5：上传 adblock_reject_domain.json
-      - name: Upload adblock_reject_domain.json
+      # 步骤5：上传 adblock_reject_domainsuffix.json
+      - name: Upload adblock_reject_domainsuffix.json
         uses: actions/upload-release-asset@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./adblock_reject_domain.json
-          asset_name: adblock_reject_domain.json
+          asset_path: ./adblock_reject_domainsuffix.json
+          asset_name: adblock_reject_domainsuffix.json
           asset_content_type: application/json
 
-      # 步骤6：上传 adblock_reject_domain.srs
-      - name: Upload adblock_reject_domain.srs
+      # 步骤6：上传 adblock_reject_domainsuffix.srs
+      - name: Upload adblock_reject_domainsuffix.srs
         uses: actions/upload-release-asset@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./adblock_reject_domain.srs
-          asset_name: adblock_reject_domain.srs
+          asset_path: ./adblock_reject_domainsuffix.srs
+          asset_name: adblock_reject_domainsuffix.srs
           asset_content_type: application/octet-stream
 
       # 步骤7：上传 adblock_reject_domain.txt
