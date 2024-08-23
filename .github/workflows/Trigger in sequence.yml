@@ -6,16 +6,16 @@ on:
     - cron: '*/20 * * * *'  # 每20分钟触发一次
 
 jobs:
-  trigger_adblock_rule_generator_yaml:
+  trigger_adblock_reject_domain_txt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_AdBlock_Rule_Generator_YAML
+      - name: Trigger and verify Run_Adblock_Reject_Domain_TXT
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_AdBlock_Rule_Generator_YAML.yml"
+          workflow_id="Run_Adblock_Reject_Domain_TXT.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -28,7 +28,7 @@ jobs:
           while : ; do
             status=$(curl -s -H "Authorization: token $TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?workflow_id=$workflow_id&status=completed&branch=$ref" \
+              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?status=completed&branch=$ref" \
               | jq -r '.workflow_runs[0].conclusion')
 
             if [[ "$status" == "success" ]]; then
@@ -47,17 +47,17 @@ jobs:
           echo "Waiting for 90 seconds before starting the next workflow..."
           sleep 90
 
-  trigger_adblock_rule_generator_txt:
-    needs: trigger_adblock_rule_generator_yaml
+  trigger_adblock_reject_domain_suffix_json:
+    needs: trigger_adblock_reject_domain_txt
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Run_AdBlock_Rule_Generator_TXT
+      - name: Trigger and verify Run_Adblock_Reject_DomainSuffix_JSON
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Run_AdBlock_Rule_Generator_TXT.yml"
+          workflow_id="Run_Adblock_Reject_DomainSuffix_JSON.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
@@ -70,7 +70,7 @@ jobs:
           while : ; do
             status=$(curl -s -H "Authorization: token $TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?workflow_id=$workflow_id&status=completed&branch=$ref" \
+              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?status=completed&branch=$ref" \
               | jq -r '.workflow_runs[0].conclusion')
 
             if [[ "$status" == "success" ]]; then
@@ -89,8 +89,8 @@ jobs:
           echo "Waiting for 90 seconds before starting the next workflow..."
           sleep 90
 
-  trigger_convert_ruleset_yaml_to_mrs:
-    needs: trigger_adblock_rule_generator_txt
+  trigger_convert_ruleset_json_to_srs:
+    needs: trigger_adblock_reject_domain_suffix_json
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -112,7 +112,7 @@ jobs:
           while : ; do
             status=$(curl -s -H "Authorization: token $TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?workflow_id=$workflow_id&status=completed&branch=$ref" \
+              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Sing-box/actions/runs?status=completed&branch=$ref" \
               | jq -r '.workflow_runs[0].conclusion')
 
             if [[ "$status" == "success" ]]; then
@@ -132,7 +132,7 @@ jobs:
           sleep 90
 
   trigger_release_adblock_file:
-    needs: trigger_convert_ruleset_yaml_to_mrs
+    needs: trigger_convert_ruleset_json_to_srs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -154,7 +154,7 @@ jobs:
           while : ; do
             status=$(curl -s -H "Authorization: token $TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
-              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Clash/actions/runs?workflow_id=$workflow_id&status=completed&branch=$ref" \
+              "https://api.github.com/repos/REIJI007/AdBlock_Rule_For_Clash/actions/runs?status=completed&branch=$ref" \
               | jq -r '.workflow_runs[0].conclusion')
 
             if [[ "$status" == "success" ]]; then
