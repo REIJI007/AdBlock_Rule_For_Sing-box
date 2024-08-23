@@ -24,7 +24,6 @@ jobs:
           $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
           $downloadMarker = "./.sing-box_downloaded"  # 定义下载标记文件的路径
           
-          # 检查 sing-box.exe 和 .sing-box_downloaded 标记文件是否存在
           if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
             Write-Host "sing-box.exe or .sing-box_downloaded not found, downloading..."
             $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"  # 定义下载 URL
@@ -36,7 +35,6 @@ jobs:
                 Write-Host "Downloading sing-box v1.9.4 (Attempt $attempt)..."
                 Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300  # 下载 ZIP 文件
                 
-                # 解压和重命名 sing-box.exe
                 Expand-Archive -Path $zipFile -DestinationPath . -Force  # 解压 ZIP 文件
                 Remove-Item -Path $zipFile  # 删除 ZIP 文件
                 $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1  # 查找解压后的 exe 文件
@@ -67,7 +65,6 @@ jobs:
         run: |
           $exePath = "./sing-box.exe"  # 定义 sing-box.exe 的路径
           
-          # 检查 sing-box.exe 是否存在
           if (Test-Path $exePath) {
             Write-Host "Sing-box version:"
             & $exePath -v  # 输出 sing-box 版本
@@ -79,7 +76,7 @@ jobs:
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
                 Write-Host "Attempting conversion (Attempt $attempt)..."
-                & $exePath rule-set compile --output adblock_reject_domainsuffix.srs adblock_reject_domainsuffix.json  # 尝试编译规则集
+                & $exePath rule-set compile --output adblock_reject_domainsuffix.srs adblock_reject_domain.json  # 尝试编译规则集
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "Conversion successful!"  # 如果成功，输出成功信息
                   break
