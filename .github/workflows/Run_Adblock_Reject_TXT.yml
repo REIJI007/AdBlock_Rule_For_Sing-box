@@ -1,4 +1,4 @@
-name: Run_Adblock_Reject_Domain_TXT  # 工作流名称
+name: Run_Adblock_Reject_TXT  # 工作流名称
 
 on:
   schedule:
@@ -28,17 +28,17 @@ jobs:
         sudo apt-get install -y powershell  # 安装 PowerShell 7
         rm packages-microsoft-prod.deb  # 删除包配置文件
 
-    - name: Run adblock_rule_generator_domain_txt.ps1  # 运行 adblock_rule_generator_domain_txt.ps1 脚本
-      run: pwsh -File ./adblock_rule_generator_domain_txt.ps1  # 使用 PowerShell 7 运行脚本
+    - name: Run adblock_rule_generator_txt.ps1  # 运行 adblock_rule_generator_txt.ps1 脚本
+      run: pwsh -File ./adblock_rule_generator_txt.ps1  # 使用 PowerShell 7 运行脚本
 
-    - name: Force Add and Commit Domain Txt file  # 强制添加并提交 adblock_reject_domain.txt 文件
+    - name: Force Add and Commit Txt file  # 强制添加并提交 adblock_reject.txt 文件
       run: |
         git config --global user.name 'github-actions'  # 配置提交用户名
         git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
-        git add -f adblock_reject_domain.txt  # 强制添加 adblock_reject_domain.txt 文件
-        git commit -m 'Update adblock_reject_domain.txt' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
+        git add -f adblock_reject.txt  # 强制添加 adblock_reject.txt 文件
+        git commit -m 'Update adblock_reject_.txt' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
 
-    - name: Retry Push Domain Txt file  # 推送 adblock_reject_domain.txt 文件，失败时重试
+    - name: Retry Push Txt file  # 推送 adblock_reject.txt 文件，失败时重试
       env:
         TOKEN: ${{ secrets.TOKEN }}  # 使用 GitHub 密钥进行身份验证
       run: |
