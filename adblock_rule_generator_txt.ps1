@@ -87,7 +87,7 @@ foreach ($url in $urlList) {
 # 对规则进行排序并添加前缀和后缀
 $formattedRules = $uniqueRules | Sort-Object | ForEach-Object {
     $quote = "`""
-    "$quote" + "domain:" + "$_$quote,"
+    "$quote" + "domain_suffix:" + "$_$quote,"
 }
 
 # 移除最后一条规则的逗号
