@@ -152,7 +152,7 @@
     [
       {
         "type": "local",                        
-        "tag": "adblock",                    // 命中规则集条目就导流到名为 "adblock" 的出站策略进行拦截
+        "tag": "adblock",                    
         "format": "source",                  // 或 "binary"，取决于规则文件格式
         "path": "C:\\Users\\YourUsername\\Documents\\file.json"                          // 规则集存放路径
       }
