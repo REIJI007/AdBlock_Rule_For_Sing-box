@@ -89,7 +89,7 @@ $jsonContent = @{
     version = 1  # 设置 version 为 1
     rules = @(
         @{
-            domain = $sortedDomains
+            domain_suffix= $sortedDomains
         }
     )
 }
