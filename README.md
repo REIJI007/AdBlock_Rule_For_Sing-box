@@ -172,46 +172,42 @@
 
 **五、关于本仓库的使用效果为什么没有普通广告过滤器效果好的疑问解答：**
 <br>
-*因为普通的广告过滤器包含域名过滤（拦截广告域名）、路径过滤（例如拦截URL路径中包含/ads/的所有请求）、正则表达式过滤（例如拦截所有包含ads.js或ad.js的URL）、类型过滤（例如只拦截图片资源）、隐藏元素等等多因素作用下使得在广告拦截测试网站中可以取得高分。**但碍于Sing-box的路由行为（可参考相关文档）**，本仓库仅提取了被拦截域名进行域名完全匹配过滤，换言之，本仓库就是一个“删减版”的广告过滤器（仅保留了域名完全匹配过滤功能，规则数在85万条左右），所以最终效果没有广告过滤器效果好*
+*因为普通的广告过滤器包含域名过滤（拦截广告域名）、路径过滤（例如拦截URL路径中包含/ads/的所有请求）、正则表达式过滤（例如拦截所有包含ads.js或ad.js的URL）、类型过滤（例如只拦截图片资源）、隐藏元素等等多因素作用下使得在广告拦截测试网站中可以取得高分。**但碍于Sing-box的路由行为（可参考相关文档）**，本仓库仅提取了被拦截域名进行域名完全匹配过滤，换言之，本仓库就是一个“删减版”的广告过滤器（仅保留了域名完全匹配过滤功能，规则数在140万条左右），所以最终效果没有广告过滤器效果好*
 <br>
 <br>
 
 
 
-**六、本仓库引用的广告过滤规则来源请查看Referencing rule sources.txt，后续考虑添加更多上游规则列表进行处理整合（目前37个来源）。至于是否误杀域名完全取决于这些处于上游的广告过滤器的域名拦截行为，若不满意的话可按照第二条在本地使用adblock_rule_generator_json.ps1脚本进行DIY本地定制化拦截域名列表，亦或可以像本仓库一样DIY定制后部署到github上面，或者fork本仓库自行DIY**
+**六、本仓库引用的广告过滤规则来源请查看Referencing rule sources.txt，后续考虑添加更多上游规则列表进行处理整合（目前84个来源）。至于是否误杀域名完全取决于这些处于上游的广告过滤器的域名拦截行为，若不满意的话可按照第二条在本地使用adblock_rule_generator_json.ps1脚本进行DIY本地定制化拦截域名列表，亦或可以像本仓库一样DIY定制后部署到github上面，或者fork本仓库自行DIY**
 
 
 **七、特别鸣谢**
 
-1、anti-AD (https://github.com/privacy-protection-tools/anti-AD)
+1、anti-AD<br>(https://github.com/privacy-protection-tools/anti-AD)<br>
+2、easylist<br>(https://github.com/easylist/easylist)<br>
+3、cjxlist<br>(https://github.com/cjx82630/cjxlist)<br>
+4、uniartisan<br>(https://github.com/uniartisan/adblock_list)<br>
+5、Cats-Team<br>(https://github.com/Cats-Team/AdRules)<br>
+6、217heidai<br>(https://github.com/217heidai/adblockfilters)<br>
+7、GOODBYEADS<br>(https://github.com/8680/GOODBYEADS)<br>
+8、AWAvenue-Ads-Rule<br>(https://github.com/TG-Twilight/AWAvenue-Ads-Rule)<br>
+9、Bibaiji<br>(https://github.com/Bibaiji/ad-rules/)<br>
+10、uBlockOrigin<br>(https://github.com/uBlockOrigin/uAssets)<br>
+11、ADguardTeam<br>(https://github.com/AdguardTeam/AdGuardFilters)<br>
+12、HyperADRules<br>(https://github.com/Lynricsy/HyperADRules)<br>
+13、guandasheng<br>(https://github.com/guandasheng/adguardhome)<br>
+14、xinggsf<br>(https://github.com/xinggsf/Adblock-Plus-Rule)<br>
+15、superbigsteam<br>(https://github.com/superbigsteam/adguardhomeguiz)<br>
+16、hoshsadiq<br>(https://github.com/hoshsadiq/adblock-nocoin-list)<br>
+17、jerryn70<br>(https://github.com/jerryn70/GoodbyeAds)<br>
+18、malware-filter<br>(https://gitlab.com/malware-filter)<br>
+19、abp-filters<br>(https://gitlab.com/eyeo/anti-cv/abp-filters-anti-cv)<br>
+20、banbendalao<br>(https://github.com/banbendalao/ADgk)<br>
+21、yokoffing<br>(https://github.com/yokoffing/filterlists)<br>
+22、notracking<br>(https://github.com/notracking/hosts-blocklists)<br>
+23、Spam404<br>(https://github.com/Spam404/lists)<br>
+24、brave<br>(https://github.com/brave/adblock-lists)<br>
 
-2、easylist (https://github.com/easylist/easylist)
-
-3、cjxlist (https://github.com/cjx82630/cjxlist)
-
-4、uniartisan (https://github.com/uniartisan/adblock_list)
-
-5、Cats-Team (https://github.com/Cats-Team/AdRules)
-
-6、217heidai (https://github.com/217heidai/adblockfilters)
-
-7、GOODBYEADS (https://github.com/8680/GOODBYEADS)
-
-8、AWAvenue-Ads-Rule (https://github.com/TG-Twilight/AWAvenue-Ads-Rule)
-
-9、Bibaiji (https://github.com/Bibaiji/ad-rules/)
-
-10、uBlockOrigin (https://github.com/uBlockOrigin/uAssets)
-
-11、ADguardTeam (https://github.com/AdguardTeam/AdGuardFilters)
-
-12、HyperADRules (https://github.com/Lynricsy/HyperADRules)
-
-13、guandasheng (https://github.com/guandasheng/adguardhome)
-
-14、xinggsf (https://github.com/xinggsf/Adblock-Plus-Rule)
-
-15、superbigsteam (https://github.com/superbigsteam/adguardhomeguiz)
 
 
 ## LICENSE
