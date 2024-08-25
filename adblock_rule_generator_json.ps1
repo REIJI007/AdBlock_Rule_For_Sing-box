@@ -6,7 +6,7 @@
 
 # 定义广告过滤器URL列表
 $urlList = @(
-   "https://anti-ad.net/adguard.txt",
+    "https://anti-ad.net/adguard.txt",
     "https://anti-ad.net/easylist.txt",
     "https://easylist.to/easylist/easylist.txt",
     "https://raw.githubusercontent.com/easylist/easylist/master/easylist/easylist_adservers.txt",
@@ -155,10 +155,8 @@ $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
 # 统计生成的规则条目数量
 $ruleCount = $finalRules.Count
 
-# 获取当前东八区时间
-$timeZoneInfo = [System.TimeZoneInfo]::FindSystemTimeZoneById("China Standard Time")
-$localTime = [System.TimeZoneInfo]::ConvertTime([System.DateTime]::UtcNow, $timeZoneInfo)
-$generatedTime = $localTime.ToString("yyyy-MM-dd HH:mm:ss")
+# 将域名按字母顺序排序
+$sortedDomains = $finalRules | Sort-Object
 
 # 将规则格式化为JSON格式
 $jsonContent = @{
@@ -171,7 +169,7 @@ $jsonContent = @{
 }
 
 # 转换为带紧凑缩进的JSON格式
-$jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10
+$jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 | ForEach-Object { $_.Trim() }
 
 # 定义输出文件路径
 $outputPath = "$PSScriptRoot/adblock_reject.json"
