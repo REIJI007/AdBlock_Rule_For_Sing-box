@@ -54,77 +54,77 @@ foreach ($url in $urlList) {
             elseif ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如||*.example.com^的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^\|\|\*\.([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如example.com的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如||example.com^$all的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^\$all$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如/^[a-z0-9-]+\.example\.com$/的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^/\^[a-z0-9-]+\.([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\$/$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如address=/example.com/0.0.0.0的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^address=/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/0\.0\.0\.0$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如/^example\.com$/的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^/\^([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\$/$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如/^([a-z0-9-]+\.)?example\.com$/的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^/\^([a-z0-9-]+\.)?\s*([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\$/$') {
                 $domain = $Matches[2]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如address=/example.com/127.0.0.1的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^address=/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/127\.0\.0\.1$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如127.0.0.1 example.com的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^127\.0\.0\.1\s+([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 处理形如0.0.0.0 example.com的域名，加上前缀"domain_suffix,"
             elseif ($line -match '^0\.0\.0\.0\s+([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$') {
                 $domain = $Matches[1]
                 if (IsValidDomain($domain)) {
-                    $uniqueRules.Add("domain_suffix,$domain") | Out-Null
+                    $uniqueRules.Add("domain_suffix:$domain") | Out-Null
                 }
             }
             # 忽略其他形如||example.com^$的域名
