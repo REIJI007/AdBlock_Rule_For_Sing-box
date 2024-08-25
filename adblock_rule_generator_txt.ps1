@@ -169,7 +169,7 @@ $($formattedRules -join "`n")
 "@
 
 # 输出文件路径
-$outputPath = "$PSScriptRoot/adblock_rules.txt"
+$outputPath = "$PSScriptRoot/adblock_reject.txt"
 
 # 保存到文件
 $textContent | Out-File -FilePath $outputPath -Encoding UTF8
