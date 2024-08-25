@@ -94,12 +94,12 @@ $urlList = @(
 # 日志文件路径
 $logFilePath = "$PSScriptRoot/adblock_log.txt"
 
-# 创建一个HashSet来存储唯一的规则
+# 创建两个HashSet来存储唯一的规则和排除的域名
 $uniqueRules = [System.Collections.Generic.HashSet[string]]::new()
+$excludedDomains = [System.Collections.Generic.HashSet[string]]::new()
 
-# 创建WebClient对象用于下载URL内容
+# 创建WebClient对象用于下载规则
 $webClient = New-Object System.Net.WebClient
-$webClient.Encoding = [System.Text.Encoding]::UTF8
 $webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
 foreach ($url in $urlList) {
@@ -112,30 +112,33 @@ foreach ($url in $urlList) {
 
         foreach ($line in $lines) 
         {
-            # 排除例外规则
-            if ($line -match '^@@') {
-                continue
+            # 匹配所有以 @@|| 开头的规则，并提取域名
+            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})') {
+                $excludedDomain = $Matches[1]
+                $excludedDomains.Add($excludedDomain) | Out-Null
             }
-
-            # 匹配 Adblock/Easylist 格式的规则
-            if ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
-                $domain = $Matches[1]
-                $uniqueRules.Add($domain) | Out-Null
-            }
-            # 匹配 Hosts 文件格式的规则
-            elseif ($line -match '^(0\.0\.0\.0|127\.0\.0\.1)\s+([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$') {
-                $domain = $Matches[2]
-                $uniqueRules.Add($domain) | Out-Null
-            }
-            # 匹配 Dnsmasq 格式的规则
-            elseif ($line -match '^address=/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/$') {
-                $domain = $Matches[1]
-                $uniqueRules.Add($domain) | Out-Null
-            }
-            # 匹配通配符匹配格式的规则
-            elseif ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
-                $domain = $Matches[1]
-                $uniqueRules.Add($domain) | Out-Null
+            else 
+            {
+                # 匹配 Adblock/Easylist 格式的规则
+                if ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
+                    $domain = $Matches[1]
+                    $uniqueRules.Add($domain) | Out-Null
+                }
+                # 匹配 Hosts 文件格式的规则
+                elseif ($line -match '^(0\.0\.0\.0|127\.0\.0\.1)\s+([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$') {
+                    $domain = $Matches[2]
+                    $uniqueRules.Add($domain) | Out-Null
+                }
+                # 匹配 Dnsmasq 格式的规则
+                elseif ($line -match '^address=/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/$') {
+                    $domain = $Matches[1]
+                    $uniqueRules.Add($domain) | Out-Null
+                }
+                # 匹配通配符匹配格式的规则
+                elseif ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
+                    $domain = $Matches[1]
+                    $uniqueRules.Add($domain) | Out-Null
+                }
             }
         }
     }
@@ -144,6 +147,9 @@ foreach ($url in $urlList) {
         Add-Content -Path $logFilePath -Value "处理 $url 时出错: $_"
     }
 }
+
+# 排除以 @@|| 开头规则中提取的域名
+$finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
 
 
 # 对规则进行排序并添加前缀和后缀
