@@ -1,0 +1,8 @@
+# Title: AdBlock_Rule_For_Sing-box
+# Description: 适用于Sing-box的域名拦截列表，每20分钟更新一次，确保即时同步上游减少误杀
+# Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
+# LICENSE1：https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE
+# LICENSE2：https://opensource.org/licenses/MIT
+# Total Count: 0
+# Generated Time: 2024-08-25 14:49:21
+
