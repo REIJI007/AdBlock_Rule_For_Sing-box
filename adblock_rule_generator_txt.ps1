@@ -105,11 +105,18 @@ $webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) 
 foreach ($url in $urlList) {
     Write-Host "正在处理: $url"
     Add-Content -Path $logFilePath -Value "正在处理: $url"
-    try {
+    try 
+    {
         $content = $webClient.DownloadString($url)
         $lines = $content -split "`n"
 
-        foreach ($line in $lines) {
+        foreach ($line in $lines) 
+        {
+            # 排除例外规则
+            if ($line -match '^@@') {
+                continue
+            }
+
             # 匹配 Adblock/Easylist 格式的规则
             if ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
                 $domain = $Matches[1]
@@ -125,6 +132,11 @@ foreach ($url in $urlList) {
                 $domain = $Matches[1]
                 $uniqueRules.Add($domain) | Out-Null
             }
+            # 匹配通配符匹配格式的规则
+            elseif ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
+                $domain = $Matches[1]
+                $uniqueRules.Add($domain) | Out-Null
+            }
         }
     }
     catch {
@@ -132,6 +144,7 @@ foreach ($url in $urlList) {
         Add-Content -Path $logFilePath -Value "处理 $url 时出错: $_"
     }
 }
+
 
 # 对规则进行排序并添加前缀和后缀
 $formattedRules = $uniqueRules | Sort-Object | ForEach-Object {
