@@ -149,20 +149,22 @@ $localTime = [System.TimeZoneInfo]::ConvertTime([System.DateTime]::UtcNow, $time
 $generatedTime = $localTime.ToString("yyyy-MM-dd HH:mm:ss")
 
 # 将所有规则连接成一个字符串，并为每个规则添加逗号（最后一条不加）
-$formattedRules = ($uniqueRules | ForEach-Object { "$_," })
-$formattedRules[-1] = $formattedRules[-1].TrimEnd(',')
+$formattedRules = $uniqueRules | ForEach-Object { "$_," }
+
+# 仅在规则不为空时，移除最后一条规则的逗号
+if ($formattedRules.Count -gt 0) {
+    $formattedRules[-1] = $formattedRules[-1].TrimEnd(',')
+}
 
 # 创建文本格式的字符串
 $textContent = @"
 # Title: AdBlock_Rule_For_Sing-box
 # Description: 适用于Sing-box的域名拦截列表，每20分钟更新一次，确保即时同步上游减少误杀
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
-# LICENSE1：https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL3.0
-# LICENSE2：https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC%20BY-NC-SA%204.0
-# Generated AdBlock rules
-# Generated on: $generatedTime (GMT+8)
-# Total entries: $ruleCount
-
+# LICENSE1：https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE
+# LICENSE2：https://opensource.org/licenses/MIT
+# Total Count: $ruleCount
+# Generated Time: $generatedTime
 $($formattedRules -join "`n")
 "@
 
