@@ -163,9 +163,11 @@ $generatedTime = $localTime.ToString("yyyy-MM-dd HH:mm:ss")
 # 将规则格式化为JSON格式
 $jsonContent = @{
     version = 1  # 设置 version 为 1
-    rules = $finalRules | ForEach-Object {
-        @{ domain_suffix = $_ }
-    }
+    rules = @(
+        @{
+            domain_suffix= $sortedDomains
+        }
+    )
 }
 
 # 转换为带紧凑缩进的JSON格式
