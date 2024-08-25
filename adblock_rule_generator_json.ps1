@@ -1,3 +1,10 @@
+# Title: AdBlock_Rule_For_Sing-box
+# Description: 适用于Sing-box的域名拦截规则集，每20分钟更新一次，确保即时同步上游减少误杀
+# Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
+# LICENSE1：https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL3.0
+# LICENSE2：https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC%20BY-NC-SA%204.0
+
+
 # 定义广告过滤器URL列表
 $urlList = @(
 "https://anti-ad.net/adguard.txt",
@@ -85,7 +92,6 @@ $urlList = @(
 "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/brave-firstparty-cname.txt",
 "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-unbreak.txt"
 
-    
 )
 
 # 日志文件路径
@@ -148,8 +154,9 @@ foreach ($url in $urlList) {
 # 排除以 @@|| 开头规则中提取的域名
 $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
 
-# 对规则进行排序
-$sortedDomains = $uniqueRules | Sort-Object
+# 统计生成的规则条目数量
+$ruleCount = $finalRules.Count
+
 
 # 将规则格式化为JSON格式
 $jsonContent = @{
@@ -163,13 +170,11 @@ $jsonContent = @{
 # 转换为带紧凑缩进的JSON格式
 $jsonFormatted = $jsonContent | ConvertTo-Json -Depth 10 | ForEach-Object { $_.Trim() }
 
+
 # 定义输出文件路径
 $outputPath = "$PSScriptRoot/adblock_reject.json"
-$jsonFormatted | Set-Content -Path $outputPath -Encoding utf8
+$textContent | Out-File -FilePath $outputPath -Encoding utf8
 
 # 输出生成的有效规则总数
-$ruleCount = $uniqueRules.Count
 Write-Host "生成的有效规则总数: $ruleCount"
-Add-Content -Path $logFilePath -Value "生成的有效规则总数: $ruleCount"
-
-Pause
+Add-Content -Path $logFilePath -Value "Total entries: $ruleCount"
