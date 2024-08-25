@@ -127,7 +127,7 @@ foreach ($url in $urlList) {
                 $domain = $Matches[2]
                 $uniqueRules.Add($domain) | Out-Null
             }
-            # 匹配 Dnsmasq/AdGuard 格式的规则
+            # 匹配 Dnsmasq 格式的规则
             elseif ($line -match '^address=/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/$') {
                 $domain = $Matches[1]
                 $uniqueRules.Add($domain) | Out-Null
