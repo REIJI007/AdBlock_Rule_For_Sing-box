@@ -63,11 +63,11 @@
     [
       {
         "type": "field",
-        "domain": 
+        "domain_suffix": 
         [
-          "domain_suffix:ads.example.com",
-          "domain_suffix:tracking.example.com",
-          "domain_suffix:analytics.example.com"    //这里直接添加被拦截的域名后缀，带上引号与逗号，最后一条域名后面不用加逗号
+          "ads.example.com",
+          "tracking.example.com",
+          "analytics.example.com"    //这里直接添加被拦截的域名后缀，带上引号与逗号，最后一条域名后面不用加逗号
         ],
         "outbound": "adblock"        //命中规则就导流到名为adblock的出站策略进行拦截
       }
