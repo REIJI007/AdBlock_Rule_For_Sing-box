@@ -55,7 +55,12 @@ $urlList = @(
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_17_TrackParam/filter.txt",
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_4_Social/filter.txt",
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_14_Annoyances/filter.txt",
-    "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_10_Useful/filter.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_original_trackers.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_disguised_ads.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_disguised_clickthroughs.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_disguised_microsites.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_disguised_trackers.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/cname-trackers/master/data/combined_disguised_mail_trackers.txt",
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_224_Chinese/filter.txt",
     "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_15_DnsFilter/filter.txt",
     "https://filters.adtidy.org/android/filters/11.txt",
@@ -89,7 +94,21 @@ $urlList = @(
     "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/brave-android-specific.txt",
     "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/brave-firstparty.txt",
     "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/brave-firstparty-cname.txt",
-    "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-unbreak.txt"
+    "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-unbreak.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_10_Useful/filter.txt",
+    "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=0",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareAdGuard.txt",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareABP.txt",
+    "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Other%20domains%20versions/FanboyNotifications-LoadableInUBO.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/ads-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/basic-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/tracking-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/malware-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/scam-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/phishing-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/ransomware-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/fraud-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/abuse-ags.txt"
 )
 
 # 日志文件路径
