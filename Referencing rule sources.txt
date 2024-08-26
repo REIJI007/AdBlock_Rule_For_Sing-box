@@ -204,8 +204,6 @@
 68. GoodbyeAds-Ultra-AdBlock-Filter  
     https://raw.githubusercontent.com/jerryn70/GoodbyeAds/master
 
-/Formats/GoodbyeAds-Ultra-AdBlock-Filter.txt
-
 69. Phishing URL Blocklist——AdGuard  
     https://malware-filter.gitlab.io/malware-filter/phishing-filter-ag.txt
 
