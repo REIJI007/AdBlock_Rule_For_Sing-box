@@ -137,7 +137,7 @@ foreach ($url in $urlList) {
         foreach ($line in $lines) 
         {
             # 匹配所有以 @@|| 开头的规则，并提取域名
-            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^.*$') {
+            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})') {
                 $excludedDomain = $Matches[1]
                 $excludedDomains.Add($excludedDomain) | Out-Null
             }
