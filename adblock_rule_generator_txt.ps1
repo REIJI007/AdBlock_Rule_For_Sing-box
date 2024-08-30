@@ -173,7 +173,7 @@ foreach ($url in $urlList) {
 $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
 
 # 对规则进行排序并添加前缀和后缀
-$formattedRules = $uniqueRules | Sort-Object | ForEach-Object {
+$formattedRules = $finalRules | Sort-Object | ForEach-Object {
     $quote = "`""
     "$quote" + "$_$quote,"
 }
