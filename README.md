@@ -219,21 +219,19 @@
 (https://github.com/banbendalao/ADgk)<br>
 21、yokoffing
 (https://github.com/yokoffing/filterlists)<br>
-22、notracking
-(https://github.com/notracking/hosts-blocklists)<br>
-23、Spam404
+22、Spam404
 (https://github.com/Spam404/lists)<br>
-24、brave
+23、brave
 (https://github.com/brave/adblock-lists)<br>
-25、Peter Lowe
+24、Peter Lowe
 (https://pgl.yoyo.org/adservers/)<br>
-26、DandelionSprout
+25、DandelionSprout
 (https://github.com/DandelionSprout/adfilt)<br>
-27、blocklistproject
+26、blocklistproject
 (https://github.com/blocklistproject/Lists)<br>
-28、reek
+27、reek
 (https://github.com/reek/anti-adblock-killer)<br>
-29、durablenapkin
+28、durablenapkin
 (https://github.com/durablenapkin/scamblocklist)<br>
 
 
