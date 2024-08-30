@@ -69,6 +69,7 @@ $urlList = @(
     "https://filters.adtidy.org/ios/filters/11.txt",
     "https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/rules.txt",
     "https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/dns.txt",
+    "https://raw.githubusercontent.com/Lynricsy/HyperADRules/master/allow.txt",
     "https://raw.githubusercontent.com/guandasheng/adguardhome/main/rule/all.txt",
     "https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/rule.txt",
     "https://raw.githubusercontent.com/xinggsf/Adblock-Plus-Rule/master/mv.txt",
