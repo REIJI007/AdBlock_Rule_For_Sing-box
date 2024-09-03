@@ -1,4 +1,4 @@
-name: Run_Adblock_Reject_TXT  # 工作流名称
+name: Run_Adblock_Reject_DOMAIN_TXT  # 工作流名称
 
 on:
   schedule:
@@ -28,8 +28,8 @@ jobs:
         sudo apt-get install -y powershell  # 安装 PowerShell 7
         rm packages-microsoft-prod.deb  # 删除包配置文件
 
-    - name: Run adblock_rule_generator_txt.ps1  # 运行 adblock_rule_generator_txt.ps1 脚本
-      run: pwsh -File ./adblock_rule_generator_txt.ps1  # 使用 PowerShell 7 运行脚本
+    - name: Run adblock_rule_generator_domain_txt.ps1  # 运行 adblock_rule_generator_domain_txt.ps1 脚本
+      run: pwsh -File ./adblock_rule_generator_domain_txt.ps1  # 使用 PowerShell 7 运行脚本
 
     - name: Force Add and Commit Txt file  # 强制添加并提交 adblock_reject_domain.txt 文件
       run: |
