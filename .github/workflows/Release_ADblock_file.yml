@@ -28,7 +28,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add -f adblock_reject.srs adblock_reject.txt adblock_reject.json timestamp.txt
+          git add -f adblock_reject.srs adblock_reject_domain.txt adblock_reject.json timestamp.txt
           git commit -m "Forced update of adblock files and timestamp"
           git push origin main --force
         env: 
@@ -57,15 +57,15 @@ jobs:
           asset_name: adblock_reject.srs
           asset_content_type: text/plain
 
-      # 步骤7：上传 adblock_reject.txt
-      - name: Upload adblock_reject.txt
+      # 步骤7：上传 adblock_reject_domain.txt
+      - name: Upload adblock_reject_domain.txt
         uses: actions/upload-release-asset@v1
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./adblock_reject.txt
-          asset_name: adblock_reject.txt
+          asset_path: ./adblock_reject_domain.txt
+          asset_name: adblock_reject_domain.txt
           asset_content_type: text/plain
 
       # 步骤8：上传 adblock_reject.json
