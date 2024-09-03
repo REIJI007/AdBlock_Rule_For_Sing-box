@@ -35,9 +35,9 @@
 <br>
 <br>
 
-**被拦截域名后缀列表 adblock_reject.txt**
+**被拦截域名后缀列表 adblock_reject_domain.txt**
 <br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.txt*
+*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt*
 <br>
 <br>
 
