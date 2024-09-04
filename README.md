@@ -100,30 +100,30 @@
     "rules": 
     [
       {
-        "rule_set": "adblock",                  // 应用名为 "adblock" 的规则集
-        "outbound": "adblock"                   // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
-      }
-    ],
-    "rule_set": 
-    [
-      {
-
-        "tag": "adblock",                       // 名为 "adblock"的规则集标签
-        "type": "remote",                       // 远程规则集
-        "format": "source",                     // 或 "binary"，取决于规则文件格式
-        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
-        "update_interval": 120                  // 更新间隔，单位为秒
+        "rule_set": "adblock",                 // 应用名为 "adblock" 的规则集
+        "outbound": "adblock"                  // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
       }
     ]
   },
+  "rule_set": 
+  [
+    {
+      "tag": "adblock",                        // 名为 "adblock" 的规则集标签
+      "type": "remote",                        // 远程规则集
+      "format": "source",                      // 或 "binary"，取决于规则文件格式
+      "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
+      "update_interval": 120                   // 更新间隔，单位为秒
+    }
+  ],
   "outbounds": 
   [
     {
       "type": "block",
-      "tag": "adblock"                          // 配合远程 "rule_set" 进行域名拦截
+      "tag": "adblock"                         // 配合远程 "rule_set" 进行域名拦截
     }
   ]
 }
+
 
 ```
 <hr>
