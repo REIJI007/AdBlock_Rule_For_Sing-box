@@ -154,7 +154,7 @@
   [
     {
       "type": "block",
-      "tag": "adblock"                        // 配合本地 "rule_set" 路由策略进行域名拦截
+      "tag": "adblock"                        // 配合本地 "rule_set" 进行域名拦截
     }
   ]
 }
