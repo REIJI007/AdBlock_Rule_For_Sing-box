@@ -33,16 +33,14 @@ jobs:
         env: 
           TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
 
-
-
       # 步骤5：强制添加、提交并推送更改
       - name: Force add and commit changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add -f adblock_reject.srs adblock_reject_domain.txt adblock_reject.json timestamp.txt
-          git commit -m "Forced update of adblock files and timestamp"
-          git push origin main --force
+          git commit -m "Forced update of adblock files and timestamp" || echo "No changes to commit"
+          git push origin main --force || echo "Push failed but continuing"
         env: 
           TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
 
