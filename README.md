@@ -106,8 +106,9 @@
     "rule_set": 
     [
       {
-        "type": "remote",                       // 远程规则集
+
         "tag": "adblock",                       // 规则集标签
+        "type": "remote",                       // 远程规则集
         "format": "source",                     // 或 "binary"，取决于规则文件格式
         "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
         "update_interval": 120                  // 更新间隔，单位为秒
@@ -142,8 +143,8 @@
     "rule_set": 
     [
       {
-        "type": "local",                      // 本地规则集
         "tag": "adblock",                     // 规则集标签
+        "type": "local",                      // 本地规则集
         "format": "source",                   // 或 "binary"，取决于规则文件格式
         "path": "C:\\Users\\YourUsername\\Documents\\file.json"  // 规则集存放路径
       }
