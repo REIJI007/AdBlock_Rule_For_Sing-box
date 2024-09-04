@@ -61,9 +61,9 @@
         [
           "ads.example.com",
           "tracking.example.com",
-          "analytics.example.com"    //这里直接添加被拦截的域名后缀，带上引号与逗号，最后一条域名后面不用加逗号
+          "analytics.example.com"    // 这里直接添加被拦截的域名后缀，带上引号与逗号，最后一条域名后面不用加逗号
         ],
-        "outbound": "adblock"        //命中规则就导流到名为adblock的出站策略进行拦截
+        "outbound": "adblock"        // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
       }
     ]
   },
@@ -71,7 +71,7 @@
   [
     {
       "type": "block",
-      "tag": "adblock"             //配合rules进行域名拦截
+      "tag": "adblock"             // 配合rules进行域名拦截
     }
   ]
 }
@@ -100,14 +100,14 @@
     [
       {
         "rule_set": "adblock",                  // 应用名为 "adblock" 的规则集
-        "outbound": "adblock"                   // 命中规则集的流量将导流到 "adblock" 出站策略进行拦截
+        "outbound": "adblock"                   // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
       }
     ],
     "rule_set": 
     [
       {
 
-        "tag": "adblock",                       // 规则集标签
+        "tag": "adblock",                       // 名为 "adblock"的规则集标签
         "type": "remote",                       // 远程规则集
         "format": "source",                     // 或 "binary"，取决于规则文件格式
         "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
@@ -143,7 +143,7 @@
     "rule_set": 
     [
       {
-        "tag": "adblock",                     // 规则集标签
+        "tag": "adblock",                     // 名为 "adblock"的规则集标签
         "type": "local",                      // 本地规则集
         "format": "source",                   // 或 "binary"，取决于规则文件格式
         "path": "C:\\Users\\YourUsername\\Documents\\file.json"  // 规则集存放路径
