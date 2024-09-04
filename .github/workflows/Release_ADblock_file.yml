@@ -23,7 +23,19 @@ jobs:
       - name: Update timestamp file
         run: echo "${{ env.time }}" > timestamp.txt # 将时间写入 timestamp.txt 文件
 
-      # 步骤4：强制添加、提交并推送更改
+      # 步骤4：拉取最新的 main 分支并合并
+      - name: Pull and merge latest main
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git merge origin/main
+        env: 
+          TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
+
+
+
+      # 步骤5：强制添加、提交并推送更改
       - name: Force add and commit changes
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -34,7 +46,7 @@ jobs:
         env: 
           TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
 
-      # 步骤5：创建新的发布
+      # 步骤6：创建新的发布
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -46,7 +58,7 @@ jobs:
           body: "Periodic release of adblock files." # 发布说明
           draft: false # 创建正式发布，而非草稿
 
-      # 步骤6：上传 adblock_reject.srs
+      # 步骤7：上传 adblock_reject.srs
       - name: Upload adblock_reject.srs
         uses: actions/upload-release-asset@v1
         env: 
@@ -57,7 +69,7 @@ jobs:
           asset_name: adblock_reject.srs
           asset_content_type: text/plain
 
-      # 步骤7：上传 adblock_reject_domain.txt
+      # 步骤8：上传 adblock_reject_domain.txt
       - name: Upload adblock_reject_domain.txt
         uses: actions/upload-release-asset@v1
         env: 
@@ -68,7 +80,7 @@ jobs:
           asset_name: adblock_reject_domain.txt
           asset_content_type: text/plain
 
-      # 步骤8：上传 adblock_reject.json
+      # 步骤9：上传 adblock_reject.json
       - name: Upload adblock_reject.json
         uses: actions/upload-release-asset@v1
         env: 
