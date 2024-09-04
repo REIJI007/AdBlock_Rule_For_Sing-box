@@ -54,7 +54,7 @@
 
 **四、关于本仓库使用方式：**
 
-  *使用方式一：下载releases中的adblock_reject.txt文件，复制域名修改Sing-box的json配置中的"route"字段下"rules"的"domain"部分*
+  *使用方式一：下载releases中的adblock_reject_domain.txt文件，复制域名修改Sing-box的json配置中的"route"字段下"rules"的"domain"部分*
 
 <hr>
 
