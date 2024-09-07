@@ -8,6 +8,7 @@
 $urlList = @(
     "https://anti-ad.net/adguard.txt",
     "https://anti-ad.net/easylist.txt",
+    "https://big.oisd.nl",
     "https://easylist.to/easylist/easylist.txt",
     "https://raw.githubusercontent.com/easylist/easylist/master/easylist/easylist_adservers.txt",
     "https://raw.githubusercontent.com/easylist/easylist/master/easylist/easylist_thirdparty.txt",
@@ -17,6 +18,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/easylist/easylist/master/easyprivacy/easyprivacy_thirdparty_international.txt",
     "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
     "https://raw.githubusercontent.com/easylist/easylistchina/master/easylistchina.txt",
+    "https://easylist-downloads.adblockplus.org/antiadblockfilters.txt",
     "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
     "https://easylist.to/easylist/fanboy-social.txt",
     "https://www.fanboy.co.nz/fanboy-antifacebook.txt",
@@ -41,6 +43,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/badware.txt",
     "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances-cookies.txt",
     "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances-others.txt",
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/resource-abuse.txt",
     "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/unbreak.txt",
     "https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/master/BaseFilter/sections/cryptominers.txt",
     "https://raw.githubusercontent.com/AdguardTeam/AdGuardSDNSFilter/master/Filters/exclusions.txt",
@@ -114,6 +117,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/abuse-ags.txt",
     "https://raw.githubusercontent.com/reek/anti-adblock-killer/master/anti-adblock-killer-filters.txt",
     "https://raw.githubusercontent.com/durablenapkin/scamblocklist/master/adguard.txt"
+    "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt"
 )
 
 # 日志文件路径
