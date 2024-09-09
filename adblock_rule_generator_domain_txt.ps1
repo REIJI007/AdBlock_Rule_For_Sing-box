@@ -140,10 +140,36 @@ foreach ($url in $urlList) {
         $lines = $content -split "`n"
 
         foreach ($line in $lines) {
-            # 匹配所有以 @@|| 开头的规则，并提取域名
-            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})') {
-                $excludedDomain = $Matches[1]
-                $excludedDomains.Add($excludedDomain) | Out-Null
+            # 首先匹配所有以 @@|| 开头的规则，并提取域名
+            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
+                # 提取所有匹配的域名部分
+                $domains = $line -replace '^@@\|\|', '' -split '\|'
+                foreach ($domain in $domains) {
+                    if ($domain.StartsWith('*')) {
+                        $domain = $domain.Substring(1)
+                    }
+                    $excludedDomains.Add($domain) | Out-Null
+                }
+            }
+            # 接着匹配所有以 @@| 开头的规则，并提取域名
+            elseif ($line -match '^@@\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
+                $domains = $line -replace '^@@\|', '' -split '\|'
+                foreach ($domain in $domains) {
+                    if ($domain.StartsWith('*')) {
+                        $domain = $domain.Substring(1)
+                    }
+                    $excludedDomains.Add($domain) | Out-Null
+                }
+            }
+            # 最后匹配所有以 @@ 开头的规则，并提取域名
+            elseif ($line -match '^@@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
+                $domains = $line -replace '^@@', '' -split '\|'
+                foreach ($domain in $domains) {
+                    if ($domain.StartsWith('*')) {
+                        $domain = $domain.Substring(1)
+                    }
+                    $excludedDomains.Add($domain) | Out-Null
+                }
             }
             else {
                 # 匹配 Adblock/Easylist 格式的规则
@@ -175,8 +201,12 @@ foreach ($url in $urlList) {
     }
 }
 
-# 排除以 @@|| 开头规则中提取的域名
+# 排除以 @@||、@@| 和 @@ 开头规则中提取的域名
 $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
+
+# 输出最终规则
+$finalRules | ForEach-Object { Write-Host $_ }
+
 
 # 对规则进行排序并添加前缀和后缀
 $formattedRules = $finalRules | Sort-Object | ForEach-Object {
