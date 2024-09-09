@@ -21,7 +21,6 @@ $urlList = @(
     "https://easylist-downloads.adblockplus.org/antiadblockfilters.txt",
     "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
     "https://easylist.to/easylist/fanboy-social.txt",
-    "https://www.fanboy.co.nz/fanboy-antifacebook.txt",
     "https://www.fanboy.co.nz/fanboy-antifonts.txt",
     "https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjx-annoyance.txt",
     "https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjxlist.txt",
@@ -106,6 +105,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareAdGuard.txt",
     "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Alternate%20versions%20Anti-Malware%20List/AntiMalwareABP.txt",
     "https://raw.githubusercontent.com/DandelionSprout/adfilt/master/Other%20domains%20versions/FanboyNotifications-LoadableInUBO.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/smart-tv-ags.txt",
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/ads-ags.txt",
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/basic-ags.txt",
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/tracking-ags.txt",
@@ -115,6 +115,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/ransomware-ags.txt",
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/fraud-ags.txt",
     "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/abuse-ags.txt",
+    "https://raw.githubusercontent.com/blocklistproject/Lists/master/adguard/redirect-ags.txt",
     "https://raw.githubusercontent.com/reek/anti-adblock-killer/master/anti-adblock-killer-filters.txt",
     "https://raw.githubusercontent.com/durablenapkin/scamblocklist/master/adguard.txt"
     "https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt"
