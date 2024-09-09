@@ -135,20 +135,43 @@ $webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) 
 foreach ($url in $urlList) {
     Write-Host "正在处理: $url"
     Add-Content -Path $logFilePath -Value "正在处理: $url"
-    try 
-    {
+    try {
         $content = $webClient.DownloadString($url)
         $lines = $content -split "`n"
 
-        foreach ($line in $lines) 
-        {
-            # 匹配所有以 @@|| 开头的规则，并提取域名
-            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})') {
-                $excludedDomain = $Matches[1]
-                $excludedDomains.Add($excludedDomain) | Out-Null
+        foreach ($line in $lines) {
+            # 首先匹配所有以 @@|| 开头的规则，并提取域名
+            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
+                # 提取所有匹配的域名部分
+                $domains = $line -replace '^@@\|\|', '' -split '\|'
+                foreach ($domain in $domains) {
+                    if ($domain.StartsWith('*')) {
+                        $domain = $domain.Substring(1)
+                    }
+                    $excludedDomains.Add($domain) | Out-Null
+                }
             }
-            else 
-            {
+            # 接着匹配所有以 @@| 开头的规则，并提取域名
+            elseif ($line -match '^@@\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
+                $domains = $line -replace '^@@\|', '' -split '\|'
+                foreach ($domain in $domains) {
+                    if ($domain.StartsWith('*')) {
+                        $domain = $domain.Substring(1)
+                    }
+                    $excludedDomains.Add($domain) | Out-Null
+                }
+            }
+            # 最后匹配所有以 @@ 开头的规则，并提取域名
+            elseif ($line -match '^@@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
+                $domains = $line -replace '^@@', '' -split '\|'
+                foreach ($domain in $domains) {
+                    if ($domain.StartsWith('*')) {
+                        $domain = $domain.Substring(1)
+                    }
+                    $excludedDomains.Add($domain) | Out-Null
+                }
+            }
+            else {
                 # 匹配 Adblock/Easylist 格式的规则
                 if ($line -match '^\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^$') {
                     $domain = $Matches[1]
@@ -178,8 +201,11 @@ foreach ($url in $urlList) {
     }
 }
 
-# 排除以 @@|| 开头规则中提取的域名
+# 排除以 @@||、@@| 和 @@ 开头规则中提取的域名
 $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
+
+# 输出最终规则
+$finalRules | ForEach-Object { Write-Host $_ }
 
 # 统计生成的规则条目数量
 $ruleCount = $finalRules.Count
