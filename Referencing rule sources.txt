@@ -338,3 +338,42 @@ https://raw.githubusercontent.com/durablenapkin/scamblocklist/master/adguard.txt
 
 113. Smart-TV Blocklist for AdGuard Home  
 https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt
+
+114. HaGeZi's Pro DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt             
+
+115. HaGeZi's Fake DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/fake.txt            
+
+116. HaGeZi's Light DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/light.txt           
+
+117. HaGeZi's DynDNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/dyndns.txt          
+
+118. HaGeZi's Normal DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/multi.txt           
+
+119. HaGeZi's Personal DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/personal.txt        
+
+120. HaGeZi's Pop-Up Ads DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/popupads.txt        
+
+121. HaGeZi's Ultimate DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt
+
+122. HaGeZi's The World's Most Abused TLDs - Aggressive
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/spam-tlds-adblock-aggressive.txt      
+
+123. HaGeZi's The World's Most Abused TLDs - Allow
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/spam-tlds-adblock-allow.txt
+
+124. HaGeZi's Threat Intelligence Feeds DNS Blocklist
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.txt
+
+125. HaGeZi's Allowlist Referral
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-referral.txt
+
+126. HaGeZi's Allowlist URL Shortener
+https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/whitelist-urlshortener.txt
