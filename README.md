@@ -244,7 +244,17 @@
 31、Perflyst
 (https://github.com/Perflyst/PiHoleBlocklist)<br>
 32、hagezi
-(https://github.com/hagezi/dns-blocklists)
+(https://github.com/hagezi/dns-blocklists)<br>
+33、neodevpro
+(https://github.com/neodevpro/neodevhost)<br>
+34、notracking
+(https://github.com/notracking/hosts-blocklists)<br>
+35、damengzhu
+(https://github.com/damengzhu/banad)<br>
+36、hectorm
+(https://github.com/hectorm/hblock)<br>
+37. badmojr
+(https://github.com/badmojr/1Hosts)
 
 
 
