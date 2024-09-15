@@ -1,0 +1,62 @@
+name: Run_Go_Program_and_Push_Changes
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # 手动触发工作流
+  schedule:
+    - cron: '*/20 * * * *' # 每20分钟运行一次
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.20' # 指定Go版本
+
+    - name: Create go.mod
+      run: |
+        go mod init example.com/myapp || echo "go.mod already exists"
+
+    - name: Add dependencies
+      run: |
+        go mod tidy
+        go mod download
+
+    - name: Run Go program
+      run: go run main.go
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions'  # 配置提交用户名
+        git config --global user.email 'github-actions@github.com'  # 配置提交邮箱
+
+    - name: Stash changes
+      run: |
+        git stash --include-untracked
+
+    - name: Pull remote changes
+      run: git pull --rebase
+
+    - name: Apply stashed changes
+      run: git stash pop || echo "No changes to apply"
+
+    - name: Force Add and Commit adblock.dat file  # 强制添加并提交 adblock.dat 文件
+      run: |
+        git add -f adblock.dat  # 强制添加 adblock.dat 文件
+        git commit -m 'Update adblock.dat' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
+
+    - name: Retry Push adblock.dat file  # 推送 adblock.dat 文件，失败时重试
+      env:
+        TOKEN: ${{ secrets.TOKEN }}  # 使用 GitHub 密钥进行身份验证
+      run: |
+        for i in {1..5}; do  # 尝试最多5次
+          git push --force origin HEAD && exit 0 || (echo "Push failed, retrying in 10 seconds..." && sleep 10)
+        done
