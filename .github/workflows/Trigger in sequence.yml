@@ -137,11 +137,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Trigger and verify Release_ADblock_file.yml
+      - name: Trigger and verify Release_ADblock_File.yml
         env:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
-          workflow_id="Release_ADblock_file.yml"
+          workflow_id="Release_ADblock_File.yml"
           ref="main"
           # 触发工作流
           response=$(curl -X POST -H "Authorization: token $TOKEN" \
