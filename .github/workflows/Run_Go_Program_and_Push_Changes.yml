@@ -48,12 +48,12 @@ jobs:
     - name: Apply stashed changes
       run: git stash pop || echo "No changes to apply"
 
-    - name: Force Add and Commit adblock.dat file  # 强制添加并提交 adblock.dat 文件
+    - name: Force Add and Commit adblock.db file  # 强制添加并提交 adblock.db 文件
       run: |
-        git add -f adblock.dat  # 强制添加 adblock.dat 文件
+        git add -f adblock.db  # 强制添加 adblock.db 文件
         git commit -m 'Update adblock.dat' || git commit --allow-empty -m 'Empty commit to force push'  # 提交更改，若无更改则提交空更改
 
-    - name: Retry Push adblock.dat file  # 推送 adblock.dat 文件，失败时重试
+    - name: Retry Push adblock.db file  # 推送 adblock.db 文件，失败时重试
       env:
         TOKEN: ${{ secrets.TOKEN }}  # 使用 GitHub 密钥进行身份验证
       run: |
