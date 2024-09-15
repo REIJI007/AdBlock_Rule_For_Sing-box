@@ -5,12 +5,20 @@ import (
 	"os"
 	"strings"
 	"log"
-	"github.com/sagernet/sing-box/common/geosite"
 )
 
-// geosite.Item 类型的结构体
+// 定义RuleType 类型
+type RuleType int
+
+const (
+	RuleTypeDomain RuleType = iota
+	RuleTypeDomainKeyword
+	RuleTypeDomainRegex
+)
+
+// Item 类型的结构体，包含自定义的 RuleType 和域名值
 type Item struct {
-	Type  geosite.RuleType
+	Type  RuleType
 	Value string
 }
 
@@ -47,19 +55,19 @@ func classifyDomains(domainList []string) map[string][]Item {
 		if strings.HasPrefix(domain, ".*") && strings.HasSuffix(domain, ".*") {
 			// 正则匹配
 			item = Item{
-				Type:  geosite.RuleTypeDomainRegex,
+				Type:  RuleTypeDomainRegex,
 				Value: domain,
 			}
 		} else if strings.Contains(domain, "keyword") {
 			// 关键字匹配
 			item = Item{
-				Type:  geosite.RuleTypeDomainKeyword,
+				Type:  RuleTypeDomainKeyword,
 				Value: domain,
 			}
 		} else {
 			// 普通域名
 			item = Item{
-				Type:  geosite.RuleTypeDomain,
+				Type:  RuleTypeDomain,
 				Value: domain,
 			}
 		}
@@ -102,6 +110,20 @@ func writeGeositeDB(output string, domainMap map[string][]Item) error {
 		}
 	}
 	return writer.Flush()
+}
+
+// 给 RuleType 添加 String 方法以便于打印
+func (r RuleType) String() string {
+	switch r {
+	case RuleTypeDomain:
+		return "Domain"
+	case RuleTypeDomainKeyword:
+		return "DomainKeyword"
+	case RuleTypeDomainRegex:
+		return "DomainRegex"
+	default:
+		return "Unknown"
+	}
 }
 
 func main() {
