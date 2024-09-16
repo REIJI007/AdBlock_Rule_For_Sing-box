@@ -235,35 +235,18 @@ foreach ($url in $urlList) {
         $lines = $content -split "`n"
 
         foreach ($line in $lines) {
-            # 匹配以 @@|| 开头的规则，并提取域名
-            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
-                $domains = $line -replace '^@@\|\|', '' -split '\|'
-                foreach ($domain in $domains) {
-                    if ($domain.StartsWith('*')) {
-                        $domain = $domain.Substring(1)
-                    }
-                    $excludedDomains.Add($domain) | Out-Null
-                }
+            # 匹配以 @@ 开头的白名单规则，并提取域名
+            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^(\$[a-zA-Z,]+)?$') {
+                $domain = $Matches[1]
+                $excludedDomains.Add($domain) | Out-Null
             }
-            # 匹配以 @@| 开头的规则
-            elseif ($line -match '^@@\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
-                $domains = $line -replace '^@@\|', '' -split '\|'
-                foreach ($domain in $domains) {
-                    if ($domain.StartsWith('*')) {
-                        $domain = $domain.Substring(1)
-                    }
-                    $excludedDomains.Add($domain) | Out-Null
-                }
+            elseif ($line -match '^@@\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^(\$[a-zA-Z,]+)?$') {
+                $domain = $Matches[1]
+                $excludedDomains.Add($domain) | Out-Null
             }
-            # 匹配以 @@ 开头的规则
-            elseif ($line -match '^@@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})*$') {
-                $domains = $line -replace '^@@', '' -split '\|'
-                foreach ($domain in $domains) {
-                    if ($domain.StartsWith('*')) {
-                        $domain = $domain.Substring(1)
-                    }
-                    $excludedDomains.Add($domain) | Out-Null
-                }
+            elseif ($line -match '^@@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^?(\$[a-zA-Z,]+)?$') {
+                $domain = $Matches[1]
+                $excludedDomains.Add($domain) | Out-Null
             }
             else {
                 # 匹配 Adblock/Easylist 格式的规则
@@ -281,7 +264,7 @@ foreach ($url in $urlList) {
                     $domain = $Matches[1]
                     $uniqueRules.Add($domain) | Out-Null
                 }
-                # 匹配 Dnsmasq server=/域名/格式的规则
+                # 匹配 Dnsmasq server=/域名/的规则
                 elseif ($line -match '^server=/([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/$') {
                     $domain = $Matches[1]
                     $uniqueRules.Add($domain) | Out-Null
@@ -300,7 +283,7 @@ foreach ($url in $urlList) {
     }
 }
 
-# 排除以 @@||、@@| 和 @@ 开头规则中提取的域名
+# 排除以 @@ 开头规则中提取的域名
 $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
 
 
