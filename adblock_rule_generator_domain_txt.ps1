@@ -55,7 +55,7 @@ $urlList = @(
     "https://raw.githubusercontent.com/Cats-Team/AdRules/main/dns.txt",
     "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt",
     "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockfilters.txt",
-    "https://raw.githubusercontent.com/8680/GOODBYEADS/master/data/rules/adblock.txt"
+    "https://raw.githubusercontent.com/8680/GOODBYEADS/master/data/rules/adblock.txt",
     "https://raw.githubusercontent.com/8680/GOODBYEADS/master/data/rules/dns.txt",
     "https://raw.githubusercontent.com/8680/GOODBYEADS/master/data/rules/allow.txt",
     "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt",
