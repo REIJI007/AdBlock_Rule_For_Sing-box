@@ -235,18 +235,15 @@ foreach ($url in $urlList) {
         $lines = $content -split "`n"
 
         foreach ($line in $lines) {
-            # 匹配以 @@ 开头的白名单规则，并提取域名
-            if ($line -match '^@@\|\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^(\$[a-zA-Z,]+)?$') {
-                $domain = $Matches[1]
-                $excludedDomains.Add($domain) | Out-Null
-            }
-            elseif ($line -match '^@@\|([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^(\$[a-zA-Z,]+)?$') {
-                $domain = $Matches[1]
-                $excludedDomains.Add($domain) | Out-Null
-            }
-            elseif ($line -match '^@@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\^?(\$[a-zA-Z,]+)?$') {
-                $domain = $Matches[1]
-                $excludedDomains.Add($domain) | Out-Null
+            # 直接处理以 @@ 开头的规则，提取域名并加入白名单
+            if ($line.StartsWith('@@')) {
+                # 从规则中移除 @@ 开头部分，提取域名部分
+                $domains = $line -replace '^@@[^\|]*\|*', '' -split '[\^,$]'
+                foreach ($domain in $domains) {
+                    if (-not [string]::IsNullOrWhiteSpace($domain)) {
+                        $excludedDomains.Add($domain.Trim()) | Out-Null
+                    }
+                }
             }
             else {
                 # 匹配 Adblock/Easylist 格式的规则
@@ -283,7 +280,7 @@ foreach ($url in $urlList) {
     }
 }
 
-# 排除以 @@ 开头规则中提取的域名
+# 排除所有白名单规则中的域名
 $finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
 
 
