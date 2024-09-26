@@ -20,27 +20,32 @@
 ，adblock_reject.json是json格式的域名拦截rule_set规则集，adblock_reject.srs则是由sing-box核心将adblock_reject.json编译转化得来的规则集**
 <br>
 <br>
-
-**适用于Sing-box的外部远程规则集**
-<br>
-*1、JSON格式的外部远程拦截域名规则集 adblock_reject.json* 
-<br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json*
-<br>
-<br>
-
-*2、SRS格式的外部远程拦截域名规则集 adblock_reject.srs* 
-<br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs*
-<br>
-<br>
-
-**被拦截域名后缀列表 adblock_reject_domain.txt**
-<br>
-*https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt*
-<br>
-<br>
-
+<table border="1" style="border-collapse: collapse; width: 100%;">
+  <tr>
+    <td>订阅地址:</td>
+  </tr>
+  <tr>
+    <td>JSON</td>
+    <td>
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json">原始链接</a></strong> | 
+      <strong><a href="https://adblockproxy.miyajimareji007.workers.dev/sing-box_adblock.json">Cloudflare加速链接</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>SRS</td>
+    <td>
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs">原始链接</a></strong> | 
+      <strong><a href="https://adblockproxy.miyajimareji007.workers.dev/sing-box_adblock.srs">Cloudflare加速链接</a></strong>
+    </td>
+  </tr>
+  <tr>
+    <td>拦截域名</td>
+    <td>
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt">原始链接</a></strong> | 
+      <strong><a href="https://adblockproxy.miyajimareji007.workers.dev/sing-box_adblock_reject_domain.txt">Cloudflare加速链接</a></strong>
+    </td>
+  </tr>
+</table>
 
 <hr>
 
