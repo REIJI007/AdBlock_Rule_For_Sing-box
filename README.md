@@ -27,22 +27,22 @@
   <tr>
     <td>JSON</td>
     <td>
-      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json">原始链接</a></strong> | 
-      <strong><a href="https://adblockproxy.miyajimareji007.workers.dev/sing-box_adblock.json">Cloudflare加速链接</a></strong>
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json">Github原始链接</a></strong> | 
+      <strong><a href="https://adblock-singbox-json.reiji007.org/">Cloudflare加速链接</a></strong>
     </td>
   </tr>
   <tr>
     <td>SRS</td>
     <td>
-      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs">原始链接</a></strong> | 
-      <strong><a href="https://adblockproxy.miyajimareji007.workers.dev/sing-box_adblock.srs">Cloudflare加速链接</a></strong>
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs">Github原始链接</a></strong> | 
+      <strong><a href="https://adblock-singbox-srs.reiji007.org/">Cloudflare加速链接</a></strong>
     </td>
   </tr>
   <tr>
     <td>拦截域名</td>
     <td>
-      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt">原始链接</a></strong> | 
-      <strong><a href="https://adblockproxy.miyajimareji007.workers.dev/sing-box_adblock_reject_domain.txt">Cloudflare加速链接</a></strong>
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt">Github原始链接</a></strong> | 
+      <strong><a href="https://adblock-singbox-reject-domain.reiji007.org/">Cloudflare加速链接</a></strong>
     </td>
   </tr>
 </table>
