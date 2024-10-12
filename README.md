@@ -20,32 +20,33 @@
 ，adblock_reject.json是json格式的域名拦截rule_set规则集，adblock_reject.srs则是由sing-box核心将adblock_reject.json编译转化得来的规则集**
 <br>
 <br>
-<table border="1" style="border-collapse: collapse; width: 100%;">
+<table border="1" style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
   <tr>
-    <td>订阅地址:</td>
+    <td colspan="2" style="background-color: #f2f2f2; font-weight: bold; text-align: center; padding: 10px;">订阅地址</td>
   </tr>
   <tr>
-    <td>JSON</td>
-    <td>
-      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json">Github原始链接</a></strong> | 
-      <strong><a href="https://adblock-singbox-json.reiji007.org/">Cloudflare加速链接</a></strong>
+    <td style="padding: 8px;">JSON</td>
+    <td style="padding: 8px;">
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json" style="color: #0066cc;">Github原始链接</a></strong> | 
+      <strong><a href="https://adblock-singbox-json.reiji007.org/" style="color: #0066cc;">Cloudflare加速链接</a></strong>
     </td>
   </tr>
   <tr>
-    <td>SRS</td>
-    <td>
-      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs">Github原始链接</a></strong> | 
-      <strong><a href="https://adblock-singbox-srs.reiji007.org/">Cloudflare加速链接</a></strong>
+    <td style="padding: 8px;">SRS</td>
+    <td style="padding: 8px;">
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs" style="color: #0066cc;">Github原始链接</a></strong> | 
+      <strong><a href="https://adblock-singbox-srs.reiji007.org/" style="color: #0066cc;">Cloudflare加速链接</a></strong>
     </td>
   </tr>
   <tr>
-    <td>拦截域名</td>
-    <td>
-      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt">Github原始链接</a></strong> | 
-      <strong><a href="https://adblock-singbox-reject-domain.reiji007.org/">Cloudflare加速链接</a></strong>
+    <td style="padding: 8px;">拦截域名</td>
+    <td style="padding: 8px;">
+      <strong><a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt" style="color: #0066cc;">Github原始链接</a></strong> | 
+      <strong><a href="https://adblock-singbox-reject-domain.reiji007.org/" style="color: #0066cc;">Cloudflare加速链接</a></strong>
     </td>
   </tr>
 </table>
+
 
 <hr>
 
