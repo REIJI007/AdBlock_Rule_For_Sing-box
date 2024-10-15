@@ -476,6 +476,21 @@ $excludedDomains = [System.Collections.Generic.HashSet[string]]::new()
 $webClient = New-Object System.Net.WebClient
 $webClient.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
+# DNS规范验证函数
+function Is-ValidDNSDomain($domain) {
+    if ($domain.Length -gt 253) { return $false }
+    $labels = $domain -split "\."
+    foreach ($label in $labels) {
+        if ($label.Length -eq 0 -or $label.Length -gt 63) { return $false }
+        if ($label -notmatch "^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$") {
+            return $false
+        }
+    }
+    $tld = $labels[-1]
+    if ($tld -notmatch "^[a-zA-Z]{2,}$") { return $false }
+    return $true
+}
+
 foreach ($url in $urlList) {
     Write-Host "正在处理: $url"
     Add-Content -Path $logFilePath -Value "正在处理: $url"
@@ -540,8 +555,24 @@ foreach ($url in $urlList) {
     }
 }
 
+# 在写入文件之前进行DNS规范验证
+$validRules = [System.Collections.Generic.HashSet[string]]::new()
+$validExcludedDomains = [System.Collections.Generic.HashSet[string]]::new()
+
+foreach ($domain in $uniqueRules) {
+    if (Is-ValidDNSDomain($domain)) {
+        $validRules.Add($domain) | Out-Null
+    }
+}
+
+foreach ($domain in $excludedDomains) {
+    if (Is-ValidDNSDomain($domain)) {
+        $validExcludedDomains.Add($domain) | Out-Null
+    }
+}
+
 # 排除所有白名单规则中的域名
-$finalRules = $uniqueRules | Where-Object { -not $excludedDomains.Contains($_) }
+$finalRules = $validRules | Where-Object { -not $validExcludedDomains.Contains($_) }
 
 # 对规则进行排序并添加前缀和后缀
 $formattedRules = $finalRules | Sort-Object | ForEach-Object {
