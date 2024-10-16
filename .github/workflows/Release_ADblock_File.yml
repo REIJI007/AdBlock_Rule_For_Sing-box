@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 步骤0：清除之前的日志文件
+      - name: Clear previous logs
+        run: |
+          sudo rm -rf /home/runner/runners/*/_diag/*.log || true
+
       # 步骤1：检出代码
       - name: Checkout code
         uses: actions/checkout@v3
