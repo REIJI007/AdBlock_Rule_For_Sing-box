@@ -193,7 +193,6 @@
 
 **七、特别鸣谢**
 
-<br>
 1. [sing-box](https://github.com/SagerNet/sing-box)
 2. [Adguard](https://github.com/AdguardTeam/AdGuardFilters)
 3. [easylist](https://github.com/easylist/easylist)
