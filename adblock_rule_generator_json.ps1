@@ -150,9 +150,9 @@ foreach ($url in $urlList) {
         $lines = $content -split "`n"
 
         foreach ($line in $lines) {
-            # 直接处理以 @@ 开头的规则，提取域名并加入白名单
+            # 修改: 改进处理以 @@ 开头的规则的逻辑
             if ($line.StartsWith('@@')) {
-                $domains = $line -replace '^@@', '' -split '[^\w.-]+'
+                $domains = $line -replace '^@@[^\|]*\|*', '' -split '[^\w.-]+'
                 foreach ($domain in $domains) {
                     if (-not [string]::IsNullOrWhiteSpace($domain) -and $domain -match '[\w-]+(\.[[\w-]+)+') {
                         $excludedDomains.Add($domain.Trim()) | Out-Null
@@ -221,7 +221,7 @@ foreach ($domain in $excludedDomains) {
 }
 
 # 排除所有白名单规则中的域名
-$finalRules = $validRules | Where-Object { -not $validExcludedDomains.Contains($_) }
+$finalRules = $validRules.ExceptWith($validExcludedDomains)
 
 # 统计生成的规则条目数量
 $ruleCount = $finalRules.Count
