@@ -4,6 +4,7 @@
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
 
+
 # 定义广告过滤器URL列表
 $urlList = @(
 "https://raw.githubusercontent.com/AdguardTeam/FiltersRegistry/master/filters/filter_2_Base/filter.txt",  
@@ -150,9 +151,9 @@ foreach ($url in $urlList) {
         $lines = $content -split "`n"
 
         foreach ($line in $lines) {
-            # 修改: 改进处理以 @@ 开头的规则的逻辑
+            # 直接处理以 @@ 开头的规则，提取域名并加入白名单
             if ($line.StartsWith('@@')) {
-                $domains = $line -replace '^@@[^\|]*\|*', '' -split '[^\w.-]+'
+                $domains = $line -replace '^@@', '' -split '[^\w.-]+'
                 foreach ($domain in $domains) {
                     if (-not [string]::IsNullOrWhiteSpace($domain) -and $domain -match '[\w-]+(\.[[\w-]+)+') {
                         $excludedDomains.Add($domain.Trim()) | Out-Null
@@ -221,7 +222,7 @@ foreach ($domain in $excludedDomains) {
 }
 
 # 排除所有白名单规则中的域名
-$finalRules = $validRules.ExceptWith($validExcludedDomains)
+$finalRules = $validRules | Where-Object { -not $validExcludedDomains.Contains($_) }
 
 # 统计生成的规则条目数量
 $ruleCount = $finalRules.Count
