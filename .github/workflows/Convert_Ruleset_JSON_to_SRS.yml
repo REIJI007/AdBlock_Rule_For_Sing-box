@@ -1,0 +1,147 @@
+# 工作流程名称
+name: Convert_Ruleset_JSON_to_SRS
+
+# 触发条件
+on:
+  schedule:
+    - cron: '*/20 * * * *'  # 每20分钟运行一次
+  workflow_dispatch:  # 允许手动触发
+
+# 定义作业
+jobs:
+  update-and-convert:
+    runs-on: windows-latest  # 使用 Windows 运行环境
+
+    steps:
+      # 步骤1：检出仓库代码
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # 步骤2：检查并下载 sing-box（仅在第一次运行时）
+      - name: Check and download sing-box v1.9.4 if needed
+        shell: powershell
+        run: |
+          $exePath = "./sing-box.exe"
+          $downloadMarker = "./.sing-box_downloaded"
+          
+          if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
+            Write-Host "sing-box.exe or .sing-box_downloaded not found, downloading..."
+            $url = "https://github.com/SagerNet/sing-box/releases/download/v1.9.4/sing-box-1.9.4-windows-amd64.zip"
+            $zipFile = "sing-box.zip"
+            $maxAttempts = 5
+            
+            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+              try {
+                Write-Host "Downloading sing-box v1.9.4 (Attempt $attempt)..."
+                Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300
+                
+                Expand-Archive -Path $zipFile -DestinationPath . -Force
+                Remove-Item -Path $zipFile
+                $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1
+                if ($exeFile) {
+                  Rename-Item -Path $exeFile.FullName -NewName $exePath -Force
+                  New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force
+                  Write-Host "Extraction and renaming complete!"
+                  break
+                } else {
+                  throw "Executable file not found in the extracted contents"
+                }
+              } catch {
+                Write-Host "Download, extraction, or renaming failed. Error: $_"
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "Max attempts reached. Process failed."
+                  exit 1
+                }
+                Start-Sleep -Seconds 10
+              }
+            }
+          } else {
+            Write-Host "sing-box.exe and .sing-box_downloaded already exist."
+          }
+
+      # 步骤3：转换规则集（依赖于 sing-box.exe）
+      - name: Convert ruleset
+        shell: powershell
+        run: |
+          $exePath = "./sing-box.exe"
+          
+          if (Test-Path $exePath) {
+            Write-Host "Sing-box version:"
+            & $exePath -v
+            Write-Host "Sing-box help:"
+            & $exePath convert-ruleset --help
+
+            $maxAttempts = 5
+            
+            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+              try {
+                Write-Host "Attempting conversion (Attempt $attempt)..."
+                & $exePath rule-set compile --output adblock_reject.srs adblock_reject.json  # 正确的转换文件名
+                if ($LASTEXITCODE -eq 0) {
+                  Write-Host "Conversion successful!"
+                  break
+                } else {
+                  throw "Conversion failed with exit code $LASTEXITCODE"
+                }
+              } catch {
+                Write-Host "Attempt $attempt failed. Error: $_"
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "Max attempts reached. Exiting."
+                  exit 1
+                }
+                Start-Sleep -Seconds 5
+              }
+            }
+          } else {
+            Write-Host "sing-box.exe not found, skipping conversion step."
+            exit 1
+          }
+
+      # 步骤4：提交并推送更改（包括 sing-box.exe 和标记文件）
+      - name: Push changes
+        shell: powershell
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          $maxAttempts = 5
+          
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            try {
+              git config user.email "action@github.com"
+              git config user.name "GitHub Action"
+              
+              git pull https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --rebase
+              break
+            } catch {
+              Write-Host "git pull attempt $attempt failed. Error: $_"
+              if ($attempt -eq $maxAttempts) {
+                Write-Host "Failed to pull changes after $maxAttempts attempts. Exiting."
+                exit 1
+              }
+              Start-Sleep -Seconds 30
+            }
+          }
+          
+          git add adblock_reject.srs sing-box.exe .sing-box_downloaded
+          
+          if (git status --porcelain) {
+            git commit -m "Update adblock_reject.srs and add sing-box.exe"
+            
+            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+              try {
+                Write-Host "Attempting to push changes (Attempt $attempt of $maxAttempts)..."
+                git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }} --force
+                Write-Host "Changes successfully pushed."
+                break
+              } catch {
+                Write-Host "Push attempt $attempt failed. Error: $_"
+                if ($attempt -eq $maxAttempts) {
+                  Write-Host "Failed to push changes after $maxAttempts attempts. Exiting."
+                  exit 1
+                }
+                Start-Sleep -Seconds 30
+              }
+            }
+          } else {
+            Write-Host "No changes to commit."
+          }
