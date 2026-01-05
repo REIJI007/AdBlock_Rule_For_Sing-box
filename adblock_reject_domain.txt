@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-06 03:51:27
+# Generated on: 2026-01-06 04:30:23
 # Generated AdBlock rules
-# Total entries: 101547
+# Total entries: 101554
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -13028,10 +13028,12 @@
 "amplifongroup.tt.omtrdc.net",
 "amplify.madison365.com",
 "amplifypixel.outbrain.com",
+"amplilab.thepure.app",
 "amplitude-experiment.bandlab.com",
 "amplitude.bandlab.com",
 "amplitude.chess.com",
 "amplitude.life360.com",
+"amplitude.thepure.app",
 "ampltd.top.gg",
 "ampltd2.medal.tv",
 "amptrack-dailymail-co-uk.cdn.ampproject.org",
@@ -22723,6 +22725,7 @@
 "client-authorization.summer.net.daraz.com",
 "client-event-reporter.twitch.tv",
 "client-events-ingress.bookbub.com",
+"client-events.gurushots.com",
 "client-log.box.com",
 "client-log.karte.io",
 "client-metrics.chess.com",
@@ -56471,6 +56474,7 @@
 "logger.goeuro.com",
 "logger.growstarry.com",
 "logger.nerdwallet.com",
+"logger.radiatetheworld.com",
 "logger.snackly.co",
 "logger.torimochi-ad.net",
 "logger.tv.telstra.com.au",
@@ -60801,6 +60805,7 @@
 "mob2.healthtrackergroup.com",
 "mob2.musicgostudio.com",
 "mob2.mymusic2025.com",
+"mob2.welltastic-app.com",
 "moba8.net",
 "mobads.baidu.com",
 "mobclix.com",
@@ -81814,6 +81819,7 @@
 "statistikk.telenor.no",
 "statman.sesong.info",
 "stats-a.maxthon.com",
+"stats-api.skylum.com",
 "stats-blog.lewsion.com",
 "stats-connect.comet.it",
 "stats-dev.brid.tv",
@@ -88359,6 +88365,7 @@
 "tracfonewireless.tt.omtrdc.net",
 "tracing-collector.strava.com",
 "tracing.roblox.com",
+"tracing.yelp.com",
 "track-acton.healthengine.com.au",
 "track-aws.notsy.io",
 "track-e.infineon.com",
