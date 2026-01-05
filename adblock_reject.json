@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -11916,6 +11915,7 @@
         "aesir.superchatlive.com",
         "aests.aesthency.com",
         "aesus.so-net.ne.jp",
+        "aet.spotify.com",
         "aetna.tt.omtrdc.net",
         "aetv.tt.omtrdc.net",
         "aeuati.wedio.com",
@@ -101551,5 +101551,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
