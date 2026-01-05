@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "rules": [
     {
       "domain": [
@@ -16580,7 +16581,6 @@
         "applog.zijieapi.com",
         "applogs-v2.pixelfederation.com",
         "applogs.pixelfederation.com",
-        "applovin.com",
         "apply.allusadeals.com",
         "apply.catalystfitnessflorida.com",
         "apply.usc.edu",
@@ -101046,6 +101046,5 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ],
-  "version": 1
+  ]
 }
