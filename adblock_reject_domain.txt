@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-06 21:59:07
+# Generated on: 2026-01-06 22:34:17
 # Generated AdBlock rules
-# Total entries: 101561
+# Total entries: 101564
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -13315,6 +13315,7 @@
 "analytics.api.justeattakeaway.com",
 "analytics.app.funnelish.com",
 "analytics.applycreatures.com",
+"analytics.apps.seabroadnet.com",
 "analytics.appsbnet.com.br",
 "analytics.appservice.tech",
 "analytics.aqua-wise.com",
@@ -39018,6 +39019,7 @@
 "ettkn.lemanmercer.com",
 "etual.boggbag.com",
 "etude.epidemiologie-pop-ge.ch",
+"etx.indiatimes.com",
 "etznkn.ec-store.net",
 "etzqwj.canevas.com",
 "eu-1-id5-sync.com",
@@ -66094,6 +66096,7 @@
 "pix.telekom.de",
 "pixair.openapp.link",
 "pixel-config.reddit.com",
+"pixel-conversion.apps.seabroadnet.com",
 "pixel-img.com",
 "pixel-static.spotify.com",
 "pixel.1und1.de",
