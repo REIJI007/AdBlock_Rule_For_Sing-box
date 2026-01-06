@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -39181,6 +39180,7 @@
         "eventbus.intuit.com",
         "eventcollector.mcf-prod.a.intuit.com",
         "eventcollectorv2-1131000179.us-east-1.elb.amazonaws.com",
+        "eventcom.api.np.km.playstation.net",
         "eventgw.twilio.com",
         "eventlog-aws.jftechws.com",
         "eventlog.inspsearchapi.com",
@@ -101570,5 +101570,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
