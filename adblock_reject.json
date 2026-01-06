@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -41617,6 +41616,7 @@
         "glxrina.site",
         "glxta.site",
         "glzsji.nordman.ru",
+        "gm.mmstat.com",
         "gm99.com",
         "gmdci.pastease.com",
         "gmfinancial.tt.omtrdc.net",
@@ -101569,5 +101569,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
