@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -39905,6 +39904,7 @@
         "felidae.top10partnersuche.ch",
         "felissimocorporation.tt.omtrdc.net",
         "felix.data.tm-awx.com",
+        "fem.gprod.postmedia.digital",
         "femetrics.grammarly.io",
         "femfighting.fumblingvacation.pro",
         "feministryangosling.superchat.live",
@@ -44843,6 +44843,7 @@
         "gradinfo.eng.ufl.edu",
         "grado.ufv.es",
         "gradprograms.cals.cornell.edu",
+        "graffiti-tags.apple.com",
         "graficare.fumblingvacation.pro",
         "granaryhills.com",
         "granddesignrv.tt.omtrdc.net",
@@ -72090,6 +72091,7 @@
         "securefamilylink.wireless.att.com",
         "secureforms.fircosoft.com",
         "secureforms.xperthr.co.uk",
+        "securemetrics.apple.com",
         "securemetrics.blackrock.com",
         "securemetrics.carecredit.com",
         "securemetrics.experience.apple",
@@ -101573,5 +101575,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
