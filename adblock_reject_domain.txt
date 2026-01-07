@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-07 23:37:39
+# Generated on: 2026-01-07 23:55:02
 # Generated AdBlock rules
-# Total entries: 101574
+# Total entries: 101577
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -14908,6 +14908,7 @@
 "api.eunow4u.com",
 "api.eusoupixel.com",
 "api.evandrocanello.com.br",
+"api.eventbus.me",
 "api.evoluaemsegredo.com.br",
 "api.evoluamaiscursosonline.com.br",
 "api.exc.mob.com",
@@ -39115,6 +39116,7 @@
 "eve.playstation.com",
 "evelynn-apac-cfw-c2s-01-n6x026.net.daraz.com",
 "event-action.popinfo.jp",
+"event-api-cs.stardust-tv.com",
 "event-api.hackle.io",
 "event-collector.moviesanywhere.com",
 "event-dot-learning-piano.appspot.com",
@@ -72262,6 +72264,7 @@
 "sensors.ibreader.com",
 "sensors.snappea.com",
 "sensors.snaptube.app",
+"sensorsdata-datasink.stardust-tv.com",
 "sensorsdata.glowapp.vip",
 "sentadoenlatrebede.xhamsterlive.info",
 "sentinelbi.com",
