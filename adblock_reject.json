@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -59461,6 +59460,7 @@
         "measuring-pixel-service.alza.cz",
         "meat.midanmarketing.com",
         "meatballsandads.com",
+        "mebed.dm-event.net",
         "mebjj.jaxxon.com",
         "mec.hilton.com",
         "mecfo.cbdmd.com",
@@ -101578,5 +101578,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
