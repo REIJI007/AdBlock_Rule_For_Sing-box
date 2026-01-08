@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-08 19:53:29
+# Generated on: 2026-01-08 20:55:44
 # Generated AdBlock rules
-# Total entries: 101577
+# Total entries: 101580
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -44861,6 +44861,7 @@
 "grc.openapp.link",
 "gre.groobee.io",
 "great.xxxbanglavideo.com",
+"great12.org",
 "greatdentalplans.tt.omtrdc.net",
 "greatwestlife.tt.omtrdc.net",
 "greenbaypackersinc.tt.omtrdc.net",
@@ -51130,6 +51131,7 @@
 "kimmy.faduz.xyz",
 "kindlaundry.rdtrke.com",
 "kinesis.eu-west-1.amazonaws.com",
+"kingered-banctours.com",
 "kingfisher.gedaly.com",
 "kingnews.burgerking.co.za",
 "kingstownst.mywellnessoffer.com",
@@ -96885,6 +96887,7 @@
 "wssudraganddropobjects.net.daraz.com",
 "wssuns.emailvision.panel.net.daraz.com",
 "wstat.ozon.ru",
+"wstats.ageverif.com",
 "wstfad.hausgold.de",
 "wsweinmannandschanzg.tt.omtrdc.net",
 "wsytyz.tts.ru",
