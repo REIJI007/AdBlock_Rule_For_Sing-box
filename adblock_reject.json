@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "rules": [
     {
       "domain": [
@@ -25143,6 +25144,7 @@
         "csdri.gardner-white.com",
         "csdrnf.a24.kr",
         "cse.pasonatquila.com",
+        "cse.rakanto.com",
         "cse3.chausport.com",
         "csebt.bloomist.com",
         "csemail.bonusbingo.com",
@@ -68914,6 +68916,7 @@
         "reply.wellpointnextrx.com",
         "replyemails.united.com",
         "replymgt.careerbuilder.com",
+        "repo.rakanto.com",
         "report-edge.agora.io",
         "report-ps.meettech.net",
         "report-stats.ad.jiguang.cn",
@@ -101585,6 +101588,5 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ],
-  "version": 1
+  ]
 }
