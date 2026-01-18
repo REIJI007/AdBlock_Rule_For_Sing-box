@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -19307,6 +19306,7 @@
         "bwmetrics.jegy.hu",
         "bwmxdg.kimono-365.jp",
         "bwntyd.neuve-a.net",
+        "bwoscenc.com",
         "bwpzmo.kipling.com.co",
         "bwqlls.eletrosom.com",
         "bws.schoonenberg.nl",
@@ -63460,6 +63460,7 @@
         "oxgyjm.livinterior.com.br",
         "oxocbg.sarokas.fi",
         "oxqq.pandasuite.io",
+        "oxtafkzfe.com",
         "oxvzxk.carriere-info.fr",
         "oysterspottery.com",
         "oyvjff.bakerross.ie",
@@ -101643,5 +101644,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
