@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "rules": [
     {
       "domain": [
@@ -39139,6 +39140,7 @@
         "event-router.chime.com",
         "event-router.olympics.com",
         "event-search.jorte.com",
+        "event-storage.netmonet.co",
         "event-stream.spot.im",
         "event-tracking.deliverr.com",
         "event-us.ssp.taxssp.com",
@@ -50420,6 +50422,7 @@
         "jacksonnationallifei.tt.omtrdc.net",
         "jacsg.belaro.ro",
         "jadak.novanta.com",
+        "jaeger.netmonet.co",
         "jagevirom.com",
         "jagransolutions.com.actonservice.com",
         "jaguar.tt.omtrdc.net",
@@ -61820,6 +61823,7 @@
         "networld.hk",
         "neuhv.bingoloco.com",
         "neuralog.neuralabel.com",
+        "neviju.netmonet.co",
         "new-access802.net",
         "new.fc2-ppv.xyz",
         "new.plus-eromanga.com",
@@ -101646,6 +101650,5 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ],
-  "version": 1
+  ]
 }
