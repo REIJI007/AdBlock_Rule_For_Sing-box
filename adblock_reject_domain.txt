@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-19 17:04:23
+# Generated on: 2026-01-19 17:46:28
 # Generated AdBlock rules
-# Total entries: 101645
+# Total entries: 101650
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -18919,6 +18919,7 @@
 "botradar.tech",
 "boulder-collide.com",
 "bountyparents.e.aremedia.com.au",
+"boutomeeshaul.com",
 "bovid.neural.love",
 "bowie-cdn.fathomdns.com",
 "box-spring.net.daraz.com",
@@ -63129,6 +63130,7 @@
 "onlineshop.ricoh.lu",
 "onlinevacationcenter.actonservice.com",
 "only-solitaire.foolhardywear.pro",
+"onmarshtompor.com",
 "onmuf.eshopygo.it",
 "onnie.roolee.com",
 "onpage.actonservice.com",
@@ -70362,6 +70364,7 @@
 "rtnl.bxcl.de",
 "rtnum.thirdlove.com",
 "rtogcb.upromania.ro",
+"rtouchingthewaterw.com",
 "rtp.mypos.com",
 "rtrack.frome.co",
 "rtrack.getboostaro.net",
@@ -85929,6 +85932,7 @@
 "th.xhlive.org",
 "thailand.promo.skf.com",
 "thaizab.openapp.link",
+"thankfuldirection.com",
 "thanks.olivesitter.com",
 "thanks.tsubaki-musicschool.com",
 "thaqyl.mediamarkt.nl",
@@ -86997,6 +87001,7 @@
 "tpa7.iahorro.com",
 "tpbid.com",
 "tpbywf.emp-shop.pl",
+"tpdwm.com",
 "tpe.theparticipanteffect.com",
 "tpi-app.herokuapp.com",
 "tpivd.tea-direct.co.uk",
