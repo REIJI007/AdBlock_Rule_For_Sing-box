@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain": [
@@ -39608,6 +39607,7 @@
         "falcon.designed.org",
         "falcon.executeprogram.com",
         "falcon.rowanmanning.com",
+        "falcon.useinsider.com",
         "falkxw.high-everydaycouture.com",
         "falt925.ferticare.eu",
         "famhe.westandwillow.com",
@@ -95884,6 +95884,7 @@
         "wao.wao-cart.com",
         "wap.myhosting.com",
         "wap.qqbiquge.net",
+        "wap.wovn.io",
         "wapstart.ru",
         "warbler.resumebuilder.dev",
         "warbler.todoscout.com",
@@ -101645,5 +101646,6 @@
         "zzzoraclecloudsupportp03e10-app-trk.eloquademos.com"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
