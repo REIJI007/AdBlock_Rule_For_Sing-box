@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-21 14:53:14
+# Generated on: 2026-01-21 15:33:26
 # Generated AdBlock rules
-# Total entries: 136403
+# Total entries: 136404
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -18534,6 +18534,7 @@
 "bankwithunited.tt.omtrdc.net",
 "banner-media.ru",
 "banner.appsflyer.com",
+"banner.bet365partners.com",
 "banner.cedubook.com",
 "banner.dabi.ir",
 "banner.hpmdnetwork.ru",
