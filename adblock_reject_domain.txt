@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-21 23:51:46
+# Generated on: 2026-01-22 00:58:59
 # Generated AdBlock rules
-# Total entries: 136415
+# Total entries: 136421
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -19790,6 +19790,7 @@
 "btob.ouestfrance-emploi.com",
 "btptod.aerzteblatt.de",
 "btrace.qq.com",
+"btrbdf.com",
 "btrepg.bochumer-jobanzeiger.de",
 "bts-la.ucweb.com",
 "bts.netmind.net",
@@ -32181,6 +32182,7 @@
 "dpcomepost.tt.omtrdc.net",
 "dpcontent.locationsmart.net",
 "dpcsc.happyhairbrush.co.nz",
+"dpdvx.com",
 "dpeqm8xv96fuc.cloudfront.net",
 "dpf.authorize.net",
 "dpgnh.guessfactory.com",
@@ -69608,6 +69610,7 @@
 "hsntnchoe0exqwv-p.adkclicker.fr",
 "hspqur.happy-size.ch",
 "hsprzf.shinhwaworld.com",
+"hsrdkt.com",
 "hst2-invite.ander.ai",
 "hstats.askmiso.com",
 "hstew.moosmann.de",
@@ -77590,6 +77593,7 @@
 "lndata.labor.maryland.gov",
 "lndata.labor.md.gov",
 "lnday.sinclair.edu",
+"lndpy.com",
 "lnezkw.iturbo.fr",
 "lnfqk.showerenvy.com",
 "lni.finom.co",
@@ -90422,6 +90426,7 @@
 "ocjhte.estoque.com.br",
 "ocjjph.beaches.com",
 "ocmxbu.hanatour.com",
+"ocolt.com",
 "oconner.biz",
 "ocpi.americanexpress.ca",
 "ocpsa.competitivecyclist.com",
@@ -100264,6 +100269,7 @@
 "sdg.fwtrck.com",
 "sdg.sdg-eng.com",
 "sdgbg.carcan.com",
+"sdhahs.com",
 "sdhnz.qualialife.com",
 "sdjof.nadinemerabi.com",
 "sdk-api-v1.singular.net",
