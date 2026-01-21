@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-21 19:03:39
+# Generated on: 2026-01-21 19:33:09
 # Generated AdBlock rules
-# Total entries: 136411
+# Total entries: 136412
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -24078,6 +24078,7 @@
 "client-log.karte.io",
 "client-metrics.chess.com",
 "client-sdk.hackle.io",
+"client-telemetry-preauth.hingeprod.net",
 "client-telemetry.hingeprod.net",
 "client-telemetry.roblox.com",
 "client.botchk.net",
