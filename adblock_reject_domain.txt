@@ -3,9 +3,9 @@
 # Homepage: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box
 # LICENSE1: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-GPL 3.0
 # LICENSE2: https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/LICENSE-CC-BY-NC-SA 4.0
-# Generated on: 2026-01-23 03:54:29
+# Generated on: 2026-01-23 04:33:48
 # Generated AdBlock rules
-# Total entries: 136424
+# Total entries: 136427
 
 "0--skitch--0.tt.omtrdc.net",
 "0-0-0-birkart-clws-ifs-globalmn.0-030.net.daraz.com",
@@ -59313,6 +59313,7 @@
 "frog.yuanfudao.com",
 "front.optimonk.com",
 "frontend-logger.flippback.com",
+"frontier.capcutw.us",
 "frontier.musical.ly",
 "frontier100-toutiao-lf.fqnovel.com",
 "frontiercomm.tt.omtrdc.net",
@@ -88691,6 +88692,7 @@
 "mssdk-va.byteoversea.com",
 "mssdk.bytedance.com",
 "mssdk.tiktokw.us",
+"mssdk16-normal-us-ttp.capcutapi.us",
 "mssfv.aspinaloflondon.com",
 "mst.physiotherapie-mobili.de",
 "mst.rnd.de",
@@ -94144,6 +94146,7 @@
 "pinniped.resist.bot",
 "pinniped.spacecountdown.com",
 "pinoy101tv.fumblingvacation.pro",
+"pinpoint.espn.com",
 "pinpoll.com",
 "pinptg.milleni.com.tr",
 "pint-dev-branch.airship.com",
