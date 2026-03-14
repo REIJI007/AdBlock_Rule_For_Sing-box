@@ -60,34 +60,36 @@
 
 ```conf
 {
-  "route": 
+  "dns": 
   {
     "rules": 
     [
       {
-        "rule_set": "adblock",                  // 应用名为 "adblock" 的规则集
-        "outbound": "adblock"                   // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
-      }
-    ],
-    "rule_set": 
-    [
-      {
-
-        "tag": "adblock",                       // 名为 "adblock"的规则集标签
-        "type": "remote",                       // 远程规则集
-        "format": "source",                     // 或 "binary"，取决于规则文件格式
-        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",
-        "update_interval": 120                  // 更新间隔，单位为秒
+        "rule_set": ["adblock"],        // 	在DNS查询域名阶段使用名为"adblock"的规则集来匹配域名
+        "action": "reject"        		//	DNS层动作：拦截命中"adblock"规则集的域名
       }
     ]
   },
-  "outbounds": 
-  [
-    {
-      "type": "block",
-      "tag": "adblock"                          // 配合远程 "rule_set" 进行域名拦截
-    }
-  ]
+  "route": 
+  {
+    "rule_set": 
+    [
+      {
+        "tag": "adblock",              // 定义名为"adblock"的规则集
+        "type": "remote",              // 规则集来源为远程拉取
+        "format": "source",            // 规则文件格式为 source
+        "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",                                                                      
+        "update_interval": "1h"        // 自动更新间隔：1 小时
+      }
+    ],
+    "rules": 
+    [
+      {
+        "rule_set": ["adblock"],       // 路由层使用名为"adblock"的规则集
+        "action": "reject"             // 路由层动作：拒绝建立连接（注意：旧的 "outbound": "block" 已弃用）
+      }
+    ]
+  }
 }
 
 ```
