@@ -26,7 +26,7 @@ jobs:
 
       # 步骤3：更新时间戳文件
       - name: Update timestamp file
-        run: echo "${{ env.time }}" > timestamp.txt # 将时间写入 timestamp.txt 文件
+        run: echo "${{ env.time }}" > timestamp.txt
 
       # 步骤4：拉取最新的 main 分支并合并（失败则跳过）
       - name: Pull and merge latest main
@@ -67,7 +67,7 @@ jobs:
 
       # 步骤7：上传 adblock_reject.srs
       - name: Upload adblock_reject.srs
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
@@ -78,7 +78,7 @@ jobs:
 
       # 步骤8：上传 adblock_reject.json
       - name: Upload adblock_reject.json
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env: 
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
@@ -86,7 +86,3 @@ jobs:
           asset_path: ./adblock_reject.json
           asset_name: adblock_reject.json
           asset_content_type: application/json
-
-      # 把 release 上传 URL 写入 Environment File (替代 set-output)
-      - name: Save upload URL to environment
-        run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
