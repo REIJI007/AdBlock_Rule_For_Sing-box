@@ -55,7 +55,7 @@
 
 **二、使用方式：**
 
-   *使用方式：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
+   *使用方式：修改sing-box配置中的DNS模块和路由模块，JSON注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
 <hr>
 
 ```conf
