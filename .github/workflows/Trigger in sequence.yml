@@ -51,7 +51,7 @@ jobs:
 
 
   trigger_convert_ruleset_json_to_srs:
-    needs: trigger_adblock_reject_domain_txt
+    needs: trigger_adblock_reject_json
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
