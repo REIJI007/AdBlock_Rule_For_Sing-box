@@ -36,7 +36,7 @@ jobs:
          git fetch origin main
          git merge origin/main --no-edit || echo "Merge failed, skipping merge"
         env: 
-         TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
+         TOKEN: ${{ secrets.TOKEN }}
 
       # 步骤5：强制添加、提交并推送更改
       - name: Force add and commit changes
@@ -47,23 +47,23 @@ jobs:
           git commit -m "Forced update of adblock files and timestamp" || echo "No changes to commit"
           git push origin main --force || echo "Push failed but continuing"
         env: 
-          TOKEN: ${{ secrets.TOKEN }} # 使用存储在仓库密钥中的 TOKEN
+          TOKEN: ${{ secrets.TOKEN }}
 
       # 步骤6：创建新的发布
       - name: Get current timestamp
         id: get_timestamp
-        run: echo "time=$(date +%s)" >> $GITHUB_ENV # 获取当前时间的 UNIX 时间戳并存储在 GITHUB_ENV 中
+        run: echo "time=$(date +%s)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env: 
-            GITHUB_TOKEN: ${{ secrets.TOKEN }} # 使用 TOKEN 进行身份验证
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-           tag_name: release-${{ env.time }} # 使用时间戳作为标签名
-           release_name: Release ${{ env.time }} # 使用时间戳作为发布名称
-           body: "Periodic release of adblock files." # 发布说明
-           draft: false # 创建正式发布，而非草稿
+           tag_name: release-${{ env.time }}
+           release_name: Release ${{ env.time }}
+           body: "Periodic release of adblock files."
+           draft: false
 
       # 步骤7：上传 adblock_reject.srs
       - name: Upload adblock_reject.srs
@@ -76,7 +76,6 @@ jobs:
           asset_name: adblock_reject.srs
           asset_content_type: text/plain
 
-
       # 步骤8：上传 adblock_reject.json
       - name: Upload adblock_reject.json
         uses: actions/upload-release-asset@v1
@@ -87,3 +86,7 @@ jobs:
           asset_path: ./adblock_reject.json
           asset_name: adblock_reject.json
           asset_content_type: application/json
+
+      # 把 release 上传 URL 写入 Environment File (替代 set-output)
+      - name: Save upload URL to environment
+        run: echo "UPLOAD_URL=${{ steps.create_release.outputs.upload_url }}" >> $GITHUB_ENV
