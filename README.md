@@ -65,7 +65,7 @@
     "rules": 
     [
       {
-        "rule_set": ["adblock"],        // 	在DNS查询域名阶段使用名为"adblock"的规则集来匹配域名
+        "rule_set": ["adblock"],            // 	在DNS查询域名阶段使用名为"adblock"的规则集来匹配域名
         "action": "reject"        		//	DNS层动作：拦截命中"adblock"规则集的域名
       }
     ]
