@@ -76,18 +76,8 @@ jobs:
           asset_name: adblock_reject.srs
           asset_content_type: text/plain
 
-      # 步骤8：上传 adblock_reject_domain.txt
-      - name: Upload adblock_reject_domain.txt
-        uses: actions/upload-release-asset@v1
-        env: 
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./adblock_reject_domain.txt
-          asset_name: adblock_reject_domain.txt
-          asset_content_type: text/plain
 
-      # 步骤9：上传 adblock_reject.json
+      # 步骤8：上传 adblock_reject.json
       - name: Upload adblock_reject.json
         uses: actions/upload-release-asset@v1
         env: 
