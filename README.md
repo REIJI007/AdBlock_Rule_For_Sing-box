@@ -54,43 +54,9 @@
 <hr>
 
 **二、关于本仓库使用方式：**
-
-  *使用方式一：下载releases中的adblock_reject_domain.txt文件，复制域名修改Sing-box的json配置中的"route"字段下"rules"的"domain_suffix"部分*
-
 <hr>
 
-
-```conf
-{
-  "route": 
-  {
-    "rules": 
-    [
-      {
-        "type": "field",
-        "domain": 
-        [
-          "ads.example.com",
-          "tracking.example.com",
-          "analytics.example.com"    // 这里直接添加被拦截的域名，带上引号与逗号，最后一条域名后面不用加逗号
-        ],
-        "outbound": "adblock"        // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
-      }
-    ]
-  },
-  "outbounds": 
-  [
-    {
-      "type": "block",
-      "tag": "adblock"             // 配合rules进行域名拦截
-    }
-  ]
-}
-
-```
-<hr>
-
-   *使用方式二：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
+   *使用方式一：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
 <hr>
 
 
@@ -129,7 +95,7 @@
 ```
 <hr>
 
-*使用方式三：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合，注意去掉注释,"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
+*使用方式二：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合，注意去掉注释,"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
 
 <hr>
 
