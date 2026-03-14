@@ -66,7 +66,7 @@
     [
       {
         "rule_set": ["adblock"],            // 	在DNS查询域名阶段使用名为"adblock"的规则集来匹配域名
-        "action": "reject"        		//	DNS层动作：拦截命中"adblock"规则集的域名
+        "action": "reject"        		    //	DNS层动作：拦截命中"adblock"规则集的域名
       }
     ]
   },
@@ -75,11 +75,11 @@
     "rule_set": 
     [
       {
-        "tag": "adblock",              // 定义名为"adblock"的规则集
-        "type": "remote",              // 规则集来源为远程拉取
-        "format": "source",            // 规则文件格式为 source
+        "tag": "adblock",                  // 定义名为"adblock"的规则集
+        "type": "remote",                  // 规则集来源为远程拉取
+        "format": "source",                // 规则文件格式为 source
         "url": "https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json",                                                                      
-        "update_interval": "1h"        // 自动更新间隔：1 小时
+        "update_interval": "1h"            // 自动更新间隔：1 小时
       }
     ],
     "rules": 
