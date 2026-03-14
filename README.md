@@ -53,12 +53,11 @@
 
 <hr>
 
-**二、关于本仓库使用方式：**
+**二、使用方式：**
 <hr>
 
-   *使用方式一：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
+   *使用方式：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合,注意去掉注释，"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
 <hr>
-
 
 ```conf
 {
@@ -93,45 +92,6 @@
 }
 
 ```
-<hr>
-
-*使用方式二：将下面对应格式的配置文件中route字段和outbounds字段内容添加到你的配置文件充当远程规则集，注意"outbounds"与"route"之间的配合，注意去掉注释,"route.rules"和 "route.rule_set"中的 "tag" 值需要保持一致*
-
-<hr>
-
-
-```conf
-{
-  "route": 
-  {
-    "rules": 
-    [
-      {
-        "rule_set": "adblock",                // 应用名为 "adblock" 的规则集
-        "outbound": "adblock"                 // 命中规则集的流量将导流到名为 "adblock" 的出站策略进行拦截
-      }
-    ],
-    "rule_set": 
-    [
-      {
-        "tag": "adblock",                     // 名为 "adblock"的规则集标签
-        "type": "local",                      // 本地规则集
-        "format": "source",                   // 或 "binary"，取决于规则文件格式
-        "path": "C:\\Users\\YourUsername\\Documents\\file.json"  // 规则集存放路径
-      }
-    ]
-  },
-  "outbounds": 
-  [
-    {
-      "type": "block",
-      "tag": "adblock"                        // 配合本地 "rule_set" 进行域名拦截
-    }
-  ]
-}
-
-```
-
 <hr>
 
 
