@@ -1,323 +1,207 @@
-# 工作流程名称
 name: Convert_Ruleset_JSON_to_SRS
 
-# 触发条件
 on:
   schedule:
     - cron: '*/20 * * * *'   # 每20分钟执行一次
-  workflow_dispatch:        # 允许手动触发
+  workflow_dispatch:        # 手动触发
 
 jobs:
   update-and-convert:
-
-    # 使用 Windows 运行环境
     runs-on: windows-latest
+
+    # 全局默认 shell，避免 PowerShell (Windows PowerShell 5.1) 的编码问题
+    defaults:
+      run:
+        shell: pwsh
+
+    env:
+      # 用于 git push，使用内置 GITHUB_TOKEN（仓库自动提供）
+      GIT_AUTH: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
 
-      # -------------------------------------------------
-      # 步骤1：检出仓库代码
-      # -------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
-
-      # -------------------------------------------------
-      # 步骤2：检查并更新 sing-box
-      # -------------------------------------------------
-      - name: Check and update sing-box
-        shell: powershell
+      - name: Ensure TLS and PowerShell settings
         run: |
+          $ErrorActionPreference = 'Stop'
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          $ProgressPreference = 'SilentlyContinue'
 
-          # 本地 sing-box 路径
-          $exePath = "./sing-box.exe"
+      - name: Get latest sing-box release and update binary (with retries)
+        id: update_singbox
+        run: |
+          $ErrorActionPreference = 'Stop'
 
-          # 下载 zip 文件名称
-          $zipFile = "sing-box.zip"
-
-          # 临时解压目录
-          $tempDir = "singbox_tmp"
-
-          # 最大重试次数
+          $exePath = Join-Path $PWD 'sing-box.exe'
+          $zipFile = Join-Path $PWD 'sing-box.zip'
+          $tempDir = Join-Path $PWD 'singbox_tmp'
           $maxAttempts = 5
 
-
-          # --------------------------------------------
-          # 函数：获取 sing-box 版本号
-          # --------------------------------------------
-          function GetExeVersion($path) {
-
-            # 如果文件不存在，返回 0.0.0
-            if (-not (Test-Path $path)) {
-              return [version]"0.0.0"
+          Write-Host "查询 GitHub Releases..."
+          $release = Invoke-RestMethod -Uri "https://api.github.com/repos/SagerNet/sing-box/releases/latest" `
+            -Headers @{
+              'User-Agent' = 'GitHubActions'
+              'Accept' = 'application/vnd.github+json'
             }
 
-            try {
+          # 获取 tag(版本) 并输出作为 step 输出
+          $tagName = $release.tag_name
+          Write-Host "Latest release tag: $tagName"
+          Write-Output ("::set-output name=tag::{0}" -f $tagName)  # 兼容旧 UI（仍可用作调试）
 
-              # 正确的版本命令
-              $out = & $path version 2>&1
-
-              # 提取 x.y.z 版本号
-              $m = [regex]::Match($out,'([0-9]+\.[0-9]+\.[0-9]+)')
-
-              if ($m.Success) {
-                return [version]$m.Groups[1].Value
-              }
-
-            }
-            catch {
-
-              Write-Host "版本检测失败"
-
-            }
-
-            return [version]"0.0.0"
-
-          }
-
-
-          # --------------------------------------------
-          # 查询 GitHub 最新 Release
-          # --------------------------------------------
-          Write-Host "查询最新 sing-box 版本..."
-
-          $release = Invoke-RestMethod `
-            -Uri "https://api.github.com/repos/SagerNet/sing-box/releases/latest" `
-            -Headers @{ 'User-Agent' = 'GitHubActions' }
-
-
-          # 查找 Windows AMD64 下载包
-          $asset = $release.assets |
-            Where-Object { $_.name -like "*windows-amd64.zip" } |
-            Select-Object -First 1
-
+          $asset = $release.assets | Where-Object { $_.name -like "*windows-amd64.zip" } | Select-Object -First 1
 
           if (-not $asset) {
-
-            Write-Host "未找到 windows-amd64 下载包"
-            exit 1
-
+            Write-Host "未找到 windows-amd64 下载包，尝试寻找其他 windows 包..."
+            $asset = $release.assets | Where-Object { $_.name -match "windows.*zip" } | Select-Object -First 1
           }
 
+          if (-not $asset) {
+            Write-Error "未找到合适的 windows zip 包，停止流程。"
+            exit 1
+          }
 
-          # 下载地址
           $downloadUrl = $asset.browser_download_url
 
+          # 读取现有程序版本（若存在）
+          function Get-Exe-Version([string]$path) {
+            if (-not (Test-Path $path)) { return [version]"0.0.0" }
+            try {
+              $out = & $path version 2>&1
+              $m = [regex]::Match($out, '([0-9]+\.[0-9]+\.[0-9]+)')
+              if ($m.Success) { return [version]$m.Groups[1].Value }
+            } catch {
+              Write-Host "读取本地 sing-box 版本失败，视为 0.0.0"
+            }
+            return [version]"0.0.0"
+          }
 
-          # 获取最新版本号
-          $latestVersionString = ($release.tag_name -replace '[^0-9\.]','')
-          $latestVersion = [version]$latestVersionString
-
-
-          # 获取当前版本
-          $existingVersion = GetExeVersion $exePath
-
+          $existingVersion = Get-Exe-Version $exePath
+          $latestVersionString = ($tagName -replace '[^0-9\.]','')
+          try { $latestVersion = [version]$latestVersionString } catch { $latestVersion = [version]"0.0.0" }
 
           Write-Host "当前版本: $existingVersion"
           Write-Host "最新版本: $latestVersion"
 
-
-          # 如果已经是最新版本，则跳过下载
           if ($latestVersion -le $existingVersion) {
-
-            Write-Host "sing-box 已是最新版本"
+            Write-Host "sing-box 已是最新版本，跳过下载。"
             return
-
           }
 
+          Write-Host "检测到新版本，开始下载并替换（最多 $maxAttempts 次尝试）"
 
-          Write-Host "检测到新版本，开始更新..."
-
-
-          # --------------------------------------------
-          # 下载并解压 sing-box
-          # --------------------------------------------
-          for ($attempt=1;$attempt -le $maxAttempts;$attempt++) {
-
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
             try {
+              Write-Host "下载尝试 $attempt/$maxAttempts: $downloadUrl"
+              if (Test-Path $zipFile) { Remove-Item $zipFile -Force -ErrorAction SilentlyContinue }
+              Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFile -TimeoutSec 300
 
-              Write-Host "下载尝试 $attempt"
+              if (Test-Path $tempDir) { Remove-Item $tempDir -Recurse -Force -ErrorAction SilentlyContinue }
+              Expand-Archive -Path $zipFile -DestinationPath $tempDir -Force
 
-              Invoke-WebRequest `
-                -Uri $downloadUrl `
-                -OutFile $zipFile `
-                -TimeoutSec 300
+              # 删除 zip
+              Remove-Item $zipFile -Force -ErrorAction SilentlyContinue
 
+              $newExe = Get-ChildItem -Path $tempDir -Recurse -Filter "sing-box.exe" | Select-Object -First 1
 
-              # 如果临时目录存在则删除
-              if (Test-Path $tempDir) {
+              if (-not $newExe) { throw "压缩包内未找到 sing-box.exe" }
 
-                Remove-Item $tempDir -Recurse -Force
-
-              }
-
-
-              # 解压 zip
-              Expand-Archive $zipFile $tempDir -Force
-
-              # 删除 zip 文件
-              Remove-Item $zipFile
-
-
-              # 查找 sing-box.exe
-              $newExe = Get-ChildItem `
-                -Recurse `
-                -Path $tempDir `
-                -Filter "sing-box.exe" |
-                Select-Object -First 1
-
-
-              if (-not $newExe) {
-
-                throw "压缩包内未找到 sing-box.exe"
-
-              }
-
-
-              # ----------------------------------------
-              # 备份旧版本
-              # ----------------------------------------
               if (Test-Path $exePath) {
-
                 $backup = "sing-box.exe.bak.$((Get-Date).ToString('yyyyMMddHHmmss'))"
-
-                Rename-Item $exePath $backup -Force
-
-                Write-Host "已备份旧版本: $backup"
-
+                Rename-Item -Path $exePath -NewName $backup -Force
+                Write-Host "已备份旧版本为: $backup"
               }
 
+              Copy-Item -Path $newExe.FullName -Destination $exePath -Force
+              Remove-Item $tempDir -Recurse -Force -ErrorAction SilentlyContinue
 
-              # 复制新 exe
-              Copy-Item $newExe.FullName $exePath -Force
-
-
-              # 删除临时目录
-              Remove-Item $tempDir -Recurse -Force
-
-
-              Write-Host "sing-box 更新完成"
-
+              Write-Host "sing-box 更新完成。"
               break
-
-            }
-            catch {
-
-              Write-Host "下载失败"
-
+            } catch {
+              Write-Host "下载或安装失败：$($_.Exception.Message)"
               if ($attempt -eq $maxAttempts) {
-
-                Write-Host "下载达到最大重试次数"
+                Write-Error "达到最大重试次数，退出。"
                 exit 1
-
               }
-
-              Start-Sleep -Seconds 10
-
+              Start-Sleep -Seconds (10 * $attempt)
             }
-
           }
 
-
-      # -------------------------------------------------
-      # 步骤3：使用 sing-box 转换规则集
-      # -------------------------------------------------
-      - name: Convert ruleset
-        shell: powershell
+      - name: Show sing-box version
         run: |
-
-          $exePath="./sing-box.exe"
-
+          $ErrorActionPreference = 'Stop'
+          $exePath = Join-Path $PWD 'sing-box.exe'
           if (-not (Test-Path $exePath)) {
-
-            Write-Host "未找到 sing-box.exe"
+            Write-Error "未找到 sing-box.exe，无法继续。"
             exit 1
-
           }
-
-          # 显示版本
-          Write-Host "Sing-box 版本:"
           & $exePath version
 
+      - name: Convert ruleset (with retries)
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $exePath = Join-Path $PWD 'sing-box.exe'
+          $inputJson = Join-Path $PWD 'adblock_reject.json'
+          $outputSrs = Join-Path $PWD 'adblock_reject.srs'
+          $maxAttempts = 5
 
-          $maxAttempts=5
-
-
-          # 重试转换
-          for ($attempt=1;$attempt -le $maxAttempts;$attempt++) {
-
-            try {
-
-              Write-Host "转换尝试 $attempt"
-
-              & $exePath rule-set compile `
-                --output adblock_reject.srs `
-                adblock_reject.json
-
-
-              if ($LASTEXITCODE -eq 0) {
-
-                Write-Host "规则转换成功"
-                break
-
-              }
-
-              throw "转换失败"
-
-            }
-            catch {
-
-              Write-Host "尝试失败"
-
-              if ($attempt -eq $maxAttempts) {
-
-                exit 1
-
-              }
-
-              Start-Sleep -Seconds 5
-
-            }
-
+          if (-not (Test-Path $inputJson)) {
+            Write-Error "找不到规则源文件: adblock_reject.json"
+            exit 1
           }
 
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            try {
+              Write-Host "规则转换尝试 $attempt/$maxAttempts"
+              & $exePath rule-set compile --output $outputSrs $inputJson
+              if ($LASTEXITCODE -eq 0) {
+                Write-Host "规则转换成功: $outputSrs"
+                break
+              } else {
+                throw "sing-box 返回非零退出码: $LASTEXITCODE"
+              }
+            } catch {
+              Write-Host "转换失败：$($_.Exception.Message)"
+              if ($attempt -eq $maxAttempts) {
+                Write-Error "达到最大转换重试次数，退出。"
+                exit 1
+              }
+              Start-Sleep -Seconds (5 * $attempt)
+            }
+          }
 
-      # -------------------------------------------------
-      # 步骤4：提交并推送更改
-      # -------------------------------------------------
-      - name: Push changes
-        shell: powershell
+      - name: Commit and push changes (if any)
         env:
-          TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          $ErrorActionPreference = 'Stop'
 
-          # 设置 git 用户
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
 
+          # 使用 token 更新 origin 的 URL 以便推送
+          $repo = "${{ github.repository }}"
+          $branch = "${{ github.ref_name }}"
+          if (-not $branch) {
+            # fallback: 从 github.ref 提取分支名
+            $ref = "${{ github.ref }}"
+            if ($ref -match 'refs/heads/(.+)') { $branch = $matches[1] } else { $branch = 'main' }
+          }
 
-          # 拉取最新仓库
-          git pull https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git `
-            HEAD:${{ github.ref }} --rebase
+          git remote set-url origin "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$repo.git"
 
-
-          # 添加需要提交的文件
           git add adblock_reject.srs sing-box.exe
 
-
-          # 如果有变更才提交
-          if (git status --porcelain) {
-
-            git commit -m "Update ruleset and sing-box"
-
-            git push https://${{ secrets.TOKEN }}@github.com/${{ github.repository }}.git `
-              HEAD:${{ github.ref }} --force
-
-            Write-Host "已推送更新"
-
-          }
-          else {
-
+          $status = git status --porcelain
+          if ($status) {
+            git commit -m "Update ruleset and sing-box [ci skip]" || Write-Host "Commit 可能因无变更而失败"
+            git push origin "HEAD:refs/heads/$branch" --force
+            Write-Host "已推送更新到 $branch"
+          } else {
             Write-Host "没有需要提交的更改"
-
           }
