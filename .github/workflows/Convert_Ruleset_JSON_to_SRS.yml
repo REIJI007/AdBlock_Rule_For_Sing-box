@@ -1,102 +1,150 @@
-# 工作流程名称
 name: Convert_Ruleset_JSON_to_SRS
 
-# 触发条件
 on:
   schedule:
-    - cron: '*/20 * * * *'  # 每20分钟运行一次
-  workflow_dispatch:  # 允许手动触发
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
 
-# 定义作业
 jobs:
   update-and-convert:
-    runs-on: windows-latest  # 使用 Windows 运行环境
+    runs-on: windows-latest
 
     steps:
-      # 步骤1：检出仓库代码
       - name: Checkout repository
         uses: actions/checkout@v2
 
-            # 步骤2：检查并下载最新 sing-box（仅在第一次运行时）
-      - name: Check and download latest sing-box if needed
+      - name: Check and download / replace sing-box if needed
         shell: powershell
         run: |
           $exePath = "./sing-box.exe"
-          $downloadMarker = "./.sing-box_downloaded"
-          
-          if (-not (Test-Path $exePath) -or -not (Test-Path $downloadMarker)) {
-            Write-Host "sing-box.exe or .sing-box_downloaded not found, downloading latest version..."
+          $markerPath = "./.sing-box_downloaded"
+          $zipFile = "sing-box.zip"
+          $tempDir = "singbox_tmp"
+          $maxAttempts = 5
 
-            $zipFile = "sing-box.zip"
-            $maxAttempts = 5
-            
-            for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+          Write-Host "Querying latest release info from GitHub..."
+          try {
+            $release = Invoke-RestMethod -Uri "https://api.github.com/repos/SagerNet/sing-box/releases/latest" -Headers @{ 'User-Agent' = 'PowerShell' }
+          } catch {
+            Write-Host "Failed to query latest release: $_"
+            exit 1
+          }
+
+          $asset = $release.assets | Where-Object { $_.name -like "*windows-amd64.zip" } | Select-Object -First 1
+          if (-not $asset) {
+            Write-Host "No windows-amd64 asset found in latest release."
+            exit 1
+          }
+
+          $downloadUrl = $asset.browser_download_url
+          # Normalize tag -> version string like 1.2.3
+          $latestVersionString = ($release.tag_name -replace '[^0-9\.]', '')
+          try {
+            $latestVersion = [version]$latestVersionString
+          } catch {
+            $latestVersion = [version]"0.0.0"
+          }
+
+          # function: parse semver from sing-box -v output
+          function GetExeVersion([string]$path) {
+            if (-not (Test-Path $path)) { return [version]"0.0.0" }
+            try {
+              $out = & $path -v 2>&1
+              $m = [regex]::Match($out, '([0-9]+\.[0-9]+\.[0-9]+)')
+              if ($m.Success) { return [version]$m.Groups[1].Value }
+            } catch {
+              Write-Host "Failed to run $path to get version: $_"
+            }
+            return [version]"0.0.0"
+          }
+
+          $existingVersion = GetExeVersion $exePath
+          Write-Host "Existing sing-box version: $existingVersion"
+          Write-Host "Latest release version: $latestVersion"
+
+          $needDownload = $false
+          if (-not (Test-Path $exePath)) {
+            Write-Host "sing-box.exe not found locally -> will download"
+            $needDownload = $true
+          } elseif (-not (Test-Path $markerPath)) {
+            Write-Host ".sing-box_downloaded marker not found -> will download to ensure correct version"
+            $needDownload = $true
+          } elseif ($latestVersion -gt $existingVersion) {
+            Write-Host "Latest version is newer than existing -> will download and replace"
+            $needDownload = $true
+          } else {
+            Write-Host "Local sing-box.exe is up-to-date. No download required."
+            $needDownload = $false
+          }
+
+          if ($needDownload) {
+            $attempt = 0
+            while ($attempt -lt $maxAttempts) {
+              $attempt++
               try {
+                Write-Host "Downloading sing-box (attempt $attempt): $downloadUrl"
+                Invoke-WebRequest -Uri $downloadUrl -OutFile $zipFile -TimeoutSec 300
 
-                Write-Host "Fetching latest release info..."
-                $release = Invoke-RestMethod -Uri "https://api.github.com/repos/SagerNet/sing-box/releases/latest"
+                if (Test-Path $tempDir) { Remove-Item -Path $tempDir -Recurse -Force }
+                New-Item -Path $tempDir -ItemType Directory | Out-Null
 
-                $asset = $release.assets | Where-Object { $_.name -like "*windows-amd64.zip" } | Select-Object -First 1
+                Expand-Archive -Path $zipFile -DestinationPath $tempDir -Force
+                Remove-Item -Path $zipFile -Force
 
-                if (-not $asset) {
-                  throw "windows-amd64 asset not found in latest release"
+                $newExe = Get-ChildItem -Path $tempDir -Recurse -Filter "sing-box.exe" | Select-Object -First 1
+                if (-not $newExe) {
+                  throw "Extracted archive does not contain sing-box.exe"
                 }
 
-                $url = $asset.browser_download_url
+                $newExePath = $newExe.FullName
+                $newVersion = GetExeVersion $newExePath
+                Write-Host "New sing-box version found in archive: $newVersion"
 
-                Write-Host "Downloading sing-box (Attempt $attempt)..."
-                Write-Host "Download URL: $url"
-
-                Invoke-WebRequest -Uri $url -OutFile $zipFile -TimeoutSec 300
-                
-                Expand-Archive -Path $zipFile -DestinationPath . -Force
-                Remove-Item -Path $zipFile
-
-                $exeFile = Get-ChildItem -Recurse -Filter "*sing-box*.exe" | Select-Object -First 1
-
-                if ($exeFile) {
-                  Rename-Item -Path $exeFile.FullName -NewName $exePath -Force
-                  New-Item -Path . -Name ".sing-box_downloaded" -ItemType "file" -Force
-                  Write-Host "Extraction and renaming complete!"
-                  break
+                if (Test-Path $exePath) {
+                  if ($newVersion -gt $existingVersion) {
+                    # backup existing
+                    $bakName = "sing-box.exe.bak.$((Get-Date).ToString('yyyyMMddHHmmss'))"
+                    Write-Host "Backing up existing sing-box.exe -> $bakName"
+                    Rename-Item -Path $exePath -NewName $bakName -Force
+                    Copy-Item -Path $newExePath -Destination $exePath -Force
+                    Write-Host "Replaced sing-box.exe with version $newVersion"
+                  } else {
+                    Write-Host "Downloaded version ($newVersion) is not newer than existing ($existingVersion). Skipping replace."
+                  }
                 } else {
-                  throw "Executable file not found in extracted contents"
+                  Copy-Item -Path $newExePath -Destination $exePath -Force
+                  Write-Host "Installed sing-box.exe version $newVersion"
                 }
 
+                # cleanup temp and write marker
+                if (Test-Path $tempDir) { Remove-Item -Path $tempDir -Recurse -Force }
+                Set-Content -Path $markerPath -Value $newVersion.ToString()
+                break
               } catch {
-                Write-Host "Download, extraction, or renaming failed. Error: $_"
-
-                if ($attempt -eq $maxAttempts) {
-                  Write-Host "Max attempts reached. Process failed."
+                Write-Host "Attempt $attempt failed: $_"
+                if ($attempt -ge $maxAttempts) {
+                  Write-Host "Max attempts reached, aborting."
                   exit 1
                 }
-
                 Start-Sleep -Seconds 10
               }
             }
-
-          } else {
-            Write-Host "sing-box.exe and .sing-box_downloaded already exist."
           }
 
-      # 步骤3：转换规则集（依赖于 sing-box.exe）
       - name: Convert ruleset
         shell: powershell
         run: |
           $exePath = "./sing-box.exe"
           
           if (Test-Path $exePath) {
-            Write-Host "Sing-box version:"
+            Write-Host "Sing-box version (sanity):"
             & $exePath -v
-            Write-Host "Sing-box help:"
-            & $exePath convert-ruleset --help
 
             $maxAttempts = 5
-            
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
                 Write-Host "Attempting conversion (Attempt $attempt)..."
-                & $exePath rule-set compile --output adblock_reject.srs adblock_reject.json  # 正确的转换文件名
+                & $exePath rule-set compile --output adblock_reject.srs adblock_reject.json
                 if ($LASTEXITCODE -eq 0) {
                   Write-Host "Conversion successful!"
                   break
@@ -117,7 +165,6 @@ jobs:
             exit 1
           }
 
-      # 步骤4：提交并推送更改（包括 sing-box.exe 和标记文件）
       - name: Push changes
         shell: powershell
         env:
@@ -145,7 +192,7 @@ jobs:
           git add adblock_reject.srs sing-box.exe .sing-box_downloaded
           
           if (git status --porcelain) {
-            git commit -m "Update adblock_reject.srs and add sing-box.exe"
+            git commit -m "Update adblock_reject.srs and add/replace sing-box.exe"
             
             for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
               try {
