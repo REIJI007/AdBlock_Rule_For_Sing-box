@@ -116,14 +116,27 @@ $urlList = @(
 
 # 凡携带以下修饰符的规则均在 HTTP/浏览器/应用层生效，DNS 层无法实施，直接跳过整条规则
 $modSkipSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+# 列表：按逻辑语义分段注释（保持原顺序，仅在分段处加入注释）
 @(
-    'redirect','redirect-rule','csp','replace','removeparam','queryprune','cookie','header','permissions',
+    # — 变换 / 重定向 / 安全策略 相关
+    'redirect','redirect-rule','csp','replace',
+    # — 参数与请求剪裁、Cookie、Header、权限 相关
+    'removeparam','queryprune','cookie','header','permissions',
+    # — 内联资源 / 媒体 / 内容 相关
     'inline-script','inline-font','empty','mp4','urltransform','jsonprune','hls','referrerpolicy','content',
+    # — 屏蔽/隐藏/过滤 相关（通用或特定选择器）
     'genericblock','generichide','specifichide','elemhide','badfilter','urlblock',
-    'app','client','ctag','to','from','third-party','3p','first-party','1p','~third-party','~3p',
+    # — 应用/客户端/标签/方向/来源 标识 相关
+    'app','client','ctag','to','from',
+    # — 第三方/第一方 标识（及其变体）相关
+    'third-party','3p','first-party','1p','~third-party','~3p',
+    # — 严格一方/三方 模式及其反向标记
     'strict1p','~strict1p','strict3p','~strict3p','extension',
+    # — 弹窗/网络/方法/协议/隐私功能 等行为或信号相关
     'popup','popunder','ping','webrtc','network','method','dnstype','protectedaudience','privacysandbox'
-) | ForEach-Object { $modSkipSet.Add($_) | Out-Null }
+)
+# 将上面的每个关键字逐一添加到 HashSet 中；使用 Out-Null 丢弃 Add 的返回值（布尔）
+| ForEach-Object { $modSkipSet.Add($_) | Out-Null }
 
 # ── 加载公共后缀列表（PSL） ───────────────────────────────────────────────────
 $pslSet = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
