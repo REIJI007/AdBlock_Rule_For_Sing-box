@@ -224,7 +224,7 @@ jobs:
 
           if(git status --porcelain){
 
-            git commit -m "Update ruleset and sing-box"
+            git commit -m "Update ruleset and sing-box(auro)"
 
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git `
               HEAD:${{ github.ref }}
