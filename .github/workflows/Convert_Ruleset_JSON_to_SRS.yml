@@ -1,0 +1,263 @@
+name: Convert_Ruleset_JSON_to_SRS
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+
+jobs:
+
+  update-and-convert:
+
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: pwsh
+
+    # 注入名为 TOKEN 的 secret 到所有 steps
+    env:
+      TOKEN: ${{ secrets.TOKEN }}
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare PowerShell environment
+        run: |
+          $ErrorActionPreference = "Stop"
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          $ProgressPreference = "SilentlyContinue"
+
+      - name: Check TOKEN secret exists
+        run: |
+          if (-not $env:TOKEN) {
+            Write-Error "Secret 'TOKEN' is not set. Please add repository secret named 'TOKEN'."
+            exit 1
+          } else {
+            Write-Host "TOKEN secret present (masked)."
+          }
+
+      - name: Check and update sing-box
+        run: |
+
+          $exePath = "./sing-box.exe"
+          $zipFile = "sing-box.zip"
+          $tempDir = "singbox_tmp"
+          $maxAttempts = 5
+
+          function GetExeVersion($path){
+
+            if(!(Test-Path $path)){
+              return [version]"0.0.0"
+            }
+
+            try{
+
+              $out = & $path version 2>&1
+              $m = [regex]::Match($out,'([0-9]+\.[0-9]+\.[0-9]+)')
+
+              if($m.Success){
+                return [version]$m.Groups[1].Value
+              }
+
+            }catch{
+              Write-Host "版本检测失败"
+            }
+
+            return [version]"0.0.0"
+
+          }
+
+          Write-Host "查询最新 sing-box 版本..."
+
+          # 使用 TOKEN 做认证以提升速率限制
+          $headers = @{
+            "User-Agent" = "GitHubActions"
+            "Accept"     = "application/vnd.github+json"
+            "Authorization" = "token $env:TOKEN"
+          }
+
+          $release = Invoke-RestMethod `
+            -Uri "https://api.github.com/repos/SagerNet/sing-box/releases/latest" `
+            -Headers $headers
+
+          if (-not $release) {
+            Write-Error "获取 release 失败"
+            exit 1
+          }
+
+          $asset = $release.assets |
+            Where-Object { $_.name -like "*windows-amd64.zip" } |
+            Select-Object -First 1
+
+          if(!$asset){
+
+            Write-Host "未找到 windows-amd64 下载包"
+            exit 1
+
+          }
+
+          $downloadUrl = $asset.browser_download_url
+
+          $latestVersionString = ($release.tag_name -replace '[^0-9\.]','')
+          try { $latestVersion = [version]$latestVersionString } catch { $latestVersion = [version]"0.0.0" }
+
+          $existingVersion = GetExeVersion $exePath
+
+          Write-Host "当前版本: $existingVersion"
+          Write-Host "最新版本: $latestVersion"
+
+          if($latestVersion -le $existingVersion){
+
+            Write-Host "sing-box 已是最新版本"
+            return
+
+          }
+
+          Write-Host "检测到新版本，开始更新..."
+
+          for($attempt=1;$attempt -le $maxAttempts;$attempt++){
+
+            try{
+
+              Write-Host ("下载尝试 {0}/{1}: {2}" -f $attempt,$maxAttempts,$downloadUrl)
+
+              Invoke-WebRequest `
+                -Uri $downloadUrl `
+                -OutFile $zipFile `
+                -TimeoutSec 300 `
+                -Headers $headers
+
+              if(Test-Path $tempDir){
+                Remove-Item $tempDir -Recurse -Force
+              }
+
+              Expand-Archive $zipFile $tempDir -Force
+              Remove-Item $zipFile -Force
+
+              $newExe = Get-ChildItem `
+                -Recurse `
+                -Path $tempDir `
+                -Filter "sing-box.exe" |
+                Select-Object -First 1
+
+              if(!$newExe){
+                throw "压缩包内未找到 sing-box.exe"
+              }
+
+              if(Test-Path $exePath){
+
+                $backup = "sing-box.exe.bak.$((Get-Date).ToString('yyyyMMddHHmmss'))"
+                Rename-Item $exePath $backup -Force
+                Write-Host "已备份旧版本: $backup"
+
+              }
+
+              Copy-Item $newExe.FullName $exePath -Force
+              Remove-Item $tempDir -Recurse -Force
+
+              Write-Host "sing-box 更新完成"
+
+              break
+
+            }
+            catch{
+
+              Write-Host "下载失败: $($_.Exception.Message)"
+
+              if($attempt -eq $maxAttempts){
+
+                Write-Host "下载达到最大重试次数"
+                exit 1
+
+              }
+
+              Start-Sleep -Seconds (10 * $attempt)
+
+            }
+
+          }
+
+      - name: Convert ruleset
+        run: |
+
+          $exePath="./sing-box.exe"
+
+          if(!(Test-Path $exePath)){
+
+            Write-Host "未找到 sing-box.exe"
+            exit 1
+
+          }
+
+          Write-Host "Sing-box 版本:"
+          & $exePath version
+
+          $maxAttempts=5
+
+          for($attempt=1;$attempt -le $maxAttempts;$attempt++){
+
+            try{
+
+              Write-Host ("转换尝试 {0}/{1}" -f $attempt,$maxAttempts)
+
+              & $exePath rule-set compile `
+                --output adblock_reject.srs `
+                adblock_reject.json
+
+              if($LASTEXITCODE -eq 0){
+
+                Write-Host "规则转换成功"
+                break
+
+              }
+
+              throw "转换失败"
+
+            }
+            catch{
+
+              Write-Host "尝试失败: $($_.Exception.Message)"
+
+              if($attempt -eq $maxAttempts){
+
+                exit 1
+
+              }
+
+              Start-Sleep -Seconds (5 * $attempt)
+
+            }
+
+          }
+
+      - name: Push changes
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+        run: |
+
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+
+          git add adblock_reject.srs sing-box.exe
+
+          if(git status --porcelain){
+
+            git commit -m "Update ruleset and sing-box(auto)"
+
+            # 使用 TOKEN 推送（通过环境变量）
+            git push "https://x-access-token:$env:TOKEN@github.com/${{ github.repository }}.git" `
+              HEAD:${{ github.ref }}
+
+            Write-Host "已推送更新"
+
+          }
+          else{
+
+            Write-Host "没有需要提交的更改"
+
+          }
