@@ -98,7 +98,7 @@
 <hr>
 
 
-**三、本仓库引用的广告过滤规则来源请查看```Referencing rule sources.txt```（目前300个来源）。至于是否误杀域名完全取决于这些处于上游的广告过滤器的域名拦截行为，你可按在本地使用powershell脚本进行DIY本地定制化，亦或者fork本仓库自行DIY**
+**三、本仓库引用的广告过滤规则来源请查看[Referencing rule sources.txt](https://github.com/REIJI007/AdBlock_Rule_For_Sing-box/blob/main/Referencing%20rule%20sources.txt)（目前300个来源）。至于是否误杀域名完全取决于这些处于上游的广告过滤器的域名拦截行为，你可按在本地使用powershell脚本进行DIY本地定制化，亦或者fork本仓库自行DIY**
 
 
 **四、特别鸣谢**
