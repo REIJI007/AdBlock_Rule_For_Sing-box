@@ -503,7 +503,12 @@ function Parse-Rule {
         # 域名后的 ^ 是 Adblock 域名分隔符；若其后还有路径/通配内容（如 ^*adx），
         # 该规则仍然是 URL 级规则，不能扩大成整域屏蔽。
         # 先剥离 $ 修饰符，再严格要求剩余部分为空或仅为 ^。
-        $restBeforeDollar = ($rest -split '\
+        $dollarIndex = $rest.IndexOf('$')
+        $restBeforeDollar = if ($dollarIndex -ge 0) { $rest.Substring(0, $dollarIndex) } else { $rest }
+        if ($raw -match '[/?]' -or $restBeforeDollar -notmatch '^\^?$') {
+            $result.SkipReason = "path-or-query-specific-rule"
+            return $result
+        }
 		if ($rest -match '^\^?\$(.+)$') {
 			$modList = ($Matches[1] -split ',' | ForEach-Object { ($_ -split '=')[0].Trim().ToLower() })
 			if ($modList -contains 'badfilter') {
