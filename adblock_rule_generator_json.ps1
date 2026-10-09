@@ -321,6 +321,10 @@ $modSkipSet = [System.Collections.Generic.HashSet[string]]::new([System.StringCo
     'inline-script','inline-font','empty','mp4','urltransform','jsonprune','hls','referrerpolicy','content',
     # — 屏蔽/隐藏/过滤 相关（通用或特定选择器）
     'genericblock','generichide','specifichide','elemhide','urlblock',
+    # — 请求类型条件；这些条件不能安全地等价转换为 DNS 整域屏蔽
+    'document','doc','subdocument','frame','sub_frame',
+    'script','image','stylesheet','css','style','object','object-subrequest',
+    'xmlhttprequest','xhr','media','font','other','match-case',
     # — 应用/客户端/标签/方向/来源 标识 相关
     'app','client','ctag','to','from',
     # — 第三方/第一方 标识（及其变体）相关
@@ -404,30 +408,62 @@ function Get-ParentDomains([string]$domain) {
 function Resolve-Modifiers([string]$modStr) {
     $ret = [PSCustomObject]@{ Decision = "CONTINUE"; SkipReason = $null; IsImportant = $false }
     if ([string]::IsNullOrWhiteSpace($modStr)) { return $ret }
-    foreach ($mod in ($modStr -split ',' | ForEach-Object { $_.Trim().ToLower() })) {
+
+    foreach ($mod in ($modStr -split ',' | ForEach-Object { $_.Trim().ToLowerInvariant() })) {
         $modName = ($mod -split '=')[0]
-        if ($modSkipSet.Contains($modName)) {
-            $ret.Decision = "SKIP";
-            $ret.SkipReason = "non-dns-modifier:$modName"; return $ret
+
+        # badfilter 只能由 Parse-Rule 在确认规则本身可安全表达时处理。
+        if ($modName -eq 'badfilter') {
+            $ret.Decision = "SKIP"
+            $ret.SkipReason = "badfilter-not-domain-cancellable"
+            return $ret
         }
+
+        if ($modSkipSet.Contains($modName)) {
+            $ret.Decision = "SKIP"
+            $ret.SkipReason = "non-dns-modifier:$modName"
+            return $ret
+        }
+
         if ($modName -eq 'dnsrewrite') {
             $rv = if ($mod -match '=(.+)$') { $Matches[1] } else { '' }
-            if ($rv -eq 'nxdomain' -or $rv -match '^noerror;a;[\d.]+$' -or $rv -match '^noerror;aaaa;[0:]*$' -or $rv -eq 'noerror;aaaa;::1') { continue }
-            $ret.Decision = "SKIP";
-            $ret.SkipReason = "dnsrewrite-non-block:$rv"; return $ret
+            if (
+                $rv -eq 'nxdomain' -or
+                $rv -match '^noerror;a;[\d.]+$' -or
+                $rv -match '^noerror;aaaa;[0:]*$' -or
+                $rv -eq 'noerror;aaaa;::1'
+            ) {
+                continue
+            }
+
+            $ret.Decision = "SKIP"
+            $ret.SkipReason = "dnsrewrite-non-block:$rv"
+            return $ret
         }
+
         if ($modName -eq 'domain') {
             $dv = if ($mod -match '=(.+)$') { $Matches[1] } else { '' }
-            if ($dv -eq '*' -or $dv -eq '~*') { continue }
-            $ret.Decision = "SKIP";
-            $ret.SkipReason = "context-dependent:domain=$dv"; return $ret
+            # $domain 表示请求发起方上下文，DNS 层无法可靠等价实现。
+            $ret.Decision = "SKIP"
+            $ret.SkipReason = "context-dependent:domain=$dv"
+            return $ret
         }
-        if ($modName -eq 'important') { $ret.IsImportant = $true; continue }
+
+        if ($modName -eq 'important') {
+            $ret.IsImportant = $true
+            continue
+        }
+
+        # Fail closed：未知修饰符不可忽略，否则会把 image/script 等条件规则
+        # 扩大为对整个域名的 DNS 屏蔽。
+        $ret.Decision = "SKIP"
+        $ret.SkipReason = "unsupported-or-context-modifier:$modName"
+        return $ret
     }
+
     if ($ret.IsImportant) { $ret.Decision = "IMPORTANT_CONTINUE" }
     return $ret
 }
-
 $whitelistSubresourceTypes = [System.Collections.Generic.HashSet[string]]@('document','script','image','stylesheet','css','object','xmlhttprequest','xhr','media','font','subdocument','ping','websocket','webrtc','other','object-subrequest')
 
 function Is-ContextConstrainedWhitelist([string]$modStr) {
@@ -496,34 +532,87 @@ function Parse-Rule {
         return $result
     }
     if ($line -match '^\|\|([a-zA-Z0-9*][a-zA-Z0-9*.-]*)(.*)') {
-        $raw = $Matches[1].ToLower();
+        $raw = $Matches[1].ToLower()
         $rest = $Matches[2]
-        $restBeforeDollar = if ($rest -match '^([^$]*)') { $Matches[1] } else { '' }
-        if ($raw -match '[/?]' -or $restBeforeDollar -match '[/?]') { $result.SkipReason = "path-or-query-specific-rule"; return $result }
-		if ($rest -match '^\^?\$(.+)$') {
-			$modList = ($Matches[1] -split ',' | ForEach-Object { ($_ -split '=')[0].Trim().ToLower() })
-			if ($modList -contains 'badfilter') {
-				$domain = $raw
-				if ($domain -notmatch '\*' -and $domain -notmatch '^\d{1,3}(\.\d{1,3}){3}$') {
-					$result.Action = "BADFILTER"
-					$result.Domain = $domain
-					return $result
+
+        # 只有纯域名规则才能转成 DOMAIN-SUFFIX。
+        # 域名后的 ^ 是分隔符；^*adx、^*_600x250 等仍含 URL 通配内容，必须跳过。
+        $dollarIndex = $rest.IndexOf('$')
+        $restBeforeDollar = if ($dollarIndex -ge 0) {
+            $rest.Substring(0, $dollarIndex)
+        }
+        else {
+            $rest
+        }
+
+        if ($raw -match '[/?]' -or $restBeforeDollar -notmatch '^\^?$') {
+            $result.SkipReason = "path-or-query-specific-rule"
+            return $result
+        }
+
+        # $badfilter 仅支持对纯整域规则的撤销；按域名粒度无法安全表达其他条件。
+        if ($rest -match '^\^?\$(.+)$') {
+            $modifierText = $Matches[1]
+            $modList = @($modifierText -split ',' | ForEach-Object { $_.Trim().ToLowerInvariant() })
+
+            if ($modList -contains 'badfilter') {
+                $unsupportedBadfilterModifiers = @(
+                    $modList | Where-Object { $_ -notin @('badfilter', 'important') }
+                )
+                if ($unsupportedBadfilterModifiers.Count -gt 0) {
+                    $result.SkipReason = "context-specific-badfilter"
+                    return $result
+                }
+
+                $domain = $raw
+                if (
+                    $domain -notmatch '\*' -and
+                    $domain -notmatch '^\d{1,3}(\.\d{1,3}){3}$'
+                ) {
+                    $result.Action = "BADFILTER"
+                    $result.Domain = $domain
+                    return $result
+                }
             }
         }
-    }
+
+        # 不支持的修饰符（包括请求类型、发起方域名等条件）一律跳过。
         if ($rest -match '^\^?\$(.+)$') {
             $modResult = Resolve-Modifiers $Matches[1]
-            if ($modResult.Decision -eq "SKIP") { $result.SkipReason = $modResult.SkipReason; return $result }
+            if ($modResult.Decision -eq "SKIP") {
+                $result.SkipReason = $modResult.SkipReason
+                return $result
+            }
             $result.IsImportant = $modResult.IsImportant
         }
+
         $domain = $null
         if ($raw -match '\*') {
             $domain = Resolve-WildcardDomain $raw
-            if ($null -eq $domain) { $result.SkipReason = "unresolvable-wildcard"; return $result }
+            if ($null -eq $domain) {
+                $result.SkipReason = "unresolvable-wildcard"
+                return $result
+            }
             $result.IsWildcard = $true
-        } else { $domain = $raw }
-        if ($domain -match '^\d{1,3}(\.\d{1,3}){3}$') { $result.SkipReason = "ip-address"; return $result }
-        if ($isWhitelistSource) { $result.Action = "EXCLUDE"; $result.SourceFormat = "whitelist-suffix" } else { $result.Action = "SUFFIX"; $result.SourceFormat = "adblock-suffix" }
+        }
+        else {
+            $domain = $raw
+        }
+
+        if ($domain -match '^\d{1,3}(\.\d{1,3}){3}$') {
+            $result.SkipReason = "ip-address"
+            return $result
+        }
+
+        if ($isWhitelistSource) {
+            $result.Action = "EXCLUDE"
+            $result.SourceFormat = "whitelist-suffix"
+        }
+        else {
+            $result.Action = "SUFFIX"
+            $result.SourceFormat = "adblock-suffix"
+        }
+
         $result.Domain = $domain
         return $result
     }
