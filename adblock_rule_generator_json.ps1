@@ -296,7 +296,6 @@ $urlList = @(
 	"https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/thirdparties/easylist/easylist-newsletters.txt",
 	"https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/thirdparties/easylist/easylist-notifications.txt",
 	"https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/thirdparties/easylist/easylist-social.txt",
-	"https://urlhaus.abuse.ch/downloads/hostfile/",
 	"https://malware-filter.gitlab.io/malware-filter/phishing-filter.txt",
 	"https://malware-filter.gitlab.io/malware-filter/phishing-filter-ag.txt",
 	"https://malware-filter.gitlab.io/malware-filter/phishing-filter-agh.txt",
