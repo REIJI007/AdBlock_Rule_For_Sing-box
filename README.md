@@ -12,44 +12,15 @@
 
 </div>
 
-**链接**
+## 📥 订阅链接
 
----
+选择所需的规则格式，点击链接即可获取对应的订阅文件。
 
-<table>
-  <thead>
-    <tr>
-      <th>格式</th>
-      <th>订阅链接</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><b>JSON</b></td>
-      <td>
-        <a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json">GitHub原始链接</a> ·
-        <a href="https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject.json">jsDelivr加速链接</a> ·
-        <a href="https://cdn.statically.io/gh/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json">Statically加速链接</a>
-      </td>
-    </tr>
-    <tr>
-      <td><b>SRS</b></td>
-      <td>
-        <a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs">GitHub原始链接</a> ·
-        <a href="https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject.srs">jsDelivr加速链接</a> ·
-        <a href="https://cdn.statically.io/gh/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs">Statically加速链接</a>
-      </td>
-    </tr>
-    <tr>
-      <td><b>拦截域名</b></td>
-      <td>
-        <a href="https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt">GitHub原始链接</a> ·
-        <a href="https://cdn.jsdelivr.net/gh/REIJI007/AdBlock_Rule_For_Sing-box@main/adblock_reject_domain.txt">jsDelivr加速链接</a> ·
-        <a href="https://cdn.statically.io/gh/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt">Statically加速链接</a>
-      </td>
-    </tr>
-  </tbody>
-</table>
+| 格式 | 订阅文件 | GitHub 原始订阅 |
+| :---: | :--- | :---: |
+| **JSON** | `adblock_reject.json` | [获取订阅 ↗](https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.json) |
+| **SRS** | `adblock_reject.srs` | [获取订阅 ↗](https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject.srs) |
+| **域名列表** | `adblock_reject_domain.txt` | [获取订阅 ↗](https://raw.githubusercontent.com/REIJI007/AdBlock_Rule_For_Sing-box/main/adblock_reject_domain.txt) |
 
 **配置**
 
