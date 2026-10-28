@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain_suffix": [
@@ -394303,6 +394302,7 @@
         "hhkld.com",
         "hhkolzdpdedrz.online",
         "hhl.heavenhealthlab.com",
+        "hhlickdtzwdbt.online",
         "hhll.app",
         "hhllyt.com",
         "hhlryy.com",
@@ -486533,6 +486533,7 @@
         "pcpsbdikueqle.online",
         "pcptq.mtangelvitamins.com",
         "pcpvl.tribest.com",
+        "pcpxdszvixxqv.website",
         "pcrectdkbz6.firebaseapp.com",
         "pcrectdkbz6.web.app",
         "pcs.capgroup.com",
@@ -607468,6 +607469,7 @@
         "xmailinctrrses.weebly.com",
         "xmangetsux6.tt.omtrdc.net",
         "xmangoculture.com",
+        "xmasckurecaof.online",
         "xmatch.com",
         "xmaterial.tu.qq.com",
         "xmayktavadugm.site",
@@ -614278,6 +614280,7 @@
         "zjdac.com",
         "zjdb2b.wang",
         "zjdfdjc.com",
+        "zjdjzcnlveimw.online",
         "zjdyhjhgsohaw.site",
         "zjeanifhgszfb.site",
         "zjejua.portmans.com.au",
@@ -685755,5 +685758,6 @@
         "zzb.telefonicavivo.tt.omtrdc.net"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
