@@ -1,4 +1,5 @@
 {
+  "version": 1,
   "rules": [
     {
       "domain_suffix": [
@@ -28215,6 +28216,7 @@
         "antiadblock.uiiumovie.in",
         "antiadblockcore.com",
         "antiadblockcore.org",
+        "antiadblockguard.com",
         "antiadblocksystems.com",
         "antibioticdaybreak.com",
         "antiblock.info",
@@ -77363,6 +77365,7 @@
         "czhjf.baublestockings.com",
         "czhjjavbyhuun.online",
         "czhmgezchubno.space",
+        "czhmndqeikjse.site",
         "czhongbao.net",
         "czhplqbsgswcz.site",
         "czhtvbrrnqpwq.site",
@@ -375948,6 +375951,7 @@
         "fse.piwikpro.pl",
         "fsegfy.lepoint.fr",
         "fseoxnxjrtytt.site",
+        "fseprewtwjssp.website",
         "fserver.a1solarstore.com",
         "fserver.tt.omtrdc.net",
         "fservr.com",
@@ -454529,6 +454533,7 @@
         "llxoexijrmmav.site",
         "llxqcrbjflbop.online",
         "llxuggnaaghgg.space",
+        "llydcblhluker.space",
         "llyvjs.com",
         "llzaix.webwave.dev",
         "llzd2.com",
@@ -607634,6 +607639,7 @@
         "vfhjvzozkdafr.site",
         "vfhkljw5f6ss.com",
         "vfie3ximi3elx4uw.cfd",
+        "vfisqeujsymmq.online",
         "vfit.mno.link",
         "vfjktzbecbede.space",
         "vfjoawcligjcs.online",
@@ -631791,6 +631797,7 @@
         "xunzhuo123.com",
         "xuojhr.mobly.com.br",
         "xuoogxdpjjmpj.website",
+        "xupancnosdncb.website",
         "xupdsd.gsfresh.com",
         "xupmzrflnoedu.website",
         "xupnmgwgmjddx.site",
@@ -633290,6 +633297,7 @@
         "ygtaan6ixmf40n2b.myavlive.com",
         "ygtfgu.casamundo.nl",
         "ygtfrdjxwcf6shgxfs0kcjhm1b-j6uwysgcfjxokhbnvfgehj.teemill.com",
+        "ygtlxefvgdaps.site",
         "ygtnn.cn",
         "ygtonnwghswtx.space",
         "ygtrus.chilli.no",
@@ -634854,6 +634862,7 @@
         "yuyue008.cn",
         "yuyueyang.cn",
         "yuyykdjtkdpat.store",
+        "yuzaslirmmsek.website",
         "yuztrvzsjtfgo.space",
         "yuzu.myavlive.com",
         "yv.rethepretil.qpon",
@@ -636872,6 +636881,7 @@
         "zieyeq.intent24.fr",
         "ziffsfierclylogman.cfd",
         "zifgdhebbcghfjgfdgotldfgpdf-7399.twil.io",
+        "zifhzpxothccj.site",
         "zig1te84n.com",
         "zigankatiu.cyou",
         "zigg165.tt.omtrdc.net",
@@ -708634,6 +708644,5 @@
         "zzb.telefonicavivo.tt.omtrdc.net"
       ]
     }
-  ],
-  "version": 1
+  ]
 }
